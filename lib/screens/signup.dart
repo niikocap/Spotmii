@@ -139,12 +139,87 @@ class _SignUpState extends State<SignUp> {
                       child: MyWidgets.errorTextFormField(email, "Email Address",Color(0xff0A1B4D),context,emailErrorOn,emailErrorMessage,_focus3),
                     ),
                     SizedBox(height: 5),
-                    /*
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.8,
-                      child: MyWidgets.errorTextFormField(number, "Mobile Number",Color(0xff0A1B4D),context,numberErrorOn,numberErrorMessage,_focus4),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 45,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            TextFormField(
+                              focusNode: _focus4,
+                              controller: number,
+                              style: TextStyle(
+                                  color: Color(0xff0A1B4D),
+                                  fontSize: MF(17, context),
+                                  fontFamily: "Poppins"
+                              ),
+                              decoration:  InputDecoration(
+                                prefixIcon: TextButton(
+                                  onPressed: ()async{
+                                    final code1 = await countryPicker.showPicker(context: context);
+                                    setState(() {
+                                      code = code1!.dialCode;
+                                      print(code);
+                                    });
+                                  },
+                                  child: MyWidgets.text("$code | ", 17, FontWeight.normal, Color(0xff0A1B4D), context, false),
+                                ),
+                                filled: true,
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide:  BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:  BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide:  BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide:  BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                fillColor: Colors.white,
+                                hintText: "Mobile Number",
+                                contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+                                hintStyle: TextStyle(
+                                    color: Color(0xff0A1B4D),
+                                    fontSize: MF(17, context),
+                                    fontFamily: "Poppins"
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              right: ( MediaQuery.of(context).size.width / 20 ),
+                              //top: 12.5,
+                              child: Visibility(
+                                visible: numberErrorOn,
+                                child: Text(
+                                  numberErrorMessage,
+                                  style: TextStyle(
+                                      fontSize: MF(14, context),
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.normal,
+                                      fontStyle: FontStyle.italic,
+                                      color:Colors.red
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
-                     */
+                    /*
+
+
                     SizedBox(
                       width: MediaQuery.of(context).size.width *  0.80,
                       child: Row(
@@ -177,7 +252,7 @@ class _SignUpState extends State<SignUp> {
                         ],
                       ),
                     ),
-
+                    */
 
                     SizedBox(height: 5),
                     SizedBox(
@@ -293,7 +368,8 @@ class _SignUpState extends State<SignUp> {
                                     borderRadius: BorderRadius.only(
                                       topRight: Radius.circular(10),
                                       topLeft: Radius.circular(10),
-                                    )
+                                    ),
+                                    color: Colors.white
                                   ),
                                   height: MediaQuery.of(context).size.height * 0.6,
                                   child: Column(

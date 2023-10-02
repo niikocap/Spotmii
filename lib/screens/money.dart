@@ -387,7 +387,7 @@ class _SendState extends State<Send> {
                                 "uid" : currentUser!.userID,
                                 "amount" : amount.text,
                                 "note" : note.text,
-                                "currency" : selectedCurrency, //todo change to drop down
+                                "currency" : Currency.getCode(Currency.getText(selectedCurrency)), //todo change to drop down
                                 "target" : recipient.text,
                               });
                               if(response.length == 42){
