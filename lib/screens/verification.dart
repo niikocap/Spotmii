@@ -3,7 +3,7 @@ import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:spotmii/widgets.dart';
 import 'package:image_picker/image_picker.dart';
-import '../constant.dart';
+import '../components/constants.dart';
 import 'package:file_picker/file_picker.dart';
 import '../database.dart';
 import 'home.dart';

@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:spotmii/components/appBar.dart';
 import 'package:spotmii/main.dart';
+import 'package:spotmii/widgets.dart';
 import '../components/constants.dart';
 import '../database.dart';
 
@@ -20,25 +23,25 @@ class _NotificationsState extends State<Notifications> {
         width: MediaQuery.of(context).size.height,
         child: FutureBuilder(
           future: Database(url:url).send({
-            "req" : "getNotification",
+            "req" : "getNotifications",
             "user" : currentUser!.userID,
           }),
           builder: (context,AsyncSnapshot snapshot){
+
             if(snapshot.hasData){
+              List data = jsonDecode(snapshot.data);
               return SizedBox(
                 height: MediaQuery.of(context).size.height * 0.8,
                 child: ListView.builder(
-                  itemCount: snapshot.data!.length,
+                  itemCount: data.length,
                   itemBuilder: (context,index){
-                    return Container(
-                      //todo backend
-                    );
+                    return MyWidgets.notification(data[index]["notif_message"], data[index]["notif_sender"], data[index]["notif_date"], context, "");
                   },
                 ),
               );
             }else{
               return Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(),                //child: MyWidgets.notification("hello everyone", "- admin", "10-12-2024", context, "aaa"),
               );
             }
           },

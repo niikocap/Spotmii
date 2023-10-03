@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:spotmii/widgets.dart';
-import '../constant.dart';
+import '../components/constants.dart';
 import '../main.dart';
 import '../database.dart';
 import 'login.dart';

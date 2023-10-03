@@ -7,7 +7,7 @@ import 'package:spotmii/screens/help_center.dart';
 import 'package:spotmii/screens/settings.dart';
 import 'package:spotmii/screens/verification.dart';
 import 'package:spotmii/widgets.dart';
-import '../constant.dart';
+import '../components/constants.dart';
 import 'account.dart';
 import 'home.dart';
 import 'login.dart';
@@ -752,6 +752,11 @@ class _EditProfileState extends State<EditProfile> {
                                   color: Color(0xff3B4652)
                               )
                           ),
+                          style:TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: MF(18, context),
+                              color: Color(0xff3B4652)
+                          )
                         )
                     )
 
@@ -766,7 +771,7 @@ class _EditProfileState extends State<EditProfile> {
                   children: [
                     Align(
                         alignment:Alignment.centerLeft,
-                        child: MyWidgets.text("Birthday", 16.0, FontWeight.bold, Color(0xff3B4652),context,false)
+                        child: MyWidgets.text("Birthday", 17.0, FontWeight.bold, Color(0xff3B4652),context,false)
                     ),
                     SizedBox(height: 5),
                     Container(
@@ -796,11 +801,16 @@ class _EditProfileState extends State<EditProfile> {
                           contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
                           hintStyle: TextStyle(
                               color: Color(0xff3B4652),
-                              fontSize: 15,
+                              fontSize: MF(18,context),
                               fontFamily: "Poppins"
                           ),
                           hintText: "DD/MM/YY",
 
+                        ),
+                        style: TextStyle(
+                            fontFamily: "Poppins",
+                            fontSize: MF(18, context),
+                            color: Color(0xff3B4652)
                         ),
                       ),
                     ),
@@ -815,7 +825,7 @@ class _EditProfileState extends State<EditProfile> {
                   children: [
                     Align(
                         alignment:Alignment.centerLeft,
-                        child: MyWidgets.text("Nationality", 15.0, FontWeight.bold, Color(0xff3B4652),context,false)
+                        child: MyWidgets.text("Nationality", 17.0, FontWeight.bold, Color(0xff3B4652),context,false)
                     ),
                     SizedBox(height: 5),
                     Container(
@@ -905,7 +915,7 @@ class _EditProfileState extends State<EditProfile> {
                   children: [
                     Align(
                         alignment:Alignment.centerLeft,
-                        child: MyWidgets.text("Current Address", 16.0, FontWeight.bold, Color(0xff3B4652),context,false)
+                        child: MyWidgets.text("Current Address", 17.0, FontWeight.bold, Color(0xff3B4652),context,false)
                     ),
                     SizedBox(height: 5),
                     Container(

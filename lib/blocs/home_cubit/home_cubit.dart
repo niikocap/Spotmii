@@ -14,7 +14,7 @@ class HomeCubit extends Cubit<HomeState> {
       isVisible: state.isVisible,
       isHidden: state.isHidden,
       featureOn: state.featureOn,
-      dragSize: state.dragSize,
+      dragSize:state.dragSize,
     )
   );
   void visibleSwitch(bool value) => emit(

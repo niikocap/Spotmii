@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:spotmii/widgets.dart';
 
+import '../components/constants.dart';
+
 class Limits extends StatefulWidget {
   const Limits({Key? key}) : super(key: key);
 

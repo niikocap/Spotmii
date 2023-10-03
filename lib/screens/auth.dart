@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spotmii/widgets.dart';
 
+import '../components/constants.dart';
 import '../components/text.dart';
 
 class TwoFactorAuth extends StatefulWidget {

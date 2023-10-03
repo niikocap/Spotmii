@@ -6,6 +6,8 @@ import 'package:spotmii/screens/profile.dart';
 import 'package:spotmii/screens/qrscanner.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import 'components/constants.dart';
+
 class MyWidgets{
   static TextStyle TS(size,context,color,weight){
     return TextStyle(
@@ -516,6 +518,57 @@ class MyWidgets{
       ),
     );
   }
+  static Widget notification(who,type,date,context,data){
+    return GestureDetector(
+      onTap: (){
+        //MyWidgets.navigateP(PaymentDetails(howMuch: data["howmuch"], who: data["who"], account: data["account"], transaction: data["transaction"]), context);
+      },
+      child: Container(
+        height:70,
+        //width: MediaQuery.of(context).size.width * 0.9,
+        margin: EdgeInsets.symmetric(horizontal: 0,vertical: 5),
+        decoration: BoxDecoration(
+
+            border: Border(
+                bottom: BorderSide(width: 0.1,color: Colors.grey)
+            )
+          //color: Color(0xffF1F1F1),
+          //borderRadius: BorderRadius.circular(5.0)
+        ),
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.35,
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MyWidgets.text(who, 18.0, FontWeight.normal, Color(0xff111111),context,false),
+                    MyWidgets.text(type, 15.0, FontWeight.normal, Color(0xff111111),context,false),
+                  ],
+                ),
+              ),
+              Container(
+                alignment: Alignment.centerRight,
+                width: MediaQuery.of(context).size.width * 0.30,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    MyWidgets.text(date,  15.0, FontWeight.normal, Color(0xff111111),context,false),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
   static Widget myBottomBar(context,active){
     return Container(
       color: Colors.white,
@@ -610,7 +663,7 @@ class MyWidgets{
     return Column(
       children: [
         Container(
-          width: (MediaQuery.of(context).size.width * 1) / 5,
+          width: (MediaQuery.of(context).size.width * .9) / 5,
           child: IconButton(
             icon: icon,
             iconSize: 50,
@@ -643,16 +696,5 @@ class MyWidgets{
       color: Colors.white,//Color(0xff04123B),
       size: 50,
     );
-  }
-}
-
-double MF(size,context){
-  double ratio = MediaQuery.of(context).devicePixelRatio;
-  if(ratio == 2.625){
-    return (size / 2.75) * 2;
-  }else if(ratio > 2.5){
-    return (size / 2.75) * 2.2;
-  }else{
-    return ( size / 2.75 ) * ratio;
   }
 }

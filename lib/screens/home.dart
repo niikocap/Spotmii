@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotmii/blocs/transaction_bloc/transaction_bloc.dart';
-import 'package:spotmii/constant.dart';
 import 'package:spotmii/main.dart';
 import 'package:spotmii/screens/profile.dart';
 import 'package:spotmii/screens/qrscanner.dart';
@@ -11,6 +10,7 @@ import 'package:spotmii/screens/transaction.dart';
 import 'package:spotmii/screens/underconstruction.dart';
 import 'package:spotmii/widgets.dart';
 import '../blocs/home_cubit/home_cubit.dart';
+import '../components/constants.dart';
 import '../models/currency.dart';
 import '../database.dart';
 import 'account.dart';
@@ -248,7 +248,7 @@ class _HomeState extends State<Home> {
                             width: MediaQuery.of(context).size.width * 1,
                             height: 90,
                             child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children:[
                                   MyWidgets.feature(Image.asset('assets/5.png'), "Send", () {
                                     MyWidgets.navigateP(Send(), context);
@@ -494,7 +494,6 @@ class _HomeState extends State<Home> {
                                           builder: (context,state){
 
                                             if(state is TransactionLoading){
-                                              print("test");
                                               return Center(
                                                 child: CircularProgressIndicator(),
                                               );
@@ -504,7 +503,7 @@ class _HomeState extends State<Home> {
                                                 return ListView.builder(
                                                   itemCount: state.transactions.length,
                                                   itemBuilder: (context,index){
-                                                    return MyWidgets.transaction(AssetImage('assets/10.png'), state.transactions[index].to, state.transactions[index].type, state.transactions[index].amount, state.transactions[index].date, context, state.transactions[index].receiver);
+                                                    return MyWidgets.transaction(AssetImage('assets/10.png'), state.transactions[index].from, state.transactions[index].type, state.transactions[index].amount, state.transactions[index].date, context, state.transactions[index].receiver);
                                                   },
                                                 );
                                               }else{

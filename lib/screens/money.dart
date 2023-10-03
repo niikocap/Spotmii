@@ -5,7 +5,7 @@ import 'package:spotmii/screens/payment.dart';
 import 'package:spotmii/screens/qrscanner.dart';
 import 'package:spotmii/screens/request_money.dart';
 import 'package:spotmii/widgets.dart';
-import '../constant.dart';
+import '../components/constants.dart';
 import '../main.dart';
 import '../models/currency.dart';
 import '../database.dart';

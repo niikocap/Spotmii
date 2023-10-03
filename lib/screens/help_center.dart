@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:spotmii/screens/live_chat.dart';
 import 'package:spotmii/widgets.dart';
-
+import 'package:flutter_tawk/flutter_tawk.dart';
+import '../components/constants.dart';
 import 'home.dart';
 
 class HelpCenter extends StatefulWidget {
@@ -13,6 +15,7 @@ class HelpCenter extends StatefulWidget {
 class _HelpCenterState extends State<HelpCenter> {
   var subject = TextEditingController();
   var description = TextEditingController();
+  bool chatBool = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +23,7 @@ class _HelpCenterState extends State<HelpCenter> {
       body: Container(
           width: MediaQuery.of(context).size.width,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 40,),
               Container(
@@ -103,9 +107,18 @@ class _HelpCenterState extends State<HelpCenter> {
                     MyWidgets.navigateP(Home(), context);
                   },context,"Home"), context);
                 },Color(0xff0A1B4D),context),
-              )
+              ),
+
+
             ],
-          )
+          ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          MyWidgets.navigateP(LiveChat(), context);
+        },
+        child: Icon(Icons.messenger),
+        backgroundColor: Color(0xff0A1B4D),
       ),
     );
   }

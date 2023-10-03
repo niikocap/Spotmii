@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:spotmii/widgets.dart';
 import 'package:pattern_formatter/pattern_formatter.dart';
 
+import '../components/constants.dart';
+
 class Bank extends StatefulWidget {
   const Bank({Key? key}) : super(key: key);
 
