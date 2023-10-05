@@ -20,7 +20,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  var selectedImage = currentUser!.userPic != "" ? NetworkImage("https://app.spot-mii.site/uploads/" + currentUser!.userPic) : NetworkImage("https://digitalfinger.id/wp-content/uploads/2019/12/no-image-available-icon-6.png");
+  var selectedImage = currentUser!.userPic != "" ? NetworkImage("https://app.spotmii.com.au/uploads/" + currentUser!.userPic) : NetworkImage("https://digitalfinger.id/wp-content/uploads/2019/12/no-image-available-icon-6.png");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -514,7 +514,7 @@ class _EditProfileState extends State<EditProfile> {
   final countryPicker  = const FlCountryCodePicker(
     showDialCode: false,
   );
-  var selectedImage = currentUser!.userPic != "" ? NetworkImage("https://app.spot-mii.site/uploads/" + currentUser!.userPic) : NetworkImage("https://digitalfinger.id/wp-content/uploads/2019/12/no-image-available-icon-6.png");
+  var selectedImage = currentUser!.userPic != "" ? NetworkImage("https://app.spotmii.com.au/uploads/" + currentUser!.userPic) : NetworkImage("https://digitalfinger.id/wp-content/uploads/2019/12/no-image-available-icon-6.png");
   late var imagetoupload;
   Future<File> getImage() async {
     final ImagePicker _picker = ImagePicker();

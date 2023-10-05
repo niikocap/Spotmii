@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
+import 'package:forex_conversion/forex_conversion.dart';
 import 'package:pattern_formatter/numeric_formatter.dart';
+import 'package:spotmii/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:spotmii/screens/bank.dart';
+import 'package:spotmii/screens/login.dart';
 import 'package:spotmii/screens/payment.dart';
 import 'package:spotmii/screens/qrscanner.dart';
 import 'package:spotmii/screens/request_money.dart';
@@ -28,6 +33,8 @@ class _SendState extends State<Send> {
   var amount = TextEditingController();
   var note = TextEditingController();
   var currency = TextEditingController();
+  final FlutterContactPicker _contactPicker = new FlutterContactPicker();
+  late Contact _contact;
   final maxInput = ThousandsFormatter()
       .formatEditUpdate(
       const TextEditingValue(text: ''),
@@ -84,10 +91,10 @@ class _SendState extends State<Send> {
             children: [
               Column(
                 children: [
-                  SizedBox(height: 40,),
-                  Container(width: MediaQuery.of(context).size.width * 0.9,padding:EdgeInsets.all(10),alignment:Alignment.centerLeft,child: MyWidgets.text("Send Again", 20.0, FontWeight.bold, Color(0xff1B1B1B),context,false)),
+                  SizedBox(height: 10,),
+                  Visibility(visible:false,child: Container(width: MediaQuery.of(context).size.width * 0.9,padding:EdgeInsets.all(10),alignment:Alignment.centerLeft,child: MyWidgets.text("Send Again", 20.0, FontWeight.bold, Color(0xff1B1B1B),context,false))),
                   Visibility(
-                    visible: widget.recipient == null,
+                    visible: false,
                     child: Container(
                       height: 70,
                       width: MediaQuery.of(context).size.width * 0.9,
@@ -174,7 +181,7 @@ class _SendState extends State<Send> {
                             obscureText: false,
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: "ex. Charlie 0909000000",
+                              hintText: "Email, Username, Phone Number",
                               fillColor: Colors.white,
                               contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
                               hintStyle: TextStyle(
@@ -187,7 +194,13 @@ class _SendState extends State<Send> {
                       ],
                     ),
                     IconButton(
-                        onPressed: (){},
+                        onPressed: ()async{
+                          Contact? contact = await _contactPicker.selectContact();
+                          _contact = contact!;
+                          setState(() {
+                            recipient.text = _contact == null ? '' : _contact.phoneNumbers!.first;
+                          });
+                        },
                         icon: Icon(Icons.person,size: 30,)
                     )
                   ],
@@ -294,7 +307,7 @@ class _SendState extends State<Send> {
                             obscureText: false,
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: "Enter Currency",
+                              hintText: "Choose Currency",
                               fillColor: Colors.white,
                               prefixIcon: dropdown,
                               contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
@@ -372,70 +385,59 @@ class _SendState extends State<Send> {
               SizedBox(
                 height: 40,
                 width: MediaQuery.of(context).size.width * 0.9,
-                child: MyWidgets.button("Send", (){
-                  showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Container(
-                          color:Color(0xff04123B),
-                          height: 60,
-                          child: GestureDetector(
-                            onTap: ()async{
-                              MyWidgets.showLoading();
-                              var response = await Database(url:url).send({
-                                "req" : "send",
-                                "uid" : currentUser!.userID,
-                                "amount" : amount.text,
-                                "note" : note.text,
-                                "currency" : Currency.getCode(Currency.getText(selectedCurrency)), //todo change to drop down
-                                "target" : recipient.text,
-                              });
-                              if(response.length == 42){
-                                MyWidgets.navigateP(PaymentDetails(amount: amount.text, sender: currentUser!.fname + " " + currentUser!.lname, transaction: response, currency: currency.text, date: DateTime.now().toString()), context);
-                              }else{
-                                Navigator.pop(context);
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (context){
-                                    return Container(
-                                      height: MediaQuery.of(context).size.height * 0.3,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(10),
-                                          topRight: Radius.circular(10)
-                                        )
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset("assets/failed.png",height: 100,),
-                                          SizedBox(height: 20,),
-                                          MyWidgets.text("Send Failed, ${response}", 18, FontWeight.bold, Color(0xff111111), context, false),
-                                          SizedBox(height: 20,),
-                                          FractionallySizedBox(
-                                            widthFactor: 0.85,
-                                            child: MyWidgets.button("Go Back", (){
-                                              Navigator.pop(context);
-                                            }, Color(0xff040606), context),
-                                          )
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                );
-                              }
-                              //do connect to backend
-
-                              //success
-                              //
-                            },
-                            child: Center(
-                              child: MyWidgets.text("Continue", 25.0, FontWeight.bold, Colors.white,context,false),
-                            ),
-                          ),
-                        );
-                      });
+                child: MyWidgets.button("Send", ()async{
+                  var localauth = await LocalAuthApi.authenticate();
+                  if(localauth){
+                    MyWidgets.showLoading();
+                    var response = await Database(url:url).send({
+                      "req" : "send",
+                      "uid" : currentUser!.userID,
+                      "amount" : amount.text,
+                      "note" : note.text,
+                      "currency" : Currency.getCode(Currency.getText(selectedCurrency)), //todo change to drop down
+                      "target" : recipient.text,
+                    });
+                    if(response.length == 42){
+                      context.read<TransactionBloc>().add(LoadTransaction());
+                      MyWidgets.navigateP(PaymentDetails(amount: amount.text, sender: currentUser!.fname + " " + currentUser!.lname, transaction: response, currency: currency.text, date: DateTime.now().toString()), context);
+                    }else{
+                      Navigator.pop(context);
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context){
+                            return Container(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10)
+                                  )
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset("assets/failed.png",height: 100,),
+                                  SizedBox(height: 20,),
+                                  MyWidgets.text("Send Failed, ${response}", 18, FontWeight.bold, Color(0xff111111), context, false),
+                                  SizedBox(height: 20,),
+                                  FractionallySizedBox(
+                                    widthFactor: 0.85,
+                                    child: MyWidgets.button("Go Back", (){
+                                      Navigator.pop(context);
+                                    }, Color(0xff040606), context),
+                                  )
+                                ],
+                              ),
+                            );
+                          }
+                      );
+                    }
+                  }else{
+                    showDialog(context: context, builder: (context){
+                      return Text("Error");
+                    });
+                  }
                 }, Color(0xff04123B),context)
               ),
               SizedBox(height: 30,),
@@ -466,6 +468,8 @@ class _RequestState extends State<Request> {
   var amount = TextEditingController();
   var currency = TextEditingController();
   var note = TextEditingController();
+  final FlutterContactPicker _contactPicker = new FlutterContactPicker();
+  late Contact _contact;
   final maxInput = ThousandsFormatter()
       .formatEditUpdate(
       const TextEditingValue(text: ''),
@@ -518,45 +522,48 @@ class _RequestState extends State<Request> {
             children: [
               Column(
                 children: [
-                  SizedBox(height: 40,),
-                  Container(width: MediaQuery.of(context).size.width * 0.9,padding:EdgeInsets.all(10),alignment:Alignment.centerLeft,child: MyWidgets.text("Request Again", 20.0, FontWeight.bold, Color(0xff1B1B1B),context,false)),
-                  Container(
-                    height: 70,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: ListView(
-                      padding: EdgeInsets.zero,
-                      scrollDirection: Axis.horizontal,
-                      children: <Widget>[
-                        MyWidgets.sendAgain(
-                              (){
-                            recipient.text = "12456789";
-                          },
-                          NetworkImage("https://i.pravatar.cc/300"),
-                        ),
-                        MyWidgets.sendAgain(
-                              (){
-                            recipient.text = "12456789";
-                          },
-                          NetworkImage("https://i.pravatar.cc/299"),
-                        ),
-                        MyWidgets.sendAgain(
-                              (){
-                            recipient.text = "12456789";
-                          },
-                          NetworkImage("https://i.pravatar.cc/298"),
-                        ),
-                        MyWidgets.sendAgain(
-                              (){
-                            recipient.text = "12456789";
-                          },
-                          NetworkImage("https://i.pravatar.cc/301"),
-                        ),MyWidgets.sendAgain(
-                              (){
-                            recipient.text = "12456789";
-                          },
-                          NetworkImage("https://i.pravatar.cc/302"),
-                        )
-                      ],
+                  SizedBox(height: 10,),
+                  Visibility(visible:false,child: Container(width: MediaQuery.of(context).size.width * 0.9,padding:EdgeInsets.all(10),alignment:Alignment.centerLeft,child: MyWidgets.text("Request Again", 20.0, FontWeight.bold, Color(0xff1B1B1B),context,false))),
+                  Visibility(
+                    visible: false,
+                    child: Container(
+                      height: 70,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: ListView(
+                        padding: EdgeInsets.zero,
+                        scrollDirection: Axis.horizontal,
+                        children: <Widget>[
+                          MyWidgets.sendAgain(
+                                (){
+                              recipient.text = "12456789";
+                            },
+                            NetworkImage("https://i.pravatar.cc/300"),
+                          ),
+                          MyWidgets.sendAgain(
+                                (){
+                              recipient.text = "12456789";
+                            },
+                            NetworkImage("https://i.pravatar.cc/299"),
+                          ),
+                          MyWidgets.sendAgain(
+                                (){
+                              recipient.text = "12456789";
+                            },
+                            NetworkImage("https://i.pravatar.cc/298"),
+                          ),
+                          MyWidgets.sendAgain(
+                                (){
+                              recipient.text = "12456789";
+                            },
+                            NetworkImage("https://i.pravatar.cc/301"),
+                          ),MyWidgets.sendAgain(
+                                (){
+                              recipient.text = "12456789";
+                            },
+                            NetworkImage("https://i.pravatar.cc/302"),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -604,7 +611,7 @@ class _RequestState extends State<Request> {
                             obscureText: false,
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: "ex. Charlie 0909000000",
+                              hintText: "Email, Username, Phone Number",
                               fillColor: Colors.white,
                               contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
                               hintStyle: TextStyle(
@@ -617,7 +624,17 @@ class _RequestState extends State<Request> {
                       ],
                     ),
                     IconButton(
-                        onPressed: (){},
+                        onPressed: ()async{
+                          Contact? contact = await _contactPicker.selectContact();
+                          _contact = contact!;
+                          print("___________________________________________________________");
+                          //print(_contact.fullName!);
+                          //print(_contact.phoneNumbers!);
+                          setState(() {
+
+                            //recipient.text = _contact == null ? '' : _contact.phoneNumbers!.first;
+                          });
+                        },
                         icon: Icon(Icons.person,size: 30,)
                     )
                   ],
@@ -725,7 +742,7 @@ class _RequestState extends State<Request> {
                             obscureText: false,
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: "Enter Currency",
+                              hintText: "Choose Currency",
                               prefixIcon: dropdown,
                               fillColor: Colors.white,
                               contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
@@ -803,70 +820,57 @@ class _RequestState extends State<Request> {
               SizedBox(
                   height: 40,
                   width: MediaQuery.of(context).size.width * 0.9,
-                  child: MyWidgets.button("Request", (){
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Container(
-                            color:Color(0xff04123B),
-                            height: 60,
-                            child: GestureDetector(
-                              onTap: ()async{
-                                //todo validation
-                                MyWidgets.showLoading();
-                                var response = await Database(url: url).send({
-                                  "req" : "createRequest",
-                                  "amount" : amount.text,
-                                  "currency" : selectedCurrency,
-                                  "to" : recipient.text,
-                                  "user" : currentUser!.userID,
-                                  "note" : note.text,
-                                  "identity" : recipient.text
-                                });
-                                Navigator.pop(context);
-                                if(response == ""){
+                  child: MyWidgets.button("Request", ()async{
+                    var isAuthenticated = await LocalAuthApi.authenticate();
+                    if(isAuthenticated){
+                      //todo validation
+                      MyWidgets.showLoading();
+                      var response = await Database(url: url).send({
+                        "req" : "createRequest",
+                        "amount" : amount.text,
+                        "currency" : selectedCurrency,
+                        "to" : recipient.text,
+                        "user" : currentUser!.userID,
+                        "note" : note.text,
+                        "identity" : recipient.text
+                      });
+                      Navigator.pop(context);
+                      if(response == ""){
 
-                                }
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (context){
-                                      return Container(
-                                        height: MediaQuery.of(context).size.height * 0.6,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(10),
-                                                topRight: Radius.circular(10)
-                                            )
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Image.asset("assets/3.png",height: 150,),
-                                            SizedBox(height: 20,),
-                                            MyWidgets.text("Success!", 35, FontWeight.bold, Colors.black, context, false),
-                                            SizedBox(height: 10,),
-                                            MyWidgets.text("Your request has been successfully sent.", 18, FontWeight.bold, Colors.grey, context, false),
-                                            SizedBox(height: 20,),
-                                            FractionallySizedBox(
-                                              widthFactor: 0.85,
-                                              child: MyWidgets.button("Home", (){
-                                                MyWidgets.navigatePR(Home(), context);
-                                              }, Color(0xff04123B), context),
-                                            )
-                                          ],
-                                        )
-                                      );
-                                    }
-                                );
-
-                              },
-                              child: Center(
-                                child: MyWidgets.text("Continue", 25.0, FontWeight.bold, Colors.white,context,false),
-                              ),
-                            ),
-                          );
-                        });
+                      }
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context){
+                            return Container(
+                                height: MediaQuery.of(context).size.height * 0.6,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        topRight: Radius.circular(10)
+                                    )
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset("assets/3.png",height: 150,),
+                                    SizedBox(height: 20,),
+                                    MyWidgets.text("Success!", 35, FontWeight.bold, Colors.black, context, false),
+                                    SizedBox(height: 10,),
+                                    MyWidgets.text("Your request has been successfully sent.", 18, FontWeight.bold, Colors.grey, context, false),
+                                    SizedBox(height: 20,),
+                                    FractionallySizedBox(
+                                      widthFactor: 0.85,
+                                      child: MyWidgets.button("Home", (){
+                                        MyWidgets.navigatePR(Home(), context);
+                                      }, Color(0xff04123B), context),
+                                    )
+                                  ],
+                                )
+                            );
+                          }
+                      );
+                    }
                   }, Color(0xff04123B),context)
               ),
               SizedBox(height: 30,),
@@ -1639,8 +1643,8 @@ class _ConvertMoneyState extends State<ConvertMoney> {
                                   }else if(value == '¥'){
                                     currency1 = "Japanese Yen";
                                   }
-                                  converted = await Database.convertCurrency(Currency.getCode(currency1), Currency.getCode(currency2), amountController.text);
-
+                                  //converted = await Database.convertCurrency(Currency.getCode(currency1), Currency.getCode(currency2), amountController.text);
+                                  converted = await Forex().getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency:  Currency.getCode(currency2),sourceAmount: double.parse(amountController.text));
                                   setState(() {
                                     result = amountController.text + " "  + currency1 + " = " + converted.toString() + " "  + currency2;
                                   });
@@ -1722,7 +1726,7 @@ class _ConvertMoneyState extends State<ConvertMoney> {
                                 }else if(value == '¥'){
                                   currency2 = "Japanese Yen";
                                 }
-                                converted = await Database.convertCurrency(Currency.getCode(currency1), Currency.getCode(currency2), amountController.text);
+                                converted = await Forex().getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency:  Currency.getCode(currency2),sourceAmount: double.parse(amountController.text));
                                 setState(() {
                                   result = amountController.text + " " + currency1 + " = " + converted.toString()  + " " + currency2;
                                 });

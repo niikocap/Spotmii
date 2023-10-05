@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:spotmii/screens/login.dart';
+import '../components/constants.dart';
 import '../constant.dart';
 import '../database.dart';
 import '../widgets.dart';
@@ -61,7 +62,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   width: MediaQuery.of(context).size.width *0.8,
                   height: 40,
                   child:   MyWidgets.button("Submit",()async{
-                    var db = Database(url: "https://app.spot-mii.site/mail/sendmail.php");
+                    var db = Database(url: "https://app.spotmii.com.au/mail/sendmail.php");
                     verCode = generate(6);
                     await Database(url: url).send(
                       {

@@ -660,18 +660,19 @@ class MyWidgets{
     );
   }
   static Widget feature(icon,text,callback,color,context){
-    return Column(
-      children: [
-        Container(
-          width: (MediaQuery.of(context).size.width * .9) / 5,
-          child: IconButton(
-            icon: icon,
-            iconSize: 50,
-            onPressed: callback,
+    return GestureDetector(
+      onTap: callback,
+      //width: (MediaQuery.of(context).size.width * .9) / 4.5,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: (MediaQuery.of(context).size.width * .9) / 6,
+            child: icon,
           ),
-        ),
-        MyWidgets.text(text, 15.0, FontWeight.normal, color,context,false),
-      ],
+          MyWidgets.text(text, 15.0, FontWeight.normal, color,context,false),
+        ],
+      ),
     );
   }
   static Widget sendAgain(callback,image){

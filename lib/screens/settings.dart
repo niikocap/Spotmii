@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spotmii/constant.dart';
 import 'package:spotmii/widgets.dart';
 
+import '../components/constants.dart';
 import '../main.dart';
 import '../database.dart';
 

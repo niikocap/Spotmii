@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:spotmii/widgets.dart';
+import '../components/constants.dart';
 import '../constant.dart';
 import '../main.dart';
 import '../models/currency.dart';
@@ -285,9 +286,9 @@ class _RequestMoneyState extends State<RequestMoney> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset("assets/notransactions.png",height: 200,),
+                            Image.asset("assets/notransactions.png",height: 130,),
                             SizedBox(height: 20,),
-                            MyWidgets.text("No Data!", 30, FontWeight.bold, Colors.black, context, false)
+                            MyWidgets.text("Sorry! there are no data to show", 22, FontWeight.bold, Colors.black, context, false)
                           ],
                         ),
                       );
@@ -329,9 +330,9 @@ class _RequestMoneyState extends State<RequestMoney> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("assets/notransactions.png",height: 200,),
+                                Image.asset("assets/notransactions.png",height: 130,),
                                 SizedBox(height: 20,),
-                                MyWidgets.text("No Data!", 30, FontWeight.bold, Colors.black, context, false)
+                                MyWidgets.text("Sorry! there are no data to show!", 22, FontWeight.bold, Colors.black, context, false)
                               ],
                             ),
                           );

@@ -5,6 +5,7 @@ import 'package:spotmii/main.dart';
 import 'package:spotmii/screens/bank.dart';
 import 'package:spotmii/widgets.dart';
 
+import '../components/constants.dart';
 import '../database.dart';
 
 class Provider{

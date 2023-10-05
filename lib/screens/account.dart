@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
+import 'package:spotmii/database.dart';
 import 'package:spotmii/widgets.dart';
 
 import '../components/constants.dart';
@@ -31,7 +34,7 @@ class _LinkAccountsState extends State<LinkAccounts> {
   Widget LTAccounts(type,typename,cardnumber,context){
     return GestureDetector(
       onTap: (){
-        MyWidgets.navigatePR(AccountCard(cardType:typename,cardNumber:cardnumber), context);
+        //MyWidgets.navigatePR(AccountCard(cardType:typename,cardNumber:cardnumber), context);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -99,14 +102,28 @@ class _LinkAccountsState extends State<LinkAccounts> {
               ],
             ),
             SizedBox(height: 10,),
-            SizedBox(
-              height: ( MediaQuery.of(context).size.height * 0.75 ) - 4.8,
-              child: ListView(
-                children: [
-                  LTAccounts("assets/21.png", "Visa", "Debit *****7125",context),
-                  LTAccounts("assets/7.png", "Bank of the Philippine Island", "Checking *****123", context)
-                ],
-              ),
+            FutureBuilder(
+              future: Database(url: url).send({
+                "req" : "getCardBank"
+              }),
+              builder: (context,AsyncSnapshot<String> snapshot){
+                if(snapshot.hasData){
+                  var data = snapshot.data;
+                  return SizedBox(
+                    height: ( MediaQuery.of(context).size.height * 0.75 ) - 4.8,
+                    child: ListView.builder(
+                      itemCount: jsonDecode(data!).length,
+                      itemBuilder: (context,index){
+
+                      },
+                    ),
+                  );
+                }else{
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             ),
             MyWidgets.myBottomBar(context, 2)
           ],
@@ -170,7 +187,7 @@ class _LinkABankState extends State<LinkABank> {
                 height: 40,
                 width: MediaQuery.of(context).size.width * 0.85,
                 child: MyWidgets.button("Link Your Bank", (){
-
+                  //todo backend link bank
                 }, Color(0xff04123B), context),
               )
 
@@ -294,7 +311,7 @@ class _LinkACardState extends State<LinkACard> {
                 height: 40,
                 width: MediaQuery.of(context).size.width * 0.85,
                 child: MyWidgets.button("Link a Card", (){
-
+                  //todo link a card backend
                 }, Color(0xff04123B), context),
               )
             ],
@@ -308,7 +325,10 @@ class _LinkACardState extends State<LinkACard> {
 class AccountCard extends StatefulWidget {
   final cardType;
   final cardNumber;
-  AccountCard({required this.cardType,required this.cardNumber});
+  final cardName;
+  final cardexp;
+  final cardCVV;
+  AccountCard({required this.cardType,required this.cardNumber,required this.cardName,required this.cardexp,required this.cardCVV});
 
   @override
   State<AccountCard> createState() => _AccountCardState();
@@ -324,10 +344,10 @@ class _AccountCardState extends State<AccountCard> {
           SizedBox(height: 40,),
           CreditCardWidget(
             cardNumber: widget.cardNumber,
-            expiryDate: "11/23",
-            cardHolderName: "Maria Nelfa Loren Sebastian",
+            expiryDate: widget.cardexp,
+            cardHolderName: widget.cardName,
             isHolderNameVisible: true,
-            cvvCode: "113",
+            cvvCode: widget.cardCVV,
             showBackView: false,
             cardBgColor: Color(0xff04123B),
             onCreditCardWidgetChange: (CreditCardBrand ) {

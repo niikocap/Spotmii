@@ -17,6 +17,7 @@ import 'account.dart';
 import 'cashin.dart';
 import 'currency.dart';
 import 'money.dart';
+import 'package:forex_conversion/forex_conversion.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -61,6 +62,7 @@ class _HomeState extends State<Home> {
         }
     );
     rates = jsonDecode(jsonDecode(rates))["rates"];
+    final fx = Forex();
     return rates;
   }
   @override
@@ -68,7 +70,7 @@ class _HomeState extends State<Home> {
     //dragSize = isVisible ? (MediaQuery.of(context).size.height * 0.35) : (MediaQuery.of(context).size.height * 0.575) - 170;
     var h1 = (MediaQuery.of(context).size.height * 0.575) - MediaQuery.of(context).viewPadding.top - MediaQuery.of(context).viewPadding.bottom;
     var padding = MediaQuery.of(context).viewPadding.bottom;
-    var selectedImage = currentUser!.userPic != "" ? NetworkImage("https://app.spot-mii.site/uploads/" + currentUser!.userPic) : NetworkImage("https://digitalfinger.id/wp-content/uploads/2019/12/no-image-available-icon-6.png");
+    var selectedImage = currentUser!.userPic != "" ? NetworkImage("https://app.spotmii.com.au/uploads/" + currentUser!.userPic) : NetworkImage("https://digitalfinger.id/wp-content/uploads/2019/12/no-image-available-icon-6.png");
     currencyWidget(amount,type,image){
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 10,vertical: 2.5),
@@ -181,7 +183,9 @@ class _HomeState extends State<Home> {
                                 //rates = data["rates"];
                                 //Database.estimate();
                                 double estimated = Currency.getEstimated(data, currentUser!.currency);
+                                print(estimated);
                                 balance = "${Currency.getSymbol(currentUser!.currency)} ${estimated.toStringAsFixed(4)}";
+                                print(balance);
                                 realBalance = "${Currency.getSymbol(currentUser!.currency)} ${estimated.toStringAsFixed(4)}";
                                 return Row(
                                   children: [
@@ -253,7 +257,7 @@ class _HomeState extends State<Home> {
                                   MyWidgets.feature(Image.asset('assets/5.png'), "Send", () {
                                     MyWidgets.navigateP(Send(), context);
                                   },Colors.white,context),
-                                  MyWidgets.feature(Image.asset('assets/6.png'), "Top up", () {
+                                  MyWidgets.feature(Image.asset('assets/6.png'), "Add Money", () {
                                     MyWidgets.navigateP(CashInStore(), context);
                                   },Colors.white,context),
                                   MyWidgets.feature(Image.asset('assets/7.png'), "Bank", () {
@@ -304,24 +308,25 @@ class _HomeState extends State<Home> {
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    MyWidgets.text("Features", 22.5, FontWeight.bold, Color(0xff111111), context,false),
+                                                    MyWidgets.text("Features", 25,FontWeight.bold, Color(0xff111111), context,false),
                                                   ],
                                                 )
                                             ),
                                             Container(
+                                              width: MediaQuery.of(context).size.width * 0.95,
                                               height: ( MediaQuery.of(context).size.height * 0.40 ),
                                               child: GridView.count(
                                                 padding: EdgeInsets.zero,
                                                 primary: false,
                                                 childAspectRatio: 0.9,
                                                 crossAxisSpacing: 1,
-                                                mainAxisSpacing: 10,
+                                                mainAxisSpacing: 1,
                                                 crossAxisCount: 5,
                                                 children: <Widget>[
                                                   MyWidgets.feature(Image.asset('assets/5.png'), "Send", () {
                                                     MyWidgets.navigateP(Send(), context);
                                                   },Colors.black,context),
-                                                  MyWidgets.feature(Image.asset('assets/6.png'), "Top up", () {
+                                                  MyWidgets.feature(Image.asset('assets/6.png'), "Add Money", () {
                                                     MyWidgets.navigateP(CashInStore(), context);
                                                   },Colors.black,context),
                                                   MyWidgets.feature(Image.asset('assets/7.png'), "Bank", () {
@@ -344,6 +349,9 @@ class _HomeState extends State<Home> {
                                                   },Colors.black,context),
                                                   MyWidgets.feature(Image.asset('assets/43.png'), "QR Code", () {
                                                     MyWidgets.navigateP(QRScanner(), context);
+                                                  },Colors.black,context),
+                                                  MyWidgets.feature(Image.asset('assets/43.png'), "Bills Payment", () {
+                                                    MyWidgets.navigateP(UnderConstruction(title: "Bills Payment"), context);
                                                   },Colors.black,context),
                                                   MyWidgets.feature(Image.asset('assets/withdraw.png'), "Withdraw", () {
                                                     MyWidgets.navigateP(Withdraw(), context);
@@ -371,13 +379,12 @@ class _HomeState extends State<Home> {
                         height: ( MediaQuery.of(context).size.height * 0.13 ),
                         child: Column(
                           children: [
+                            SizedBox(height: 10,),
                             Container(
-
                                 width: MediaQuery.of(context).size.width * 0.9,
                                 alignment:Alignment.centerLeft,
-                                child: MyWidgets.text("Send Again", 15.0, FontWeight.bold, Colors.white, context,false)
+                                child: MyWidgets.text("Send Again", 17.0, FontWeight.bold, Colors.white, context,false)
                             ),
-                            SizedBox(height: 10,),
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.9,
                               height: 70,

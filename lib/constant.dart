@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 
 Color button = Color(0xff04123B);
@@ -7,3 +8,4 @@ String url = "https://app.spotmii.com.au/services.php";
 var uname = 'AC832d226c331da9c46854123395a13f0f';
 var pword = '72c5ec707249f658786c89861e2cab0f';
 var number = '+14065180679';
+ */

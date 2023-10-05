@@ -3,6 +3,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:spotmii/constant.dart';
 import 'package:spotmii/widgets.dart';
 import 'package:spotmii/main.dart';
+import '../../components/constants.dart';
 import '../../screens/QROverlay.dart';
 import '../../screens/login.dart';
 import 'package:spotmii/database.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 //todo assign values
 Color mainColor = Colors.red;
 String url = "https://app.spotmii.com.au/services.php";
+Color button = Color(0xff04123B);
 
 double MF(size,context){
   double ratio = MediaQuery.of(context).devicePixelRatio;

@@ -3,13 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:forex_conversion/forex_conversion.dart';
 import 'package:spotmii/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:spotmii/blocs/user_bloc/user_bloc.dart';
-import 'package:spotmii/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotmii/database.dart';
 import 'package:spotmii/screens/login.dart';
 import 'blocs/currency_bloc/currency_bloc.dart';
+import 'components/constants.dart';
 import 'models/user_model.dart';
 
 late final isLogin;

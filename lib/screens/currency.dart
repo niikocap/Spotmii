@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:forex_conversion/forex_conversion.dart';
 import 'package:spotmii/database.dart';
+import 'package:spotmii/main.dart';
 import 'package:spotmii/widgets.dart';
 
 import '../models/currency.dart';
@@ -39,6 +41,19 @@ class _LiveCurrencyState extends State<LiveCurrency> {
         ],
       ),
     );
+  }
+  getRates()async{
+    final fx = Forex();
+    //rates = rates["rates"];
+    usd = await fx.getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency: "USD");
+    php = await fx.getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency: "PHP");
+    pound = await fx.getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency: "GBP");
+    yen = await fx.getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency: "JPY");
+    yuan = await fx.getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency: "CNY");
+    euro = await fx.getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency: "EUR");
+    aud = await fx.getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency: "AUD");
+    francs = await fx.getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency: "CHF");
+    return "1";
   }
   @override
   Widget build(BuildContext context) {
@@ -97,16 +112,16 @@ class _LiveCurrencyState extends State<LiveCurrency> {
                         }else if(value == '¥'){
                           currency1 = "Japanese Yen";
                         }
-                        //rates = await Database.conversionRates(Currency.getCode(currency1));
-                        rates = rates["rates"];
-                        usd = 1 * rates["USD"];
-                        php = 1 * rates["PHP"];
-                        pound = 1 * rates["GBP"];
-                        yen = 1 * rates["JPY"];
-                        yuan = 1 * rates["CNY"];
-                        euro = 1 * rates["EUR"];
-                        aud = 1 * rates["AUD"];
-                        francs = 1 * rates["CHF"];
+                        final fx = Forex();
+                        //rates = rates["rates"];
+                        usd = await fx.getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency: "USD");
+                        php = await fx.getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency: "PHP");
+                        pound = await fx.getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency: "GBP");
+                        yen = await fx.getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency: "JPY");
+                        yuan = await fx.getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency: "CNY");
+                        euro = await fx.getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency: "EUR");
+                        aud = await fx.getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency: "AUD");
+                        francs = await fx.getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency: "CHF");
                         setState(() {
 
                         });
@@ -117,21 +132,33 @@ class _LiveCurrencyState extends State<LiveCurrency> {
                 ],
               ),
             ),
-            Container(
-              height: MediaQuery.of(context).size.height  * 0.8,
-              width: MediaQuery.of(context).size.width  * 0.85,
-              child: ListView(
-                children: [
-                  currencyTile("US Dollar",usd),
-                  currencyTile("Philippine Peso",php),
-                  currencyTile("Pound",pound),
-                  currencyTile("Japanse Yen",yen),
-                  currencyTile("Chinese Yuan",yuan),
-                  currencyTile("Euro",euro),
-                  currencyTile("Australian Dollars",aud),
-                  currencyTile("Swiss Francs",francs),
-                ],
-              ),
+            FutureBuilder(
+              future: getRates(),
+              builder: (context,snapshot) {
+                if(snapshot.hasData){
+                  return Container(
+                    height: MediaQuery.of(context).size.height  * 0.8,
+                    width: MediaQuery.of(context).size.width  * 0.85,
+                    child: ListView(
+                      children: [
+                        currencyTile("US Dollar",usd),
+                        currencyTile("Philippine Peso",php),
+                        currencyTile("Pound",pound),
+                        currencyTile("Japanse Yen",yen),
+                        currencyTile("Chinese Yuan",yuan),
+                        currencyTile("Euro",euro),
+                        currencyTile("Australian Dollars",aud),
+                        currencyTile("Swiss Francs",francs),
+                      ],
+                    ),
+                  );
+                }else{
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+              }
             ),
           ],
         ),

@@ -322,7 +322,7 @@ class _SignUpState extends State<SignUp> {
                           return MyWidgets.showLoading();
                         });
                         tryAuth()async{
-                          var db = Database(url: "https://app.spot-mii.site/mail/sendmail.php");
+                          var db = Database(url: "https://app.spotmii.com.au/mail/sendmail.php");
                           verCode1 = generate(6);
                           verCode2 = generate(6);
                           timer1On = true;
@@ -408,7 +408,7 @@ class _SignUpState extends State<SignUp> {
                                                   "code1" : verCode1,
                                                   "code2" : verCode2,
                                                 });
-                                                await Database(url: "https://app.spot-mii.site/mail/sendmail.php").send({
+                                                await Database(url: "https://app.spotmii.com.au/mail/sendmail.php").send({
                                                   "email" : "spotmiiapp@gmail.com",
                                                   "password" : "avqiwruhgwqifkog",
                                                   "target" :currentUser!.email,
