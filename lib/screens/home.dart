@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotmii/blocs/transaction_bloc/transaction_bloc.dart';
+import 'package:spotmii/components/featureIcons.dart';
 import 'package:spotmii/main.dart';
 import 'package:spotmii/screens/profile.dart';
 import 'package:spotmii/screens/qrscanner.dart';
@@ -68,17 +69,17 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     //dragSize = isVisible ? (MediaQuery.of(context).size.height * 0.35) : (MediaQuery.of(context).size.height * 0.575) - 170;
-    var h1 = (MediaQuery.of(context).size.height * 0.575) - MediaQuery.of(context).viewPadding.top - MediaQuery.of(context).viewPadding.bottom;
+    var h1 = (MediaQuery.of(context).size.height * 0.575) + 15 - MediaQuery.of(context).viewPadding.top - MediaQuery.of(context).viewPadding.bottom;
     var padding = MediaQuery.of(context).viewPadding.bottom;
     var selectedImage = currentUser!.userPic != "" ? NetworkImage("https://app.spotmii.com.au/uploads/" + currentUser!.userPic) : NetworkImage("https://digitalfinger.id/wp-content/uploads/2019/12/no-image-available-icon-6.png");
     currencyWidget(amount,type,image){
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 10,vertical: 2.5),
+        padding: EdgeInsets.symmetric(horizontal: 5,vertical: 2.5),
         margin: EdgeInsets.symmetric(horizontal: 2.5),
-        width: 120,
+        width: 112.5,
         decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(15)
+            borderRadius: BorderRadius.circular(10)
         ),
         child: Row(
           children: [
@@ -88,14 +89,14 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                MyWidgets.text(amount.toString(),19, FontWeight.bold, Color(0xff111111), context, true),
+                MyWidgets.text(amount.toString(),21, FontWeight.normal, Color(0xff111111), context, true),
                 SizedBox(
                   width: 60,
                   child: Text(
                     type,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontSize: MF(15, context),
+                      fontSize: MF(14, context),
                       fontFamily: "Poppins",
                       color: Color(0xff111111),
 
@@ -124,55 +125,65 @@ class _HomeState extends State<Home> {
               children: [
                 Container(
                   color: Color(0xff050E29),
-                  height: MediaQuery.of(context).size.height * 0.35,
+                  height: MediaQuery.of(context).size.height * 0.35 - 15 ,
                   child: Column(
                     children: [
-                      SizedBox(height: 15,),
                       Container(
-                        height: 50,
+                        height: 70,
                         width: MediaQuery.of(context).size.width * 0.9,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Stack(
                           children: [
-                            MyWidgets.text("SpotMii", 40, FontWeight.bold, Colors.white,context,false),
-                            GestureDetector(
-                              onTap: (){
-                                MyWidgets.navigateP(EditProfile(), context);
-                              },
-                              child: CircleAvatar(
-                                backgroundImage: selectedImage,
-                                radius: 25,
+                            Positioned(
+                              top:15,
+                              child: MyWidgets.text("SpotMii", 45, FontWeight.bold, Colors.white,context,false),
+                            ),
+                            Positioned(
+                              right: 0,
+                              top: 10,
+                              child: GestureDetector(
+                                onTap: (){
+                                  MyWidgets.navigateP(EditProfile(), context);
+                                },
+                                child: CircleAvatar(
+                                  backgroundImage: selectedImage,
+                                  radius: 30,
+                                ),
                               ),
                             )
                           ],
                         ),
-                      ),
-                      BlocBuilder<HomeCubit,HomeState>(
-                        builder: (context,state) {
-                          return Container(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.9,
-                            child: Row(
-                                children: [
-                                  MyWidgets.text("Estimated Balance", 18.0,
-                                      FontWeight.normal, Colors.white, context,
-                                      false),
-                                  IconButton(
-                                    onPressed: () {
-                                      context.read<HomeCubit>().esSwitch();
-                                    },
-                                    icon: Image.asset(
-                                      state.estimatedSwitch ? "assets/scroll_up.png" : "assets/drop_down.png",
-                                      height: 15,
-                                    ),
-                                  )
-                                ]
-                            ),
-                          );
-                        }
-                      ),
+                      ), ///Spotmii Title
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * .9,
+                        height: 20,
+                        child: BlocBuilder<HomeCubit,HomeState>(
+                          builder: (context,state) {
+                            return Container(
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width * 0.9,
+                              child: Row(
+                                  children: [
+                                    MyWidgets.text("Estimated Balance", 18.0,
+                                        FontWeight.normal, Colors.white, context,
+                                        false),
+                                    IconButton(
+                                      onPressed: () {
+                                        context.read<HomeCubit>().esSwitch();
+                                      },
+                                      padding: EdgeInsets.zero,
+                                      icon: Image.asset(
+                                        state.estimatedSwitch ? "assets/scroll_up.png" : "assets/drop_down.png",
+                                        height: 15,
+                                      ),
+                                    )
+                                  ]
+                              ),
+                            );
+                          }
+                        ),
+                      ), ///Estimated Balance and button
                       Container(
                         width: MediaQuery.of(context).size.width * 0.9,
                         child: FutureBuilder(
@@ -180,24 +191,19 @@ class _HomeState extends State<Home> {
                             builder: (context,snapshot){
                               if(snapshot.hasData){
                                 var data = snapshot.data as Map;
-                                //rates = data["rates"];
-                                //Database.estimate();
                                 double estimated = Currency.getEstimated(data, currentUser!.currency);
-                                print(estimated);
                                 balance = "${Currency.getSymbol(currentUser!.currency)} ${estimated.toStringAsFixed(4)}";
-                                print(balance);
-                                realBalance = "${Currency.getSymbol(currentUser!.currency)} ${estimated.toStringAsFixed(4)}";
-                                return Row(
-                                  children: [
-                                    MyWidgets.text(balance, 35.0, FontWeight.bold, Colors.white,context,false),
-                                    SizedBox(width: 10,),
-                                    BlocBuilder<HomeCubit,HomeState>(
-                                      builder: (context,state){
-                                        return IconButton(
-                                          padding: EdgeInsets.zero,
-                                          constraints: BoxConstraints(),
-                                          onPressed: ()async{
-                                            setState(() {
+                                realBalance =  balance;
+                                return BlocBuilder<HomeCubit,HomeState>(
+                                    builder: (context,state){
+                                      return Row(
+                                        children: [
+                                          MyWidgets.text(balance, 35, FontWeight.normal, Colors.white,context,false),
+                                          SizedBox(width: 10,),
+                                          IconButton(
+                                            padding: EdgeInsets.zero,
+                                            constraints: BoxConstraints(),
+                                            onPressed: ()async{
                                               int length = balance.length;
                                               balance = "*";
                                               context.read<HomeCubit>().hiddenSwitch();
@@ -208,15 +214,14 @@ class _HomeState extends State<Home> {
                                               }else{
                                                 balance = realBalance;
                                               }
-                                            });
-                                          },
-                                          icon: Icon(!state.isHidden? Icons.visibility_off:Icons.remove_red_eye_outlined,color: Colors.white,size: 22,),
-                                        );
-                                      }
-                                    )
-
-                                  ],
+                                            },
+                                            icon: Icon(state.isHidden? Icons.visibility_off:Icons.remove_red_eye_outlined,color: Colors.white,size: 22,),
+                                          ),
+                                        ],
+                                      );
+                                    }
                                 );
+
                               }else{
                                 return Text("");
                               }
@@ -224,8 +229,8 @@ class _HomeState extends State<Home> {
                             }
                         ),
 
-                      ),
-                      SizedBox(height: 5,),
+                      ), ///balance
+                      SizedBox(height: 10,),
                       BlocBuilder<HomeCubit,HomeState>(
                         builder: (context,state){
                           return Visibility(
@@ -245,128 +250,170 @@ class _HomeState extends State<Home> {
                           );
                         },
                       ),
-                      SizedBox(height: 5,),
-                      Visibility(
-                        visible: true,
-                        child: Container(
-                            width: MediaQuery.of(context).size.width * 1,
-                            height: 90,
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children:[
-                                  MyWidgets.feature(Image.asset('assets/5.png'), "Send", () {
-                                    MyWidgets.navigateP(Send(), context);
-                                  },Colors.white,context),
-                                  MyWidgets.feature(Image.asset('assets/6.png'), "Add Money", () {
-                                    MyWidgets.navigateP(CashInStore(), context);
-                                  },Colors.white,context),
-                                  MyWidgets.feature(Image.asset('assets/7.png'), "Bank", () {
-                                    MyWidgets.navigateP(UnderConstruction(title: "Bank"), context);
-                                  },Colors.white,context),
-                                  MyWidgets.feature(Image.asset('assets/8.png'), "Remittance", () {
-                                    MyWidgets.navigateP(UnderConstruction(title: "Remittance"), context);
-                                  },Colors.white,context),
-                                  MyWidgets.feature(Image.asset('assets/9.png'), "More", () {
-                                    showModalBottomSheet(context: context,isScrollControlled: true,barrierColor: Colors.black.withOpacity(0), builder: (context){
-                                      return Container(
-                                        width: MediaQuery.of(context).size.width,
-                                        height: ( MediaQuery.of(context).size.height * 1.0 ) - 170,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(10),
-                                              topRight: Radius.circular(10),
-                                            )
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            SizedBox(height: 10,),
-                                            GestureDetector(
-                                              onVerticalDragUpdate: (DragUpdateDetails details) {
-                                                setState(() {
-                                                  double positionY = details.globalPosition.dy;
-                                                  containerSize = positionY;
-                                                  //if (positionY < 400)
-                                                    //featureOn = !featureOn;
-                                                });
-                                              },
-                                              child: Container(
-                                                margin: EdgeInsets.all(5),
-                                                height: 5,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xff8A8A8A).withOpacity(0.5),
-                                                    borderRadius: BorderRadius.circular(10)
-                                                ),
+                      SizedBox(height: 10,),
+                      Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          height: 90,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children:[
+                                MyIcons.feature("assets/figma/send_money.png", (){
+                                  MyWidgets.navigateP(Send(), context);
+                                }, Color(0xFF04123B), "Send Money",Colors.white, context),
+                                MyIcons.feature("assets/figma/add_money.png", (){
+                                  MyWidgets.navigateP(CashInStore(), context);
+                                }, Color(0xFF04123B), "Add Money",Colors.white, context),
+                                MyIcons.feature("assets/figma/bank_transfer.png", (){
+                                  MyWidgets.navigateP(UnderConstruction(title: "Bank Transfer"), context);
+                                }, Color(0xFF04123B), "Add Money",Colors.white, context),
+                                MyIcons.feature("assets/figma/bills_payment.png", (){
+                                  MyWidgets.navigateP(UnderConstruction(title: "Bills Payment"), context);
+                                }, Color(0xFF04123B), "Bills Payment",Colors.white, context),
+                                MyIcons.feature("assets/figma/show_more.png", (){
+                                  showModalBottomSheet(context: context,isScrollControlled: true,barrierColor: Colors.black.withOpacity(0), builder: (context){
+                                    return Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: ( MediaQuery.of(context).size.height * 0.65 ),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            topRight: Radius.circular(10),
+                                          )
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          SizedBox(height: 10,),
+                                          Container(
+                                            margin: EdgeInsets.all(5),
+                                            height: 3,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                                color: Color(0xff8A8A8A).withOpacity(0.5),
+                                                borderRadius: BorderRadius.circular(10)
+                                            ),
 
-                                              ),
-                                            ),
-                                            Container(
-                                                padding: EdgeInsets.symmetric(vertical: 5,horizontal: 0),
-                                                width:MediaQuery.of(context).size.width * 0.9,
-                                                alignment:Alignment.centerLeft,
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    MyWidgets.text("Features", 25,FontWeight.bold, Color(0xff111111), context,false),
-                                                  ],
-                                                )
-                                            ),
-                                            Container(
-                                              width: MediaQuery.of(context).size.width * 0.95,
-                                              height: ( MediaQuery.of(context).size.height * 0.40 ),
-                                              child: GridView.count(
-                                                padding: EdgeInsets.zero,
-                                                primary: false,
-                                                childAspectRatio: 0.9,
-                                                crossAxisSpacing: 1,
-                                                mainAxisSpacing: 1,
-                                                crossAxisCount: 5,
-                                                children: <Widget>[
-                                                  MyWidgets.feature(Image.asset('assets/5.png'), "Send", () {
-                                                    MyWidgets.navigateP(Send(), context);
-                                                  },Colors.black,context),
-                                                  MyWidgets.feature(Image.asset('assets/6.png'), "Add Money", () {
-                                                    MyWidgets.navigateP(CashInStore(), context);
-                                                  },Colors.black,context),
-                                                  MyWidgets.feature(Image.asset('assets/7.png'), "Bank", () {
-                                                    MyWidgets.navigateP(UnderConstruction(title: "Bank"), context);
-                                                  },Colors.black,context),
-                                                  MyWidgets.feature(Image.asset('assets/8.png'), "Remittance", () {
-                                                    MyWidgets.navigateP(UnderConstruction(title: "Remittance"), context);
-                                                  },Colors.black,context),
-                                                  MyWidgets.feature(Image.asset('assets/request.png'), "Request", () {
-                                                    MyWidgets.navigateP(RequestMoney(), context);
-                                                  },Colors.black,context),
-                                                  MyWidgets.feature(Image.asset('assets/44.png'), "My Cards", () {
-                                                    MyWidgets.navigateP(LinkAccounts(), context);
-                                                  },Colors.black,context),
-                                                  MyWidgets.feature(Image.asset('assets/42.png'), "Currency", () {
-                                                    MyWidgets.navigateP(LiveCurrency(), context);
-                                                  },Colors.black,context),
-                                                  MyWidgets.feature(Image.asset('assets/41.png'), "Converter", () {
-                                                    MyWidgets.navigateP(ConvertMoney(), context);
-                                                  },Colors.black,context),
-                                                  MyWidgets.feature(Image.asset('assets/43.png'), "QR Code", () {
-                                                    MyWidgets.navigateP(QRScanner(), context);
-                                                  },Colors.black,context),
-                                                  MyWidgets.feature(Image.asset('assets/43.png'), "Bills Payment", () {
-                                                    MyWidgets.navigateP(UnderConstruction(title: "Bills Payment"), context);
-                                                  },Colors.black,context),
-                                                  MyWidgets.feature(Image.asset('assets/withdraw.png'), "Withdraw", () {
-                                                    MyWidgets.navigateP(Withdraw(), context);
-                                                  },Colors.black,context),
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.symmetric(vertical: 5,horizontal: 0),
+                                            width:MediaQuery.of(context).size.width * 0.9,
+                                            alignment:Alignment.centerLeft,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                MyWidgets.text("My Favorites", 25,FontWeight.bold, Color(0xFF434343), context,false),
+                                              ],
+                                            )
+                                          ),
+                                          FutureBuilder(
+                                            future: Database(url: url).send({
+                                              "req" : "getFavorites"
+                                            }),
+                                            builder: (context,AsyncSnapshot<String> snapshot){
+                                              if(snapshot.hasData){
+                                                List data = jsonDecode(snapshot.data!);
+                                                return Container(
+                                                  width: MediaQuery.of(context).size.width * 0.95,
+                                                  height: 70,
+                                                  child: GridView.count(
+                                                    padding: EdgeInsets.zero,
+                                                    primary: false,
+                                                    childAspectRatio: 0.9,
+                                                    crossAxisSpacing: 1,
+                                                    mainAxisSpacing: 1,
+                                                    crossAxisCount: 5,
+                                                    children: <Widget>[
+                                                      ListView.builder(
+                                                        itemCount: data.length + 1,
+                                                        itemBuilder: (context,index){
+                                                          if(data!.length == index){
+                                                            return MyIcons.feature("assets/figma/add_favorites.png", (){
+                                                              MyWidgets.message("Feature to be added", context);
+                                                            }, Color(0xFFd6d6d6).withOpacity(0.2), "Add Favorites",Color(0xff111111), context);
+                                                          }else{
+                                                            return MyIcons.feature(data[index]["fav_image"], (){
+                                                              //todo create a redirector
+                                                            }, Color(0xFF04123B), data[index]["fav_name"],Color(0xff111111), context);
+                                                          }
+
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              }else{
+                                                return Center(
+                                                  child: CircularProgressIndicator(),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                          SizedBox(height: 40,),
+                                          Container(
+                                              padding: EdgeInsets.symmetric(vertical: 5,horizontal: 0),
+                                              width:MediaQuery.of(context).size.width * 0.9,
+                                              alignment:Alignment.centerLeft,
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  MyWidgets.text("Features", 25,FontWeight.bold, Color(0xFF434343), context,false),
                                                 ],
-                                              ),
+                                              )
+                                          ),
+                                          Container(
+                                            width: MediaQuery.of(context).size.width * 0.95,
+                                            height: ( MediaQuery.of(context).size.height * 0.40 ),
+                                            child: GridView.count(
+                                              padding: EdgeInsets.zero,
+                                              primary: false,
+                                              childAspectRatio: 0.9,
+                                              crossAxisSpacing: 1,
+                                              mainAxisSpacing: 1,
+                                              crossAxisCount: 5,
+                                              children: <Widget>[
+                                                MyIcons.feature("assets/figma/send_money.png", (){
+                                                  MyWidgets.navigateP(Send(), context);
+                                                }, Color(0xFF04123B), "Send Money", Color(0xff111111),context),
+                                                MyWidgets.feature(Image.asset('assets/6.png'), "Add Money", () {
+                                                  MyWidgets.navigateP(CashInStore(), context);
+                                                },Colors.black,context),
+                                                MyWidgets.feature(Image.asset('assets/7.png'), "Bank Transfer", () {
+                                                  MyWidgets.navigateP(UnderConstruction(title: "Bank"), context);
+                                                },Colors.black,context),
+                                                MyWidgets.feature(Image.asset('assets/8.png'), "Remittance", () {
+                                                  MyWidgets.navigateP(UnderConstruction(title: "Remittance"), context);
+                                                },Colors.black,context),
+                                                MyWidgets.feature(Image.asset('assets/request.png'), "Request", () {
+                                                  MyWidgets.navigateP(RequestMoney(), context);
+                                                },Colors.black,context),
+                                                MyWidgets.feature(Image.asset('assets/44.png'), "My Cards", () {
+                                                  MyWidgets.navigateP(LinkAccounts(), context);
+                                                },Colors.black,context),
+                                                MyWidgets.feature(Image.asset('assets/42.png'), "Currency", () {
+                                                  MyWidgets.navigateP(LiveCurrency(), context);
+                                                },Colors.black,context),
+                                                MyWidgets.feature(Image.asset('assets/41.png'), "Converter", () {
+                                                  MyWidgets.navigateP(ConvertMoney(), context);
+                                                },Colors.black,context),
+                                                MyWidgets.feature(Image.asset('assets/43.png'), "QR Code", () {
+                                                  MyWidgets.navigateP(QRScanner(), context);
+                                                },Colors.black,context),
+                                                MyWidgets.feature(Image.asset('assets/43.png'), "Bills Payment", () {
+                                                  MyWidgets.navigateP(UnderConstruction(title: "Bills Payment"), context);
+                                                },Colors.black,context),
+                                                MyWidgets.feature(Image.asset('assets/withdraw.png'), "Withdraw", () {
+                                                  MyWidgets.navigateP(Withdraw(), context);
+                                                },Colors.black,context),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                      );
-                                    });
-                                  },Colors.white,context),
-                                ]
-                            )
-                        ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  });
+                                }, Color(0xFF04123B), "Show More",Colors.white, context),
+                              ]
+                          )
                       ),
                     ],
                   ),
@@ -457,19 +504,19 @@ class _HomeState extends State<Home> {
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     topRight: Radius.circular(10)
-                                )
+                                ),
                             ),
                             child: ListView(
                               padding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
                               controller: scrollController,
                               children: [
                                 Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 140),
-                                  width: 100,
-                                  height: 5,
+                                  margin: EdgeInsets.symmetric(horizontal: 150),
+                                  width: 75,
+                                  height: 3,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(99),
-                                      color: Colors.grey[500]
+                                      color: Colors.grey[500]!.withOpacity(0.7)
                                   ),
                                 ),
                                 SizedBox(height: 10,),
@@ -480,9 +527,10 @@ class _HomeState extends State<Home> {
                                     children: [
                                       MyWidgets.text("Activities", 18.0, FontWeight.bold, Color(0xff111111),context,false),
                                       Container(
-                                        height: 40,
-
+                                        height: 25,
+                                        width: 25,
                                         child: IconButton(
+                                          padding: EdgeInsets.zero,
                                           onPressed: (){
                                             MyWidgets.navigateP(Transaction(), context);
                                           },
@@ -496,7 +544,7 @@ class _HomeState extends State<Home> {
                                   builder: (context,state){
                                     listSize = state.isVisible ? (MediaQuery.of(context).size.height * 0.35) : (MediaQuery.of(context).size.height * 0.575) - 170;
                                     return  SizedBox(
-                                      height: listSize,
+                                      height: listSize + 90,
                                       child: BlocBuilder<TransactionBloc,TransactionState>(
                                           builder: (context,state){
 

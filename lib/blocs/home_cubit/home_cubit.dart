@@ -4,7 +4,7 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeState(
     estimatedSwitch: false,
-    isHidden: false,
+    isHidden: true,
     featureOn: false,
     isVisible: false,
   ));

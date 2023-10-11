@@ -8,6 +8,7 @@ import 'package:spotmii/screens/settings.dart';
 import 'package:spotmii/screens/verification.dart';
 import 'package:spotmii/widgets.dart';
 import '../components/constants.dart';
+import '../models/localauth.dart';
 import 'account.dart';
 import 'home.dart';
 import 'login.dart';

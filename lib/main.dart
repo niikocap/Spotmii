@@ -41,6 +41,11 @@ void main() async{
   user = await preferences.getString("user");
   password = await preferences.getString("password");
   if(isLogin){
+    print(await Database(url: url).send({
+      "req" : "signIn",
+      "user" : user,
+      "password" : password,
+    }));
     currentUser =  SpotMiiUser.convert(jsonDecode(jsonDecode(await Database(url: url).send({
       "req" : "signIn",
       "user" : user,

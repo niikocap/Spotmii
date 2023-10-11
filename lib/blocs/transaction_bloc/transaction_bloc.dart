@@ -1,13 +1,10 @@
 import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:spotmii/database.dart';
 import '../../components/constants.dart';
-import '../../main.dart';
 import '../../models/transaction.dart';
-
 part 'transaction_event.dart';
 part 'transaction_state.dart';
 

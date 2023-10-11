@@ -6,8 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import '../components/constants.dart';
 import 'package:file_picker/file_picker.dart';
 import '../database.dart';
+import '../models/localauth.dart';
 import 'home.dart';
-import 'login.dart';
 
 class Verification extends StatefulWidget {
   const Verification({Key? key}) : super(key: key);

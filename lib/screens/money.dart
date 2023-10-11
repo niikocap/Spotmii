@@ -5,7 +5,6 @@ import 'package:forex_conversion/forex_conversion.dart';
 import 'package:pattern_formatter/numeric_formatter.dart';
 import 'package:spotmii/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:spotmii/screens/bank.dart';
-import 'package:spotmii/screens/login.dart';
 import 'package:spotmii/screens/payment.dart';
 import 'package:spotmii/screens/qrscanner.dart';
 import 'package:spotmii/screens/request_money.dart';
@@ -14,6 +13,7 @@ import '../components/constants.dart';
 import '../main.dart';
 import '../models/currency.dart';
 import '../database.dart';
+import '../models/localauth.dart';
 import 'cashin.dart';
 import 'home.dart';
 

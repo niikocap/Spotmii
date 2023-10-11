@@ -1,11 +1,14 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
+import 'package:spotmii/components/modalSheet.dart';
 import 'package:spotmii/database.dart';
+import 'package:spotmii/main.dart';
 import 'package:spotmii/widgets.dart';
-
 import '../components/constants.dart';
+import '../components/text.dart';
+import '../models/localauth.dart';
+import 'home.dart';
 
 class Limits extends StatefulWidget {
   const Limits({Key? key}) : super(key: key);
@@ -31,10 +34,13 @@ class LinkAccounts extends StatefulWidget {
 }
 
 class _LinkAccountsState extends State<LinkAccounts> {
-  Widget LTAccounts(type,typename,cardnumber,context){
+  Widget LTAccounts(type,typename,cardnumber,cardExp,cardCVV,context){
     return GestureDetector(
       onTap: (){
-        //MyWidgets.navigatePR(AccountCard(cardType:typename,cardNumber:cardnumber), context);
+        if(type == "cards"){
+          MyWidgets.navigateP(AccountCard(cardType:typename,cardNumber:cardnumber, cardName: typename, cardexp: cardExp, cardCVV: cardCVV,), context);
+        }
+
       },
       child: Container(
         decoration: BoxDecoration(
@@ -52,7 +58,7 @@ class _LinkAccountsState extends State<LinkAccounts> {
             SizedBox(
               height: 40,
               width: 40,
-              child:Image.asset(type) ,
+              child:Image.asset(type == "cards" ? "assets/21.png" : "assets/22.png") ,
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.65,
@@ -101,20 +107,23 @@ class _LinkAccountsState extends State<LinkAccounts> {
                 )
               ],
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 20,),
             FutureBuilder(
               future: Database(url: url).send({
-                "req" : "getCardBank"
+                "req" : "getCardBank",
+                "user" : currentUser!.userID
               }),
-              builder: (context,AsyncSnapshot<String> snapshot){
+              builder: (context,AsyncSnapshot<String>snapshot){
                 if(snapshot.hasData){
-                  var data = snapshot.data;
+                  var data = jsonDecode(snapshot.data!);
                   return SizedBox(
                     height: ( MediaQuery.of(context).size.height * 0.75 ) - 4.8,
                     child: ListView.builder(
-                      itemCount: jsonDecode(data!).length,
+                      itemCount: data!.length,
                       itemBuilder: (context,index){
-
+                        return Container(
+                          child: LTAccounts(data![index]["lacc_category"], data![index]["lacc_name"], data![index]["lacc_number"],data![index]["lacc_exp"],data![index]["lacc_cvv"],context),
+                        );
                       },
                     ),
                   );
@@ -125,7 +134,6 @@ class _LinkAccountsState extends State<LinkAccounts> {
                 }
               },
             ),
-            MyWidgets.myBottomBar(context, 2)
           ],
         ),
       ),
@@ -172,11 +180,11 @@ class _LinkABankState extends State<LinkABank> {
 
               }, context),
               SizedBox(height: 20,),
-              MyWidgets.textFormField(bankNameController, "Bank Code", Color(0xff04123B), (value){
+              MyWidgets.textFormField(bankCodeController, "Bank Code", Color(0xff04123B), (value){
 
               }, context),
               SizedBox(height: 20,),
-              MyWidgets.textFormField(bankNameController, "Account Number", Color(0xff04123B), (value){
+              MyWidgets.textFormField(accountNumberController, "Account Number", Color(0xff04123B), (value){
 
               }, context),
               SizedBox(height: 20,),
@@ -186,8 +194,42 @@ class _LinkABankState extends State<LinkABank> {
               SizedBox(
                 height: 40,
                 width: MediaQuery.of(context).size.width * 0.85,
-                child: MyWidgets.button("Link Your Bank", (){
-                  //todo backend link bank
+                child: MyWidgets.button("Link Your Bank", ()async{
+                  var isAuthenticated = await LocalAuthApi.authenticate();
+                  if(isAuthenticated){
+                    var response = await Database(url: url).send({
+                      "req" : "linkAccounts",
+                      "user" : currentUser!.userID,
+                      "category" : "banks",
+                      "name" : nameController.text,
+                      "bankNumber" : accountNumberController.text,
+                      "bankCode" : bankCodeController.text,
+                      "bankName" : bankNameController.text,
+                      "bankAddress" : billingController.text,
+                    });
+                    print(response);
+                    if(response == "\"success\""){
+                      bmSheet.success("Success!", "Your bank has been successfully added on your account.", FractionallySizedBox(
+                        widthFactor: 0.80,
+                        child:  MyWidgets.button("Home", (){
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                            return Home();
+                          }));
+                        }, Color(0xff04123B), context),
+                      ), context);
+                    }else{
+                      bmSheet.error("Link Failed!", "Bank linking failed due to some errors", FractionallySizedBox(
+                        widthFactor: 0.80,
+                        child:  MyWidgets.button("Home", (){
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                            return Home();
+                          }));
+                        }, Color(0xff04123B), context),
+                      ), context);
+                    }
+                  }else{
+
+                  }
                 }, Color(0xff04123B), context),
               )
 
@@ -310,8 +352,43 @@ class _LinkACardState extends State<LinkACard> {
               SizedBox(
                 height: 40,
                 width: MediaQuery.of(context).size.width * 0.85,
-                child: MyWidgets.button("Link a Card", (){
-                  //todo link a card backend
+                child: MyWidgets.button("Link a Card", ()async{
+                  final isAuthenticated = await LocalAuthApi.authenticate();
+                  if(isAuthenticated){
+                    var response = await Database(url: url).send({
+                      "req" : "linkAccounts",
+                      "user" : currentUser!.userID,
+                      "category" : "cards",
+                      "name" : nameController.text,
+                      "cardType" : dropdownvalue,
+                      "cardNumber" : cardNumberController.text,
+                      "cardExp" : expController.text,
+                      "cardCVV" : securityCodeController.text,
+                      "cardAddress" :billingController.text,
+                    });
+                    if(response == "\"success\""){
+                      bmSheet.success("Success!", "Your card has been successfully added on your account.", FractionallySizedBox(
+                        widthFactor: 0.80,
+                        child:  MyWidgets.button("Home", (){
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                            return Home();
+                          }));
+                        }, Color(0xff04123B), context),
+                      ), context);
+                    }else{
+                      bmSheet.error("Link Failed!", "Card linking failed due to some errors", FractionallySizedBox(
+                        widthFactor: 0.80,
+                        child:  MyWidgets.button("Home", (){
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                            return Home();
+                          }));
+                        }, Color(0xff04123B), context),
+                      ), context);
+                    }
+                  }else{
+                    //show fingerfrint auth error
+                  }
+
                 }, Color(0xff04123B), context),
               )
             ],

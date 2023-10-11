@@ -454,27 +454,24 @@ class MyWidgets{
     return GestureDetector(
       onTap: (){
         //MyWidgets.navigateP(PaymentDetails(howMuch: data["howmuch"], who: data["who"], account: data["account"], transaction: data["transaction"]), context);
+        message("UnderConstruction", context);
       },
       child: Container(
         height:70,
-        //width: MediaQuery.of(context).size.width * 0.9,
         margin: EdgeInsets.symmetric(horizontal: 0,vertical: 5),
         decoration: BoxDecoration(
-
             border: Border(
               bottom: BorderSide(width: 0.1,color: Colors.grey)
             )
-            //color: Color(0xffF1F1F1),
-            //borderRadius: BorderRadius.circular(5.0)
         ),
         child: Container(
           width: MediaQuery.of(context).size.width * 0.9,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Container(
-                height:50 - (MediaQuery.of(context).devicePixelRatio * 3),
-                width: 50 - (MediaQuery.of(context).devicePixelRatio * 3),
+                height:45,
+                width: 45,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(99),
                   color:Color(0xffF1F1F1),
@@ -488,8 +485,7 @@ class MyWidgets{
                 ),
               ),
               Container(
-
-                width: MediaQuery.of(context).size.width * 0.35,
+                width: (MediaQuery.of(context).size.width * 0.6) - 45,
                 alignment: Alignment.centerLeft,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -502,7 +498,6 @@ class MyWidgets{
               ),
               Container(
                 alignment: Alignment.centerRight,
-                width: MediaQuery.of(context).size.width * 0.30,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -667,7 +662,7 @@ class MyWidgets{
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: (MediaQuery.of(context).size.width * .9) / 6,
+            width: (MediaQuery.of(context).size.width * .9) / 5.5,
             child: icon,
           ),
           MyWidgets.text(text, 15.0, FontWeight.normal, color,context,false),

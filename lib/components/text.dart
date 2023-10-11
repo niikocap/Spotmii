@@ -12,6 +12,7 @@ class myStyle{
       fontSize: size,
       color: color != null ? color : Color(0xff111111),
       fontFamily: family != null ? "Poppins" : family,
+
     );
   }
 }

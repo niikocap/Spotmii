@@ -13,6 +13,7 @@ import 'package:spotmii/user_type/admin/admin.dart';
 import '../components/constants.dart';
 import '../main.dart';
 import 'package:spotmii/user_type/merchant/merchant.dart';
+import '../models/localauth.dart';
 import '../models/user_model.dart';
 import 'home.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -1021,41 +1022,3 @@ class HomePage extends StatelessWidget {
     ),
   );
 }
-
-class LocalAuthApi {
-  static final _auth = LocalAuthentication();
-
-  static Future<bool> hasBiometrics() async {
-    try {
-      return await _auth.canCheckBiometrics;
-    } on PlatformException {
-      return false;
-    }
-  }
-
-  static Future<List<BiometricType>> getBiometrics() async {
-    try {
-      return await _auth.getAvailableBiometrics();
-    } on PlatformException {
-      return <BiometricType>[];
-    }
-  }
-
-  static Future<bool> authenticate() async {
-    final isAvailable = await hasBiometrics();
-    if (!isAvailable) return false;
-
-    try {
-      return await _auth.authenticate(
-        localizedReason: 'Scan Fingerprint to Login',
-        options: const AuthenticationOptions(
-          useErrorDialogs: true,
-          stickyAuth: true,
-        ),
-      );
-    } on PlatformException {
-      return false;
-    }
-  }
-}
-
