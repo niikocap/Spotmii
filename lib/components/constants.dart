@@ -6,6 +6,8 @@ Color button = Color(0xff04123B);
 
 double MF(size,context){
   double ratio = MediaQuery.of(context).devicePixelRatio;
+  return MediaQuery.of(context).textScaleFactor * size;
+  /*
   if(ratio == 2.625){
     return (size / 2.75) * 2;
   }else if(ratio > 2.5){
@@ -13,4 +15,5 @@ double MF(size,context){
   }else{
     return ( size / 2.75 ) * ratio;
   }
+   */
 }

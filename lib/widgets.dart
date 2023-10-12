@@ -672,6 +672,7 @@ class MyWidgets{
   }
   static Widget sendAgain(callback,image){
     return IconButton(
+        padding: EdgeInsets.symmetric(horizontal: 5),
         onPressed: callback,
         icon: CircleAvatar(
           backgroundImage: image,

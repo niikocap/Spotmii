@@ -28,6 +28,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String balance = "${Currency.getSymbol(currentUser!.currency)} 1";
   String realBalance = "\$ ${currentUser!.balance.toStringAsFixed(2)}";
+  bool listenerAdded = false;
   //bool isVisible = false; //use for send again
   //bool isHidden = false; //use for balance showing
   //bool featureOn = false;
@@ -114,7 +115,7 @@ class _HomeState extends State<Home> {
       body: BlocProvider(
         create:(context) {
           var a = HomeCubit();
-          a.changeDragSize(h1 + padding);
+          a.changeDragSize(h1 + padding + 50);
           return a;
         },
         child: SafeArea(
@@ -123,300 +124,325 @@ class _HomeState extends State<Home> {
             color: Color(0xff050E29),
             child: Column(
               children: [
-                Container(
-                  color: Color(0xff050E29),
-                  height: MediaQuery.of(context).size.height * 0.35 - 15 ,
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 70,
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top:15,
-                              child: MyWidgets.text("SpotMii", 45, FontWeight.bold, Colors.white,context,false),
-                            ),
-                            Positioned(
-                              right: 0,
-                              top: 10,
-                              child: GestureDetector(
-                                onTap: (){
-                                  MyWidgets.navigateP(EditProfile(), context);
-                                },
-                                child: CircleAvatar(
-                                  backgroundImage: selectedImage,
-                                  radius: 30,
+                BlocBuilder<HomeCubit,HomeState>(
+                  builder: (context,state){
+                    return Container(
+                      color: Color(0xff050E29),
+                      height: state.estimatedSwitch ? MediaQuery.of(context).size.height * 0.35 - 15 : MediaQuery.of(context).size.height * 0.35 - 65 ,
+                      child: Column(
+                        children: [
+                          Container(
+                            height:120,
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  top:15,
+                                  child: MyWidgets.text("SpotMii", 45, FontWeight.bold, Colors.white,context,false),
                                 ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ), ///Spotmii Title
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * .9,
-                        height: 20,
-                        child: BlocBuilder<HomeCubit,HomeState>(
-                          builder: (context,state) {
-                            return Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.9,
-                              child: Row(
-                                  children: [
-                                    MyWidgets.text("Estimated Balance", 18.0,
-                                        FontWeight.normal, Colors.white, context,
-                                        false),
-                                    IconButton(
-                                      onPressed: () {
-                                        context.read<HomeCubit>().esSwitch();
-                                      },
-                                      padding: EdgeInsets.zero,
-                                      icon: Image.asset(
-                                        state.estimatedSwitch ? "assets/scroll_up.png" : "assets/drop_down.png",
-                                        height: 15,
-                                      ),
-                                    )
-                                  ]
-                              ),
-                            );
-                          }
-                        ),
-                      ), ///Estimated Balance and button
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: FutureBuilder(
-                            future: getRates(currentUser!.currency),
-                            builder: (context,snapshot){
-                              if(snapshot.hasData){
-                                var data = snapshot.data as Map;
-                                double estimated = Currency.getEstimated(data, currentUser!.currency);
-                                balance = "${Currency.getSymbol(currentUser!.currency)} ${estimated.toStringAsFixed(4)}";
-                                realBalance =  balance;
-                                return BlocBuilder<HomeCubit,HomeState>(
-                                    builder: (context,state){
-                                      return Row(
-                                        children: [
-                                          MyWidgets.text(balance, 35, FontWeight.normal, Colors.white,context,false),
-                                          SizedBox(width: 10,),
-                                          IconButton(
-                                            padding: EdgeInsets.zero,
-                                            constraints: BoxConstraints(),
-                                            onPressed: ()async{
-                                              int length = balance.length;
-                                              balance = "*";
-                                              context.read<HomeCubit>().hiddenSwitch();
-                                              if(state.isHidden){
-                                                for(int i=0;i<length-1;i++){
-                                                  balance += "*";
-                                                }
-                                              }else{
-                                                balance = realBalance;
-                                              }
-                                            },
-                                            icon: Icon(state.isHidden? Icons.visibility_off:Icons.remove_red_eye_outlined,color: Colors.white,size: 22,),
-                                          ),
-                                        ],
-                                      );
-                                    }
-                                );
-
-                              }else{
-                                return Text("");
-                              }
-
-                            }
-                        ),
-
-                      ), ///balance
-                      SizedBox(height: 10,),
-                      BlocBuilder<HomeCubit,HomeState>(
-                        builder: (context,state){
-                          return Visibility(
-                            visible: state.estimatedSwitch,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.9,
-                              height: 50,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: cwList.length,
-                                itemBuilder: (context,index){
-                                  cwList.sort((a, b) => b.amount.compareTo(a.amount));
-                                  return currencyWidget(cwList[index].amount, cwList[index].currencyText, cwList[index].directory);
-                                },
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(height: 10,),
-                      Container(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          height: 90,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children:[
-                                MyIcons.feature("assets/figma/send_money.png", (){
-                                  MyWidgets.navigateP(Send(), context);
-                                }, Color(0xFF04123B), "Send Money",Colors.white, context),
-                                MyIcons.feature("assets/figma/add_money.png", (){
-                                  MyWidgets.navigateP(CashInStore(), context);
-                                }, Color(0xFF04123B), "Add Money",Colors.white, context),
-                                MyIcons.feature("assets/figma/bank_transfer.png", (){
-                                  MyWidgets.navigateP(UnderConstruction(title: "Bank Transfer"), context);
-                                }, Color(0xFF04123B), "Add Money",Colors.white, context),
-                                MyIcons.feature("assets/figma/bills_payment.png", (){
-                                  MyWidgets.navigateP(UnderConstruction(title: "Bills Payment"), context);
-                                }, Color(0xFF04123B), "Bills Payment",Colors.white, context),
-                                MyIcons.feature("assets/figma/show_more.png", (){
-                                  showModalBottomSheet(context: context,isScrollControlled: true,barrierColor: Colors.black.withOpacity(0), builder: (context){
-                                    return Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: ( MediaQuery.of(context).size.height * 0.65 ),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10),
-                                            topRight: Radius.circular(10),
-                                          )
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          SizedBox(height: 10,),
-                                          Container(
-                                            margin: EdgeInsets.all(5),
-                                            height: 3,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                color: Color(0xff8A8A8A).withOpacity(0.5),
-                                                borderRadius: BorderRadius.circular(10)
-                                            ),
-
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.symmetric(vertical: 5,horizontal: 0),
-                                            width:MediaQuery.of(context).size.width * 0.9,
-                                            alignment:Alignment.centerLeft,
+                                Positioned(
+                                  right: 5,
+                                  top: 25,
+                                  child: GestureDetector(
+                                    onTap: (){
+                                      MyWidgets.navigateP(EditProfile(), context);
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundImage: selectedImage,
+                                      radius: 30,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 70,
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width * .9,
+                                    height: 20,
+                                    child: BlocBuilder<HomeCubit,HomeState>(
+                                        builder: (context,state) {
+                                          return Container(
+                                            width: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width * 0.9,
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                MyWidgets.text("My Favorites", 25,FontWeight.bold, Color(0xFF434343), context,false),
-                                              ],
-                                            )
-                                          ),
-                                          FutureBuilder(
-                                            future: Database(url: url).send({
-                                              "req" : "getFavorites"
-                                            }),
-                                            builder: (context,AsyncSnapshot<String> snapshot){
-                                              if(snapshot.hasData){
-                                                List data = jsonDecode(snapshot.data!);
-                                                return Container(
-                                                  width: MediaQuery.of(context).size.width * 0.95,
-                                                  height: 70,
-                                                  child: GridView.count(
-                                                    padding: EdgeInsets.zero,
-                                                    primary: false,
-                                                    childAspectRatio: 0.9,
-                                                    crossAxisSpacing: 1,
-                                                    mainAxisSpacing: 1,
-                                                    crossAxisCount: 5,
-                                                    children: <Widget>[
-                                                      ListView.builder(
-                                                        itemCount: data.length + 1,
-                                                        itemBuilder: (context,index){
-                                                          if(data!.length == index){
-                                                            return MyIcons.feature("assets/figma/add_favorites.png", (){
-                                                              MyWidgets.message("Feature to be added", context);
-                                                            }, Color(0xFFd6d6d6).withOpacity(0.2), "Add Favorites",Color(0xff111111), context);
-                                                          }else{
-                                                            return MyIcons.feature(data[index]["fav_image"], (){
-                                                              //todo create a redirector
-                                                            }, Color(0xFF04123B), data[index]["fav_name"],Color(0xff111111), context);
-                                                          }
+                                                children: [
+                                                  MyWidgets.text("Estimated Balance", 18.0,
+                                                      FontWeight.normal, Colors.white, context,
+                                                      false),
+                                                  IconButton(
+                                                    onPressed: () {
 
+                                                      if(!state.estimatedSwitch && state.isVisible){
+                                                        print("both on");
+                                                        context.read<HomeCubit>().changeDragSize(h1-padding-111);
+                                                      }else if(!state.estimatedSwitch){
+                                                        print("ES SWITCH");
+                                                        context.read<HomeCubit>().changeDragSize(h1-padding);
+                                                      }else if(state.isVisible && state.estimatedSwitch){
+                                                        print("IsVisible");
+                                                        context.read<HomeCubit>().changeDragSize(h1-padding-61);
+                                                      }else{
+                                                        print("Both off");
+                                                        context.read<HomeCubit>().changeDragSize(h1-padding+50);
+                                                      }
+                                                      context.read<HomeCubit>().esSwitch();
+                                                    },
+                                                    padding: EdgeInsets.zero,
+                                                    icon: Image.asset(
+                                                      state.estimatedSwitch ? "assets/scroll_up.png" : "assets/drop_down.png",
+                                                      height: 15,
+                                                    ),
+                                                  )
+                                                ]
+                                            ),
+                                          );
+                                        }
+                                    ),
+                                  ),
+                                ), ///Estimated Balance and button
+                                Positioned(
+                                  top :90,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width * 0.9,
+                                    child: FutureBuilder(
+                                        future: getRates(currentUser!.currency),
+                                        builder: (context,snapshot){
+                                          if(snapshot.hasData){
+                                            var data = snapshot.data as Map;
+                                            double estimated = Currency.getEstimated(data, currentUser!.currency);
+                                            balance = "${Currency.getSymbol(currentUser!.currency)} ${estimated.toStringAsFixed(4)}";
+                                            realBalance =  balance;
+                                            return BlocBuilder<HomeCubit,HomeState>(
+                                                builder: (context,state){
+                                                  return Row(
+                                                    children: [
+                                                      MyWidgets.text(balance, 35, FontWeight.normal, Colors.white,context,false),
+                                                      SizedBox(width: 10,),
+                                                      IconButton(
+                                                        padding: EdgeInsets.zero,
+                                                        constraints: BoxConstraints(),
+                                                        onPressed: ()async{
+                                                          int length = balance.length;
+                                                          balance = "*";
+                                                          context.read<HomeCubit>().hiddenSwitch();
+                                                          if(state.isHidden){
+                                                            for(int i=0;i<length-1;i++){
+                                                              balance += "*";
+                                                            }
+                                                          }else{
+                                                            balance = realBalance;
+                                                          }
                                                         },
+                                                        icon: Icon(state.isHidden? Icons.visibility_off:Icons.remove_red_eye_outlined,color: Colors.white,size: 22,),
                                                       ),
                                                     ],
-                                                  ),
-                                                );
-                                              }else{
-                                                return Center(
-                                                  child: CircularProgressIndicator(),
-                                                );
-                                              }
-                                            },
-                                          ),
-                                          SizedBox(height: 40,),
-                                          Container(
-                                              padding: EdgeInsets.symmetric(vertical: 5,horizontal: 0),
-                                              width:MediaQuery.of(context).size.width * 0.9,
-                                              alignment:Alignment.centerLeft,
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  MyWidgets.text("Features", 25,FontWeight.bold, Color(0xFF434343), context,false),
-                                                ],
+                                                  );
+                                                }
+                                            );
+
+                                          }else{
+                                            return Text("");
+                                          }
+
+                                        }
+                                    ),
+
+                                  ),
+                                ), ///balance
+                              ],
+                            ),
+                          ), ///Spotmii Title
+                          SizedBox(height: 5,),
+                          BlocBuilder<HomeCubit,HomeState>(
+                            builder: (context,state){
+                              return Visibility(
+                                visible: state.estimatedSwitch,
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width * 0.9,
+                                  height: 50,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: cwList.length,
+                                    itemBuilder: (context,index){
+                                      cwList.sort((a, b) => b.amount.compareTo(a.amount));
+                                      return currencyWidget(cwList[index].amount, cwList[index].currencyText, cwList[index].directory);
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          SizedBox(height: 17.5,),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              height: 90,
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children:[
+                                    MyIcons.feature("assets/figma/send_money.png", (){
+                                      MyWidgets.navigateP(Send(), context);
+                                    }, Color(0xFF04123B), "Send Money",Colors.white, context),
+                                    MyIcons.feature("assets/figma/add_money.png", (){
+                                      MyWidgets.navigateP(CashInStore(), context);
+                                    }, Color(0xFF04123B), "Add Money",Colors.white, context),
+                                    MyIcons.feature("assets/figma/bank_transfer.png", (){
+                                      MyWidgets.navigateP(UnderConstruction(title: "Bank Transfer"), context);
+                                    }, Color(0xFF04123B), "Add Money",Colors.white, context),
+                                    MyIcons.feature("assets/figma/bills_payment.png", (){
+                                      MyWidgets.navigateP(UnderConstruction(title: "Bills Payment"), context);
+                                    }, Color(0xFF04123B), "Bills Payment",Colors.white, context),
+                                    MyIcons.feature("assets/figma/show_more.png", (){
+                                      showModalBottomSheet(context: context,isScrollControlled: true,barrierColor: Colors.black.withOpacity(0), builder: (context){
+                                        return Container(
+                                          width: MediaQuery.of(context).size.width,
+                                          height: ( MediaQuery.of(context).size.height * 0.65 ),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(10),
+                                                topRight: Radius.circular(10),
                                               )
                                           ),
-                                          Container(
-                                            width: MediaQuery.of(context).size.width * 0.95,
-                                            height: ( MediaQuery.of(context).size.height * 0.40 ),
-                                            child: GridView.count(
-                                              padding: EdgeInsets.zero,
-                                              primary: false,
-                                              childAspectRatio: 0.9,
-                                              crossAxisSpacing: 1,
-                                              mainAxisSpacing: 1,
-                                              crossAxisCount: 5,
-                                              children: <Widget>[
-                                                MyIcons.feature("assets/figma/send_money.png", (){
-                                                  MyWidgets.navigateP(Send(), context);
-                                                }, Color(0xFF04123B), "Send Money", Color(0xff111111),context),
-                                                MyWidgets.feature(Image.asset('assets/6.png'), "Add Money", () {
-                                                  MyWidgets.navigateP(CashInStore(), context);
-                                                },Colors.black,context),
-                                                MyWidgets.feature(Image.asset('assets/7.png'), "Bank Transfer", () {
-                                                  MyWidgets.navigateP(UnderConstruction(title: "Bank"), context);
-                                                },Colors.black,context),
-                                                MyWidgets.feature(Image.asset('assets/8.png'), "Remittance", () {
-                                                  MyWidgets.navigateP(UnderConstruction(title: "Remittance"), context);
-                                                },Colors.black,context),
-                                                MyWidgets.feature(Image.asset('assets/request.png'), "Request", () {
-                                                  MyWidgets.navigateP(RequestMoney(), context);
-                                                },Colors.black,context),
-                                                MyWidgets.feature(Image.asset('assets/44.png'), "My Cards", () {
-                                                  MyWidgets.navigateP(LinkAccounts(), context);
-                                                },Colors.black,context),
-                                                MyWidgets.feature(Image.asset('assets/42.png'), "Currency", () {
-                                                  MyWidgets.navigateP(LiveCurrency(), context);
-                                                },Colors.black,context),
-                                                MyWidgets.feature(Image.asset('assets/41.png'), "Converter", () {
-                                                  MyWidgets.navigateP(ConvertMoney(), context);
-                                                },Colors.black,context),
-                                                MyWidgets.feature(Image.asset('assets/43.png'), "QR Code", () {
-                                                  MyWidgets.navigateP(QRScanner(), context);
-                                                },Colors.black,context),
-                                                MyWidgets.feature(Image.asset('assets/43.png'), "Bills Payment", () {
-                                                  MyWidgets.navigateP(UnderConstruction(title: "Bills Payment"), context);
-                                                },Colors.black,context),
-                                                MyWidgets.feature(Image.asset('assets/withdraw.png'), "Withdraw", () {
-                                                  MyWidgets.navigateP(Withdraw(), context);
-                                                },Colors.black,context),
-                                              ],
-                                            ),
+                                          child: Column(
+                                            children: [
+                                              SizedBox(height: 10,),
+                                              Container(
+                                                margin: EdgeInsets.all(5),
+                                                height: 3,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                    color: Color(0xff8A8A8A).withOpacity(0.5),
+                                                    borderRadius: BorderRadius.circular(10)
+                                                ),
+
+                                              ),
+                                              Container(
+                                                  padding: EdgeInsets.symmetric(vertical: 5,horizontal: 0),
+                                                  width:MediaQuery.of(context).size.width * 0.9,
+                                                  alignment:Alignment.centerLeft,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      MyWidgets.text("My Favorites", 25,FontWeight.bold, Color(0xFF434343), context,false),
+                                                    ],
+                                                  )
+                                              ),
+                                              FutureBuilder(
+                                                future: Database(url: url).send({
+                                                  "req" : "getFavorites"
+                                                }),
+                                                builder: (context,AsyncSnapshot<String> snapshot){
+                                                  if(snapshot.hasData){
+                                                    List data = jsonDecode(snapshot.data!);
+                                                    return Container(
+                                                      width: MediaQuery.of(context).size.width * 0.95,
+                                                      height: 70,
+                                                      child: GridView.count(
+                                                        padding: EdgeInsets.zero,
+                                                        primary: false,
+                                                        childAspectRatio: 0.9,
+                                                        crossAxisSpacing: 1,
+                                                        mainAxisSpacing: 1,
+                                                        crossAxisCount: 5,
+                                                        children: <Widget>[
+                                                          ListView.builder(
+                                                            itemCount: data.length + 1,
+                                                            itemBuilder: (context,index){
+                                                              if(data!.length == index){
+                                                                return MyIcons.feature("assets/figma/add_favorites.png", (){
+                                                                  MyWidgets.message("Feature to be added", context);
+                                                                }, Color(0xFFd6d6d6).withOpacity(0.2), "Add Favorites",Color(0xff111111), context);
+                                                              }else{
+                                                                return MyIcons.feature(data[index]["fav_image"], (){
+                                                                  //todo create a redirector
+                                                                }, Color(0xFF04123B), data[index]["fav_name"],Color(0xff111111), context);
+                                                              }
+
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    );
+                                                  }else{
+                                                    return Center(
+                                                      child: CircularProgressIndicator(),
+                                                    );
+                                                  }
+                                                },
+                                              ),
+                                              SizedBox(height: 40,),
+                                              Container(
+                                                  padding: EdgeInsets.symmetric(vertical: 5,horizontal: 0),
+                                                  width:MediaQuery.of(context).size.width * 0.9,
+                                                  alignment:Alignment.centerLeft,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      MyWidgets.text("Features", 25,FontWeight.bold, Color(0xFF434343), context,false),
+                                                    ],
+                                                  )
+                                              ),
+                                              Container(
+                                                width: MediaQuery.of(context).size.width * 0.95,
+                                                height: ( MediaQuery.of(context).size.height * 0.40 ),
+                                                child: GridView.count(
+                                                  padding: EdgeInsets.zero,
+                                                  primary: false,
+                                                  childAspectRatio: 0.9,
+                                                  crossAxisSpacing: 1,
+                                                  mainAxisSpacing: 1,
+                                                  crossAxisCount: 5,
+                                                  children: <Widget>[
+                                                    MyIcons.feature("assets/figma/send_money.png", (){
+                                                      MyWidgets.navigateP(Send(), context);
+                                                    }, Color(0xFF04123B), "Send Money", Color(0xff111111),context),
+                                                    MyWidgets.feature(Image.asset('assets/6.png'), "Add Money", () {
+                                                      MyWidgets.navigateP(CashInStore(), context);
+                                                    },Colors.black,context),
+                                                    MyWidgets.feature(Image.asset('assets/7.png'), "Bank Transfer", () {
+                                                      MyWidgets.navigateP(UnderConstruction(title: "Bank"), context);
+                                                    },Colors.black,context),
+                                                    MyWidgets.feature(Image.asset('assets/8.png'), "Remittance", () {
+                                                      MyWidgets.navigateP(UnderConstruction(title: "Remittance"), context);
+                                                    },Colors.black,context),
+                                                    MyWidgets.feature(Image.asset('assets/request.png'), "Request", () {
+                                                      MyWidgets.navigateP(RequestMoney(), context);
+                                                    },Colors.black,context),
+                                                    MyWidgets.feature(Image.asset('assets/44.png'), "My Cards", () {
+                                                      MyWidgets.navigateP(LinkAccounts(), context);
+                                                    },Colors.black,context),
+                                                    MyWidgets.feature(Image.asset('assets/42.png'), "Currency", () {
+                                                      MyWidgets.navigateP(LiveCurrency(), context);
+                                                    },Colors.black,context),
+                                                    MyWidgets.feature(Image.asset('assets/41.png'), "Converter", () {
+                                                      MyWidgets.navigateP(ConvertMoney(), context);
+                                                    },Colors.black,context),
+                                                    MyWidgets.feature(Image.asset('assets/43.png'), "QR Code", () {
+                                                      MyWidgets.navigateP(QRScanner(), context);
+                                                    },Colors.black,context),
+                                                    MyWidgets.feature(Image.asset('assets/43.png'), "Bills Payment", () {
+                                                      MyWidgets.navigateP(UnderConstruction(title: "Bills Payment"), context);
+                                                    },Colors.black,context),
+                                                    MyWidgets.feature(Image.asset('assets/withdraw.png'), "Withdraw", () {
+                                                      MyWidgets.navigateP(Withdraw(), context);
+                                                    },Colors.black,context),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                    );
-                                  });
-                                }, Color(0xFF04123B), "Show More",Colors.white, context),
-                              ]
-                          )
+                                        );
+                                      });
+                                    }, Color(0xFF04123B), "Show More",Colors.white, context),
+                                  ]
+                              )
+                          ),
+
+                        ],
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
                 BlocBuilder<HomeCubit,HomeState>(
                   builder: (context,state){
@@ -424,26 +450,23 @@ class _HomeState extends State<Home> {
                       visible: state.isVisible,
                       child: Container(
                         height: ( MediaQuery.of(context).size.height * 0.13 ),
+                        width: MediaQuery.of(context).size.width * 0.9,
                         child: Column(
                           children: [
                             SizedBox(height: 10,),
                             Container(
                                 width: MediaQuery.of(context).size.width * 0.9,
                                 alignment:Alignment.centerLeft,
-                                child: MyWidgets.text("Send Again", 17.0, FontWeight.bold, Colors.white, context,false)
+                                child: MyWidgets.text("Send Again", 16.0, FontWeight.bold, Colors.white, context,false)
                             ),
+                            SizedBox(height: 5,),
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.9,
-                              height: 70,
+                              height: 60,
                               child: ListView(
                                 scrollDirection: Axis.horizontal,
                                 children: [
-                                  MyWidgets.sendAgain(
-                                        (){
-                                      //recipient.text = "12456789";
-                                    },
-                                    NetworkImage("https://i.pravatar.cc/300"),
-                                  ),
+
                                   MyWidgets.sendAgain(
                                         (){
                                       //recipient.text = "12456789";
@@ -488,16 +511,37 @@ class _HomeState extends State<Home> {
                         initialChildSize: 1,
                         controller: _dragScroll,
                         builder: (BuildContext context, ScrollController scrollController) {
-                          _dragScroll.addListener((){
-                            if(_dragScroll.size == 1){
-                              context.read<HomeCubit>().visibleSwitch(false);
-                              context.read<HomeCubit>().changeDragSize(h1-padding);
-                            }else if(_dragScroll.size == 0.80){
-                              context.read<HomeCubit>().visibleSwitch(true);
-                              context.read<HomeCubit>().changeDragSize(h1-111);
-                              _dragScroll.jumpTo(0.99999);
-                            }
-                          });
+                          if(!listenerAdded){
+                            //listenerAdded = true;
+                            _dragScroll.addListener((){
+
+                              if(state.estimatedSwitch){
+                                print(_dragScroll.size);
+                                if(_dragScroll.size == 1){
+                                  context.read<HomeCubit>().changeDragSize(h1-padding);
+                                  context.read<HomeCubit>().visibleSwitch(false);
+                                }else if(_dragScroll.size <= 0.85){
+                                  print("0.81");
+                                  context.read<HomeCubit>().changeDragSize(h1 -padding- 111);
+                                  context.read<HomeCubit>().visibleSwitch(true);
+                                  _dragScroll.jumpTo(0.99999);
+                                }
+                              }else{
+                                if(_dragScroll.size == 1){
+                                  context.read<HomeCubit>().changeDragSize(h1-padding+50);
+                                  context.read<HomeCubit>().visibleSwitch(false);
+                                }else if(_dragScroll.size <= 0.81){
+                                  context.read<HomeCubit>().changeDragSize(h1 - 61);
+                                  context.read<HomeCubit>().visibleSwitch(true);
+                                  _dragScroll.jumpTo(0.99999);
+                                }else if(_dragScroll.size == 0.80){
+                                  context.read<HomeCubit>().changeDragSize(h1 - 61);
+                                  context.read<HomeCubit>().visibleSwitch(true);
+                                  _dragScroll.jumpTo(0.99999);
+                                }
+                              }
+                            });
+                          }
                           return Container(
                             decoration: BoxDecoration(
                                 color: Colors.white,
