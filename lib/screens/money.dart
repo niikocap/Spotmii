@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
@@ -10,6 +12,7 @@ import 'package:spotmii/screens/qrscanner.dart';
 import 'package:spotmii/screens/request_money.dart';
 import 'package:spotmii/widgets.dart';
 import '../components/constants.dart';
+import '../components/text.dart';
 import '../main.dart';
 import '../models/currency.dart';
 import '../database.dart';
@@ -33,6 +36,7 @@ class _SendState extends State<Send> {
   var amount = TextEditingController();
   var note = TextEditingController();
   var currency = TextEditingController();
+  var myBal = "C¥" + currentUser!.cny.toString();
   final FlutterContactPicker _contactPicker = new FlutterContactPicker();
   late Contact _contact;
   final maxInput = ThousandsFormatter()
@@ -52,7 +56,7 @@ class _SendState extends State<Send> {
       alignedDropdown: true,
       child: DropdownButton<String>(
         underline: Container(height: 0,),
-        items: {"PHP", 'U\$', '€','¥','£','Fr','A\$','C¥'}
+        items: {"PHP", '\$', '€','¥','£','Fr','A\$','C¥'}
             .map<DropdownMenuItem<String>>(
               (e) => DropdownMenuItem(
               alignment: Alignment.center   ,
@@ -78,6 +82,7 @@ class _SendState extends State<Send> {
             setState(() {
               selectedCurrency = value;
               currency.text = Currency.getText(value);
+              myBal = value + " " + currentUser!.getCurrency(Currency.getCode(Currency.getText(value))).toString();
             });
           }
         },
@@ -94,46 +99,43 @@ class _SendState extends State<Send> {
                   SizedBox(height: 10,),
                   Visibility(visible:false,child: Container(width: MediaQuery.of(context).size.width * 0.9,padding:EdgeInsets.all(10),alignment:Alignment.centerLeft,child: MyWidgets.text("Send Again", 20.0, FontWeight.bold, Color(0xff1B1B1B),context,false))),
                   Visibility(
-                    visible: false,
-                    child: Container(
-                      height: 70,
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      child: ListView(
-                        padding: EdgeInsets.zero,
-                        scrollDirection: Axis.horizontal,
-                        children: <Widget>[
-                          //todo load latest send
-                          MyWidgets.sendAgain(
-                                (){
-                              recipient.text = "12456789";
-                            },
-                            NetworkImage("https://i.pravatar.cc/300"),
-                          ),
-                          MyWidgets.sendAgain(
-                                (){
-                              recipient.text = "12456789";
-                            },
-                            NetworkImage("https://i.pravatar.cc/299"),
-                          ),
-                          MyWidgets.sendAgain(
-                                (){
-                              recipient.text = "12456789";
-                            },
-                            NetworkImage("https://i.pravatar.cc/298"),
-                          ),
-                          MyWidgets.sendAgain(
-                                (){
-                              recipient.text = "12456789";
-                            },
-                            NetworkImage("https://i.pravatar.cc/301"),
-                          ),MyWidgets.sendAgain(
-                                (){
-                              recipient.text = "12456789";
-                            },
-                            NetworkImage("https://i.pravatar.cc/302"),
-                          )
-                        ],
+                    visible: widget.recipient != null ? false : true,
+                    child: FutureBuilder(
+                      future: Database(url:url).send(
+                          {
+                            "req" : "getRecent",
+                            "what" : "sent",
+                            "user" : currentUser!.userID,
+                          }
                       ),
+                      builder: (context,AsyncSnapshot<String> snapshot){
+                        if(snapshot.hasData){
+                          var data = jsonDecode(snapshot.data!);
+                          return Container(
+                            height: 70,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount:  data.length,
+                              itemBuilder: (context,index){
+                                if(data.length > 0){
+                                  return MyWidgets.sendAgain(
+                                        (){
+                                      recipient.text = data[index]["ts_to"];
+                                    },
+                                    NetworkImage("https://i.pravatar.cc/301"),
+                                  );
+                                }else{
+                                  return Container();
+                                }
+                              },
+                            ),
+                          );
+                        }else{
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
                     ),
                   ),
                 ],
@@ -149,7 +151,7 @@ class _SendState extends State<Send> {
                   boxShadow: [
                     BoxShadow(
                         offset: Offset(0,6),
-                        color: Colors.black54,
+                        color: Colors.black.withOpacity(0.3),
                         blurRadius: 5,
                         spreadRadius: -5
                     ),
@@ -217,7 +219,7 @@ class _SendState extends State<Send> {
                     boxShadow: [
                       BoxShadow(
                           offset: Offset(0,6),
-                          color: Colors.black54,
+                          color: Colors.black.withOpacity(0.3),
                           blurRadius: 5,
                           spreadRadius: -5
                       ),
@@ -275,7 +277,7 @@ class _SendState extends State<Send> {
                     boxShadow: [
                       BoxShadow(
                           offset: Offset(0,6),
-                          color: Colors.black54,
+                          color: Colors.black.withOpacity(0.3),
                           blurRadius: 5,
                           spreadRadius: -5
                       ),
@@ -323,6 +325,12 @@ class _SendState extends State<Send> {
                   ],
                 ),
               ),
+              SizedBox(height: 2.5,),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                alignment: Alignment.centerLeft,
+                child: myText(text: 'You have ${myBal} in your wallet',style:myStyle(size:MF(17,context),).create(),).create(),
+              ),
               SizedBox(height: 5,),
               Container(
                 height: 90,
@@ -334,7 +342,7 @@ class _SendState extends State<Send> {
                     boxShadow: [
                       BoxShadow(
                           offset: Offset(0,6),
-                          color: Colors.black54,
+                          color: Colors.black.withOpacity(0.3),
                           blurRadius: 5,
                           spreadRadius: -5
                       ),
@@ -440,12 +448,21 @@ class _SendState extends State<Send> {
                   }
                 }, Color(0xff04123B),context)
               ),
-              SizedBox(height: 30,),
               TextButton(
                   onPressed: (){
                     MyWidgets.navigateP(QRScanner(), context);
                   },
-                  child: MyWidgets.text("Send Money via QR Code", 16.0, FontWeight.bold, Color(0xff1B1B1B),context,false)
+                  child: myText(
+                      text:"Send Money via QR Code",
+                      style:TextStyle(
+                          fontSize: MF(17,context),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Poppins",
+                          decoration: TextDecoration.underline,
+                          color:Color(0xff1B1B1B)
+                      )
+                  ).create(),
+                  //MyWidgets.text(, 16.0, FontWeight.bold, Color(0xff1B1B1B),context,false)
               )
 
             ],
@@ -520,52 +537,52 @@ class _RequestState extends State<Request> {
         child: Container(
           child: Column(
             children: [
+
               Column(
                 children: [
                   SizedBox(height: 10,),
                   Visibility(visible:false,child: Container(width: MediaQuery.of(context).size.width * 0.9,padding:EdgeInsets.all(10),alignment:Alignment.centerLeft,child: MyWidgets.text("Request Again", 20.0, FontWeight.bold, Color(0xff1B1B1B),context,false))),
                   Visibility(
-                    visible: false,
-                    child: Container(
-                      height: 70,
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      child: ListView(
-                        padding: EdgeInsets.zero,
-                        scrollDirection: Axis.horizontal,
-                        children: <Widget>[
-                          MyWidgets.sendAgain(
-                                (){
-                              recipient.text = "12456789";
-                            },
-                            NetworkImage("https://i.pravatar.cc/300"),
-                          ),
-                          MyWidgets.sendAgain(
-                                (){
-                              recipient.text = "12456789";
-                            },
-                            NetworkImage("https://i.pravatar.cc/299"),
-                          ),
-                          MyWidgets.sendAgain(
-                                (){
-                              recipient.text = "12456789";
-                            },
-                            NetworkImage("https://i.pravatar.cc/298"),
-                          ),
-                          MyWidgets.sendAgain(
-                                (){
-                              recipient.text = "12456789";
-                            },
-                            NetworkImage("https://i.pravatar.cc/301"),
-                          ),MyWidgets.sendAgain(
-                                (){
-                              recipient.text = "12456789";
-                            },
-                            NetworkImage("https://i.pravatar.cc/302"),
-                          )
-                        ],
+                    visible: true,
+                    child: FutureBuilder(
+                      future: Database(url:url).send(
+                          {
+                            "req" : "getRecent",
+                            "what" : "received",
+                            "user" : currentUser!.userID,
+                          }
                       ),
+                      builder: (context,AsyncSnapshot<String> snapshot){
+                        if(snapshot.hasData){
+                          var data = jsonDecode(snapshot.data!);
+                          if(data.length > 0){
+                            return Container(
+                              height: 70,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount:  data.length,
+                                itemBuilder: (context,index){
+                                  return MyWidgets.sendAgain(
+                                        (){
+                                      recipient.text = data[index]["ts_to"];
+                                    },
+                                    NetworkImage("https://i.pravatar.cc/301"),
+                                  );
+                                },
+                              ),
+                            );
+                          }else{
+                            return Container();
+                          }
+                        }else{
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
                     ),
                   ),
+
                 ],
               ),
               Container(
@@ -1526,9 +1543,16 @@ class _ConvertMoneyState extends State<ConvertMoney> {
   var _selectedCurrency1 = _supportedCurrency1.entries.last.key;
   String currency1 = "Philippine Peso";
   String currency2 = "Chinese Yuan";
+  var cur1 = "PHP " + currentUser!.php.toString();
+  var cur2 = "C¥ " + currentUser!.cny.toString();
   String result = "0 PHP = 0 CNY";
   var converted;
   var amountController = TextEditingController();
+  @override
+  void initState() {
+    amountController.text = "1";
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1628,22 +1652,29 @@ class _ConvertMoneyState extends State<ConvertMoney> {
                                   }
                                   if(value == 'PHP'){
                                     currency1 = "Philippine Peso";
+                                    cur1 = value! + " " + currentUser!.php.toString();
                                   }else if(value == '\$'){
                                     currency1 = "US Dollar";
+                                    cur1 = value! + " " + currentUser!.usd.toString();
                                   }else if(value == '€'){
                                     currency1 = "Euro";
+                                    cur1 = value! + " " + currentUser!.eur.toString();
                                   }else if(value == '£'){
                                     currency1 = "Pound";
+                                    cur1 = value! + " " + currentUser!.gbp.toString();
                                   }else if(value == 'A\$'){
                                     currency1 = "Australian Dollar";
+                                    cur1 = value! + " " + currentUser!.aud.toString();
                                   }else if(value == 'Fr'){
                                     currency1 = "Swiss Franc";
+                                    cur1 = value! + " " + currentUser!.chf.toString();
                                   }else if(value == 'C¥'){
                                     currency1 = "Chinese Yuan";
+                                    cur1 = value! + " " + currentUser!.cny.toString();
                                   }else if(value == '¥'){
                                     currency1 = "Japanese Yen";
+                                    cur1 = value! + " " + currentUser!.jpy.toString();
                                   }
-                                  //converted = await Database.convertCurrency(Currency.getCode(currency1), Currency.getCode(currency2), amountController.text);
                                   converted = await Forex().getCurrencyConverted(sourceCurrency: Currency.getCode(currency1),destinationCurrency:  Currency.getCode(currency2),sourceAmount: double.parse(amountController.text));
                                   setState(() {
                                     result = amountController.text + " "  + currency1 + " = " + converted.toString() + " "  + currency2;
@@ -1656,6 +1687,12 @@ class _ConvertMoneyState extends State<ConvertMoney> {
                       )
                   )
                 ],
+              ),
+              SizedBox(height: 2.5,),
+              Container(
+                alignment: Alignment.centerLeft,
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: myText(text:"You have ${cur1} on your wallet",style:myStyle(size:MF(16,context),).create(),).create(),
               ),
               SizedBox(height: 15,),
               Column(

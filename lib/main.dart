@@ -8,6 +8,7 @@ import 'package:spotmii/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:spotmii/blocs/user_bloc/user_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotmii/database.dart';
+import 'package:spotmii/screens/home.dart';
 import 'package:spotmii/screens/login.dart';
 import 'blocs/currency_bloc/currency_bloc.dart';
 import 'components/constants.dart';
@@ -97,7 +98,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
             fontFamily: "Poppins"
         ),
-        home: !isLogin  ? Login() : FingerprintPage(),
+        home: !isLogin  ? Login() : Home(),
       ),
     );
   }

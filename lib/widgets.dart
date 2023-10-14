@@ -393,8 +393,6 @@ class MyWidgets{
       context,
       PageRouteBuilder(
         pageBuilder: (_, __, ___) => to,
-        transitionDuration: Duration(milliseconds: 50),
-        transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c),
       ),
     );
   }
@@ -403,8 +401,6 @@ class MyWidgets{
       context,
       PageRouteBuilder(
         pageBuilder: (_, __, ___) => to,
-        transitionDuration: Duration(milliseconds: 50),
-        transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c),
       ),
     );
   }
@@ -485,7 +481,7 @@ class MyWidgets{
                 ),
               ),
               Container(
-                width: (MediaQuery.of(context).size.width * 0.6) - 45,
+                width: (MediaQuery.of(context).size.width * 0.40),
                 alignment: Alignment.centerLeft,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -497,6 +493,7 @@ class MyWidgets{
                 ),
               ),
               Container(
+                //width: (MediaQuery.of(context).size.width * 0.35),
                 alignment: Alignment.centerRight,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

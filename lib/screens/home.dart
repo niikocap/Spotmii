@@ -28,7 +28,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String balance = "${Currency.getSymbol(currentUser!.currency)} 1";
   String realBalance = "\$ ${currentUser!.balance.toStringAsFixed(2)}";
-  bool listenerAdded = false;
+  bool listenerAdded = false,esSwitch = false;
+  double dragScrollSize = 1,h1 = 0;
+
   //bool isVisible = false; //use for send again
   //bool isHidden = false; //use for balance showing
   //bool featureOn = false;
@@ -55,6 +57,7 @@ class _HomeState extends State<Home> {
   }
   @override
   void initState() {
+
     super.initState();
   }
   getRates(currency)async{
@@ -70,8 +73,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     //dragSize = isVisible ? (MediaQuery.of(context).size.height * 0.35) : (MediaQuery.of(context).size.height * 0.575) - 170;
-    var h1 = (MediaQuery.of(context).size.height * 0.575) + 15 - MediaQuery.of(context).viewPadding.top - MediaQuery.of(context).viewPadding.bottom;
+    //var h1 = (MediaQuery.of(context).size.height * 0.575) + 15 - MediaQuery.of(context).viewPadding.top - MediaQuery.of(context).viewPadding.bottom;
     var padding = MediaQuery.of(context).viewPadding.bottom;
+    h1 = (MediaQuery.of(context).size.height - 250 - MediaQuery.of(context).viewPadding.bottom - MediaQuery.of(context).viewPadding.top)-( MediaQuery.of(context).size.height * 0.075);
     var selectedImage = currentUser!.userPic != "" ? NetworkImage("https://app.spotmii.com.au/uploads/" + currentUser!.userPic) : NetworkImage("https://digitalfinger.id/wp-content/uploads/2019/12/no-image-available-icon-6.png");
     currencyWidget(amount,type,image){
       return Container(
@@ -115,7 +119,7 @@ class _HomeState extends State<Home> {
       body: BlocProvider(
         create:(context) {
           var a = HomeCubit();
-          a.changeDragSize(h1 + padding + 50);
+          a.changeDragSize(h1);
           return a;
         },
         child: SafeArea(
@@ -128,128 +132,114 @@ class _HomeState extends State<Home> {
                   builder: (context,state){
                     return Container(
                       color: Color(0xff050E29),
-                      height: state.estimatedSwitch ? MediaQuery.of(context).size.height * 0.35 - 15 : MediaQuery.of(context).size.height * 0.35 - 65 ,
+                      height: state.estimatedSwitch ? 290 : 250,
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
+                          SizedBox(height: 10,),
                           Container(
-                            height:120,
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            child: Stack(
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Positioned(
-                                  top:15,
-                                  child: MyWidgets.text("SpotMii", 45, FontWeight.bold, Colors.white,context,false),
-                                ),
-                                Positioned(
-                                  right: 5,
-                                  top: 25,
-                                  child: GestureDetector(
-                                    onTap: (){
-                                      MyWidgets.navigateP(EditProfile(), context);
-                                    },
-                                    child: CircleAvatar(
-                                      backgroundImage: selectedImage,
-                                      radius: 30,
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 70,
-                                  child: SizedBox(
-                                    width: MediaQuery.of(context).size.width * .9,
-                                    height: 20,
-                                    child: BlocBuilder<HomeCubit,HomeState>(
-                                        builder: (context,state) {
-                                          return Container(
-                                            width: MediaQuery
-                                                .of(context)
-                                                .size
-                                                .width * 0.9,
-                                            child: Row(
-                                                children: [
-                                                  MyWidgets.text("Estimated Balance", 18.0,
-                                                      FontWeight.normal, Colors.white, context,
-                                                      false),
-                                                  IconButton(
-                                                    onPressed: () {
 
-                                                      if(!state.estimatedSwitch && state.isVisible){
-                                                        print("both on");
-                                                        context.read<HomeCubit>().changeDragSize(h1-padding-111);
-                                                      }else if(!state.estimatedSwitch){
-                                                        print("ES SWITCH");
-                                                        context.read<HomeCubit>().changeDragSize(h1-padding);
-                                                      }else if(state.isVisible && state.estimatedSwitch){
-                                                        print("IsVisible");
-                                                        context.read<HomeCubit>().changeDragSize(h1-padding-61);
-                                                      }else{
-                                                        print("Both off");
-                                                        context.read<HomeCubit>().changeDragSize(h1-padding+50);
-                                                      }
-                                                      context.read<HomeCubit>().esSwitch();
-                                                    },
-                                                    padding: EdgeInsets.zero,
-                                                    icon: Image.asset(
-                                                      state.estimatedSwitch ? "assets/scroll_up.png" : "assets/drop_down.png",
-                                                      height: 15,
-                                                    ),
-                                                  )
-                                                ]
-                                            ),
-                                          );
-                                        }
+                                Column(
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      width:MediaQuery.of(context).size.width * 0.5,
+                                      child: MyWidgets.text("SpotMii", 45, FontWeight.bold, Colors.white,context,false),
                                     ),
-                                  ),
-                                ), ///Estimated Balance and button
-                                Positioned(
-                                  top :90,
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width * 0.9,
-                                    child: FutureBuilder(
-                                        future: getRates(currentUser!.currency),
-                                        builder: (context,snapshot){
-                                          if(snapshot.hasData){
-                                            var data = snapshot.data as Map;
-                                            double estimated = Currency.getEstimated(data, currentUser!.currency);
-                                            balance = "${Currency.getSymbol(currentUser!.currency)} ${estimated.toStringAsFixed(4)}";
-                                            realBalance =  balance;
-                                            return BlocBuilder<HomeCubit,HomeState>(
-                                                builder: (context,state){
-                                                  return Row(
-                                                    children: [
-                                                      MyWidgets.text(balance, 35, FontWeight.normal, Colors.white,context,false),
-                                                      SizedBox(width: 10,),
-                                                      IconButton(
-                                                        padding: EdgeInsets.zero,
-                                                        constraints: BoxConstraints(),
-                                                        onPressed: ()async{
-                                                          int length = balance.length;
-                                                          balance = "*";
-                                                          context.read<HomeCubit>().hiddenSwitch();
-                                                          if(state.isHidden){
-                                                            for(int i=0;i<length-1;i++){
-                                                              balance += "*";
-                                                            }
-                                                          }else{
-                                                            balance = realBalance;
-                                                          }
-                                                        },
-                                                        icon: Icon(state.isHidden? Icons.visibility_off:Icons.remove_red_eye_outlined,color: Colors.white,size: 22,),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width * .5,
+                                      height: 20,
+                                      child: BlocBuilder<HomeCubit,HomeState>(
+                                          builder: (context,state) {
+                                            return Container(
+                                              width: MediaQuery
+                                                  .of(context)
+                                                  .size
+                                                  .width * 0.9,
+                                              child: Row(
+                                                  children: [
+                                                    MyWidgets.text("Estimated Balance", 18.0,
+                                                        FontWeight.normal, Colors.white, context,
+                                                        false),
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        if(!state.estimatedSwitch && state.isVisible){
+                                                          context.read<HomeCubit>().changeDragSize(h1-140);
+                                                        }else if(!state.estimatedSwitch){
+                                                          context.read<HomeCubit>().changeDragSize(h1-40);
+                                                        }else if(state.isVisible && state.estimatedSwitch){
+                                                          context.read<HomeCubit>().changeDragSize(h1-100);
+                                                        }else{
+                                                          context.read<HomeCubit>().changeDragSize(h1);
+                                                        }
+                                                        context.read<HomeCubit>().esSwitch();
+                                                      },
+                                                      padding: EdgeInsets.zero,
+                                                      icon: Image.asset(
+                                                        state.estimatedSwitch ? "assets/scroll_up.png" : "assets/drop_down.png",
+                                                        height: 15,
                                                       ),
-                                                    ],
-                                                  );
-                                                }
+                                                    )
+                                                  ]
+                                              ),
                                             );
-
-                                          }else{
-                                            return Text("");
                                           }
+                                      ),
+                                    ), ///Estimated Balance and button
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.5,
+                                      child: FutureBuilder(
+                                          future: getRates(currentUser!.currency),
+                                          builder: (context,snapshot){
+                                            if(snapshot.hasData){
+                                              var data = snapshot.data as Map;
+                                              double estimated = Currency.getEstimated(data, currentUser!.currency);
+                                              balance = "${Currency.getSymbol(currentUser!.currency)} ${estimated.toStringAsFixed(4)}";
+                                              realBalance =  balance;
+                                              return BlocBuilder<HomeCubit,HomeState>(
+                                                  builder: (context,state){
+                                                    balance = state.isHidden ? "******" : realBalance;
+                                                    return Row(
+                                                      children: [
+                                                        MyWidgets.text(balance, 35, FontWeight.normal, Colors.white,context,false),
+                                                        SizedBox(width: 10,),
+                                                        IconButton(
+                                                          padding: EdgeInsets.zero,
+                                                          constraints: BoxConstraints(),
+                                                          onPressed: ()async{
+                                                            context.read<HomeCubit>().hiddenSwitch();
+                                                          },
+                                                          icon: Icon(state.isHidden? Icons.visibility_off:Icons.remove_red_eye_outlined,color: Colors.white,size: 17.5,),
+                                                    ),
+                                                      ],
+                                                    );
+                                                  }
+                                              );
 
-                                        }
-                                    ),
+                                            }else{
+                                              return Text("");
+                                            }
 
+                                          }
+                                      ),
+
+                                    ), ///balance
+                                  ],
+                                ),
+                                GestureDetector(
+                                  onTap: (){
+                                    MyWidgets.navigateP(EditProfile(), context);
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundImage: selectedImage,
+                                    radius: 30,
                                   ),
-                                ), ///balance
+                                ),
+
                               ],
                             ),
                           ), ///Spotmii Title
@@ -273,12 +263,12 @@ class _HomeState extends State<Home> {
                               );
                             },
                           ),
-                          SizedBox(height: 17.5,),
+                          SizedBox(height: 12.5,),
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.9,
                               height: 90,
                               child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  //mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children:[
                                     MyIcons.feature("assets/figma/send_money.png", (){
                                       MyWidgets.navigateP(Send(), context);
@@ -288,7 +278,7 @@ class _HomeState extends State<Home> {
                                     }, Color(0xFF04123B), "Add Money",Colors.white, context),
                                     MyIcons.feature("assets/figma/bank_transfer.png", (){
                                       MyWidgets.navigateP(UnderConstruction(title: "Bank Transfer"), context);
-                                    }, Color(0xFF04123B), "Add Money",Colors.white, context),
+                                    }, Color(0xFF04123B), "Bank Transfer",Colors.white, context),
                                     MyIcons.feature("assets/figma/bills_payment.png", (){
                                       MyWidgets.navigateP(UnderConstruction(title: "Bills Payment"), context);
                                     }, Color(0xFF04123B), "Bills Payment",Colors.white, context),
@@ -296,7 +286,7 @@ class _HomeState extends State<Home> {
                                       showModalBottomSheet(context: context,isScrollControlled: true,barrierColor: Colors.black.withOpacity(0), builder: (context){
                                         return Container(
                                           width: MediaQuery.of(context).size.width,
-                                          height: ( MediaQuery.of(context).size.height * 0.65 ),
+                                          height: state.estimatedSwitch ? ( MediaQuery.of(context).size.height * 0.65 ) : ( MediaQuery.of(context).size.height * 0.7 ),
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius: BorderRadius.only(
@@ -325,6 +315,15 @@ class _HomeState extends State<Home> {
                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
                                                       MyWidgets.text("My Favorites", 25,FontWeight.bold, Color(0xFF434343), context,false),
+                                                      TextButton(
+                                                        style: TextButton.styleFrom(
+                                                          padding: EdgeInsets.zero
+                                                        ),
+                                                        onPressed: (){
+
+                                                        },
+                                                        child: MyWidgets.text("Edit", 22.5,FontWeight.normal, Color(0xFF434343), context,false),
+                                                      )
                                                     ],
                                                   )
                                               ),
@@ -337,7 +336,7 @@ class _HomeState extends State<Home> {
                                                     List data = jsonDecode(snapshot.data!);
                                                     return Container(
                                                       width: MediaQuery.of(context).size.width * 0.95,
-                                                      height: 70,
+                                                      height: 80,
                                                       child: GridView.count(
                                                         padding: EdgeInsets.zero,
                                                         primary: false,
@@ -371,7 +370,7 @@ class _HomeState extends State<Home> {
                                                   }
                                                 },
                                               ),
-                                              SizedBox(height: 40,),
+                                              SizedBox(height: 20,),
                                               Container(
                                                   padding: EdgeInsets.symmetric(vertical: 5,horizontal: 0),
                                                   width:MediaQuery.of(context).size.width * 0.9,
@@ -385,7 +384,7 @@ class _HomeState extends State<Home> {
                                               ),
                                               Container(
                                                 width: MediaQuery.of(context).size.width * 0.95,
-                                                height: ( MediaQuery.of(context).size.height * 0.40 ),
+                                                height: ( MediaQuery.of(context).size.height * 0.65 ) - 200,
                                                 child: GridView.count(
                                                   padding: EdgeInsets.zero,
                                                   primary: false,
@@ -394,9 +393,9 @@ class _HomeState extends State<Home> {
                                                   mainAxisSpacing: 1,
                                                   crossAxisCount: 5,
                                                   children: <Widget>[
-                                                    MyIcons.feature("assets/figma/send_money.png", (){
+                                                    MyWidgets.feature(Image.asset('assets/5.png'), "Send Money", () {
                                                       MyWidgets.navigateP(Send(), context);
-                                                    }, Color(0xFF04123B), "Send Money", Color(0xff111111),context),
+                                                    },Colors.black,context),
                                                     MyWidgets.feature(Image.asset('assets/6.png'), "Add Money", () {
                                                       MyWidgets.navigateP(CashInStore(), context);
                                                     },Colors.black,context),
@@ -438,7 +437,7 @@ class _HomeState extends State<Home> {
                                   ]
                               )
                           ),
-
+                          SizedBox(height: 10,),
                         ],
                       ),
                     );
@@ -449,7 +448,7 @@ class _HomeState extends State<Home> {
                     return Visibility(
                       visible: state.isVisible,
                       child: Container(
-                        height: ( MediaQuery.of(context).size.height * 0.13 ),
+                        height: 100,
                         width: MediaQuery.of(context).size.width * 0.9,
                         child: Column(
                           children: [
@@ -463,34 +462,34 @@ class _HomeState extends State<Home> {
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.9,
                               height: 60,
-                              child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                children: [
-
-                                  MyWidgets.sendAgain(
-                                        (){
-                                      //recipient.text = "12456789";
-                                    },
-                                    NetworkImage("https://i.pravatar.cc/299"),
-                                  ),
-                                  MyWidgets.sendAgain(
-                                        (){
-                                      //recipient.text = "12456789";
-                                    },
-                                    NetworkImage("https://i.pravatar.cc/298"),
-                                  ),
-                                  MyWidgets.sendAgain(
-                                        (){
-                                      //recipient.text = "12456789";
-                                    },
-                                    NetworkImage("https://i.pravatar.cc/301"),
-                                  ),MyWidgets.sendAgain(
-                                        (){
-                                      //recipient.text = "12456789";
-                                    },
-                                    NetworkImage("https://i.pravatar.cc/302"),
-                                  )
-                                ],
+                              child: FutureBuilder(
+                                future: Database(url:url).send(
+                                    {
+                                      "req" : "getRecent",
+                                      "what" : "sent",
+                                      "user" : currentUser!.userID,
+                                    }
+                                ),
+                                builder: (context,AsyncSnapshot<String> snapshot){
+                                  if(snapshot.hasData){
+                                    var data = jsonDecode(snapshot.data!);
+                                    return ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount:  data.length,
+                                      itemBuilder: (context,index){
+                                        return MyWidgets.sendAgain((){
+                                            MyWidgets.navigateP(Send(recipient: data[index]["ts_to"],), context);
+                                          },
+                                          NetworkImage("https://i.pravatar.cc/301"),
+                                        );
+                                      },
+                                    );
+                                  }else{
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                },
                               ),
                             ),
                           ],
@@ -511,37 +510,38 @@ class _HomeState extends State<Home> {
                         initialChildSize: 1,
                         controller: _dragScroll,
                         builder: (BuildContext context, ScrollController scrollController) {
-                          if(!listenerAdded){
-                            //listenerAdded = true;
-                            _dragScroll.addListener((){
 
-                              if(state.estimatedSwitch){
-                                print(_dragScroll.size);
-                                if(_dragScroll.size == 1){
-                                  context.read<HomeCubit>().changeDragSize(h1-padding);
-                                  context.read<HomeCubit>().visibleSwitch(false);
-                                }else if(_dragScroll.size <= 0.85){
-                                  print("0.81");
-                                  context.read<HomeCubit>().changeDragSize(h1 -padding- 111);
-                                  context.read<HomeCubit>().visibleSwitch(true);
-                                  _dragScroll.jumpTo(0.99999);
-                                }
-                              }else{
-                                if(_dragScroll.size == 1){
-                                  context.read<HomeCubit>().changeDragSize(h1-padding+50);
-                                  context.read<HomeCubit>().visibleSwitch(false);
-                                }else if(_dragScroll.size <= 0.81){
-                                  context.read<HomeCubit>().changeDragSize(h1 - 61);
-                                  context.read<HomeCubit>().visibleSwitch(true);
-                                  _dragScroll.jumpTo(0.99999);
-                                }else if(_dragScroll.size == 0.80){
-                                  context.read<HomeCubit>().changeDragSize(h1 - 61);
-                                  context.read<HomeCubit>().visibleSwitch(true);
-                                  _dragScroll.jumpTo(0.99999);
-                                }
-                              }
-                            });
+                          esSwitch = state.estimatedSwitch;
+                          if(_dragScroll.hasListeners){
+                            dragScrollSize = _dragScroll.size;
+                            _dragScroll.removeListener(() { });
                           }
+                          _dragScroll.addListener(() {
+                            dragScrollSize = _dragScroll.size;
+                            if(esSwitch){
+                              if(dragScrollSize == 1){
+                                context.read<HomeCubit>().changeDragSize(h1-40);
+                                context.read<HomeCubit>().visibleSwitch(false);
+                              }else if(dragScrollSize <= 0.80){
+                                context.read<HomeCubit>().changeDragSize(h1 - 140);
+                                context.read<HomeCubit>().visibleSwitch(true);
+                                _dragScroll.jumpTo(0.99999);
+                              }
+                            }else{
+                              if(dragScrollSize == 1){
+                                context.read<HomeCubit>().changeDragSize(h1);
+                                context.read<HomeCubit>().visibleSwitch(false);
+                              }else if(dragScrollSize <= 0.85){
+                                context.read<HomeCubit>().changeDragSize(h1-100);
+                                context.read<HomeCubit>().visibleSwitch(true);
+                                _dragScroll.jumpTo(0.99999);
+                              }else if(dragScrollSize == 0.80){
+                                context.read<HomeCubit>().changeDragSize(h1 - 100);
+                                context.read<HomeCubit>().visibleSwitch(true);
+                                _dragScroll.jumpTo(0.99999);
+                              }
+                            }
+                          });
                           return Container(
                             decoration: BoxDecoration(
                                 color: Colors.white,
@@ -555,8 +555,8 @@ class _HomeState extends State<Home> {
                               controller: scrollController,
                               children: [
                                 Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 150),
-                                  width: 75,
+                                  constraints: BoxConstraints(),
+                                  margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.375),
                                   height: 3,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(99),
@@ -571,8 +571,8 @@ class _HomeState extends State<Home> {
                                     children: [
                                       MyWidgets.text("Activities", 18.0, FontWeight.bold, Color(0xff111111),context,false),
                                       Container(
-                                        height: 25,
-                                        width: 25,
+                                        height: 22.5,
+                                        width: 22.5,
                                         child: IconButton(
                                           padding: EdgeInsets.zero,
                                           onPressed: (){
