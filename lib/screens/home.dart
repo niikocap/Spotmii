@@ -4,21 +4,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotmii/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:spotmii/components/featureIcons.dart';
 import 'package:spotmii/main.dart';
-import 'package:spotmii/screens/profile.dart';
-import 'package:spotmii/screens/qrscanner.dart';
+import 'package:spotmii/screens/settings/profile.dart';
+import 'package:spotmii/screens/qr/qrscanner.dart';
 import 'package:spotmii/screens/request_money.dart';
-import 'package:spotmii/screens/transaction.dart';
+import 'package:spotmii/screens/money/transaction.dart';
 import 'package:spotmii/screens/underconstruction.dart';
 import 'package:spotmii/widgets.dart';
 import '../blocs/home_cubit/home_cubit.dart';
 import '../components/constants.dart';
 import '../models/currency.dart';
 import '../database.dart';
-import 'account.dart';
-import 'cashin.dart';
-import 'currency.dart';
-import 'money.dart';
-import 'package:forex_conversion/forex_conversion.dart';
+import 'account/link.dart';
+import 'currency/converter.dart';
+import 'currency/live.dart';
+import 'money/add_money.dart';
+import 'money/send_money.dart';
+import 'money/withdraw.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -67,14 +68,11 @@ class _HomeState extends State<Home> {
         }
     );
     rates = jsonDecode(jsonDecode(rates))["rates"];
-    final fx = Forex();
     return rates;
   }
   @override
   Widget build(BuildContext context) {
-    //dragSize = isVisible ? (MediaQuery.of(context).size.height * 0.35) : (MediaQuery.of(context).size.height * 0.575) - 170;
-    //var h1 = (MediaQuery.of(context).size.height * 0.575) + 15 - MediaQuery.of(context).viewPadding.top - MediaQuery.of(context).viewPadding.bottom;
-    var padding = MediaQuery.of(context).viewPadding.bottom;
+    //var padding = MediaQuery.of(context).viewPadding.bottom;
     h1 = (MediaQuery.of(context).size.height - 250 - MediaQuery.of(context).viewPadding.bottom - MediaQuery.of(context).viewPadding.top)-( MediaQuery.of(context).size.height * 0.075);
     var selectedImage = currentUser!.userPic != "" ? NetworkImage("https://app.spotmii.com.au/uploads/" + currentUser!.userPic) : NetworkImage("https://digitalfinger.id/wp-content/uploads/2019/12/no-image-available-icon-6.png");
     currencyWidget(amount,type,image){
@@ -348,7 +346,7 @@ class _HomeState extends State<Home> {
                                                           ListView.builder(
                                                             itemCount: data.length + 1,
                                                             itemBuilder: (context,index){
-                                                              if(data!.length == index){
+                                                              if(data.length == index){
                                                                 return MyIcons.feature("assets/figma/add_favorites.png", (){
                                                                   MyWidgets.message("Feature to be added", context);
                                                                 }, Color(0xFFd6d6d6).withOpacity(0.2), "Add Favorites",Color(0xff111111), context);
@@ -512,10 +510,6 @@ class _HomeState extends State<Home> {
                         builder: (BuildContext context, ScrollController scrollController) {
 
                           esSwitch = state.estimatedSwitch;
-                          if(_dragScroll.hasListeners){
-                            dragScrollSize = _dragScroll.size;
-                            _dragScroll.removeListener(() { });
-                          }
                           _dragScroll.addListener(() {
                             dragScrollSize = _dragScroll.size;
                             if(esSwitch){

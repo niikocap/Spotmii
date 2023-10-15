@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:spotmii/constant.dart';
-import 'package:spotmii/main.dart';
-import 'package:spotmii/screens/bank.dart';
 import 'package:spotmii/widgets.dart';
-
-import '../components/constants.dart';
-import '../database.dart';
+import '../../components/constants.dart';
+import '../../components/custom_form.dart';
+import '../../database.dart';
 
 class Provider{
   final image;
@@ -28,10 +25,10 @@ class _CashInStoreState extends State<CashInStore> {
   var amountController = TextEditingController();
   List<Provider> provList = [
     Provider(
-      image: CircleAvatar(
-        backgroundImage: NetworkImage("https://play-lh.googleusercontent.com/sG15qNhfx0Rc746q2416LCozt7wCoHI-VcwohvvLwZfp2fRFPCx7zysZrlNpmIaEvQ=w240-h480-rw"),
-      ),
-      text: "ANZ – Australia and New Zealand Banking Group",type: "bank"),
+        image: CircleAvatar(
+          backgroundImage: NetworkImage("https://play-lh.googleusercontent.com/sG15qNhfx0Rc746q2416LCozt7wCoHI-VcwohvvLwZfp2fRFPCx7zysZrlNpmIaEvQ=w240-h480-rw"),
+        ),
+        text: "ANZ – Australia and New Zealand Banking Group",type: "bank"),
     Provider(
         image: CircleAvatar(
           backgroundImage: NetworkImage("https://play-lh.googleusercontent.com/sG15qNhfx0Rc746q2416LCozt7wCoHI-VcwohvvLwZfp2fRFPCx7zysZrlNpmIaEvQ=w240-h480-rw"),
@@ -150,7 +147,7 @@ class _CashInStoreState extends State<CashInStore> {
             FractionallySizedBox(
               widthFactor: 0.85,
               child: MyWidgets.button("Add Money", ()async{
-               
+
                 int amount = amountController.text == "" ? 0 : int.parse(amountController.text.trim());
                 if(amount > 0){
                   var response = await Database(url:url).send({
@@ -243,8 +240,8 @@ class _TopUpMerchantState extends State<TopUpMerchant> {
             Container(
               width: MediaQuery.of(context).size.width * 0.8,
               decoration: BoxDecoration(
-                color: Color(0xff04123B),
-                borderRadius: BorderRadius.circular(10)
+                  color: Color(0xff04123B),
+                  borderRadius: BorderRadius.circular(10)
               ),
               child: Column(
                 children: [
@@ -254,6 +251,7 @@ class _TopUpMerchantState extends State<TopUpMerchant> {
                     height: 225,
                     child: QrImageView(
                       backgroundColor: Color(0xff04123B),
+                      // ignore: deprecated_member_use
                       foregroundColor: Colors.white,
                       data: widget.transaction,
                     ),

@@ -1,11 +1,9 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:spotmii/screens/login.dart';
-import '../components/constants.dart';
-import '../constant.dart';
-import '../database.dart';
-import '../widgets.dart';
+import '../../components/constants.dart';
+import '../../database.dart';
+import '../../widgets.dart';
+import 'login.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);

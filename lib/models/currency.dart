@@ -1,4 +1,4 @@
-import 'package:spotmii/main.dart';
+import '../components/constants.dart';
 
 class Currency{
   static getSymbol(value){

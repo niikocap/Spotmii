@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:spotmii/screens/live_chat.dart';
+import 'package:spotmii/screens/support/live_chat.dart';
 import 'package:spotmii/widgets.dart';
-import 'package:flutter_tawk/flutter_tawk.dart';
-import '../components/constants.dart';
-import 'home.dart';
+import '../../components/constants.dart';
+import '../home.dart';
 
 class HelpCenter extends StatefulWidget {
   const HelpCenter({Key? key}) : super(key: key);

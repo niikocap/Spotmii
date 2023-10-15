@@ -3,7 +3,7 @@ import 'package:spotmii/screens/home.dart';
 import 'package:spotmii/widgets.dart';
 import 'package:search_choices/search_choices.dart';
 
-import '../components/constants.dart';
+import '../../components/constants.dart';
 
 class Terms extends StatefulWidget {
   const Terms({Key? key}) : super(key: key);

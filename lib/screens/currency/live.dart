@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:forex_conversion/forex_conversion.dart';
-import 'package:spotmii/database.dart';
-import 'package:spotmii/main.dart';
 import 'package:spotmii/widgets.dart';
 
-import '../models/currency.dart';
+import '../../models/currency.dart';
 
 class LiveCurrency extends StatefulWidget {
   const LiveCurrency({super.key});
@@ -133,32 +131,32 @@ class _LiveCurrencyState extends State<LiveCurrency> {
               ),
             ),
             FutureBuilder(
-              future: getRates(),
-              builder: (context,snapshot) {
-                if(snapshot.hasData){
-                  return Container(
-                    height: MediaQuery.of(context).size.height  * 0.8,
-                    width: MediaQuery.of(context).size.width  * 0.85,
-                    child: ListView(
-                      children: [
-                        currencyTile("US Dollar",usd),
-                        currencyTile("Philippine Peso",php),
-                        currencyTile("Pound",pound),
-                        currencyTile("Japanse Yen",yen),
-                        currencyTile("Chinese Yuan",yuan),
-                        currencyTile("Euro",euro),
-                        currencyTile("Australian Dollars",aud),
-                        currencyTile("Swiss Francs",francs),
-                      ],
-                    ),
-                  );
-                }else{
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
+                future: getRates(),
+                builder: (context,snapshot) {
+                  if(snapshot.hasData){
+                    return Container(
+                      height: MediaQuery.of(context).size.height  * 0.8,
+                      width: MediaQuery.of(context).size.width  * 0.85,
+                      child: ListView(
+                        children: [
+                          currencyTile("US Dollar",usd),
+                          currencyTile("Philippine Peso",php),
+                          currencyTile("Pound",pound),
+                          currencyTile("Japanese Yen",yen),
+                          currencyTile("Chinese Yuan",yuan),
+                          currencyTile("Euro",euro),
+                          currencyTile("Australian Dollars",aud),
+                          currencyTile("Swiss Francs",francs),
+                        ],
+                      ),
+                    );
+                  }else{
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-              }
+                }
             ),
           ],
         ),

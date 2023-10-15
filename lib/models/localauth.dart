@@ -1,5 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:local_auth_android/local_auth_android.dart';
+import 'package:local_auth_ios/local_auth_ios.dart';
 
 class LocalAuthApi {
   static final _auth = LocalAuthentication();
@@ -20,13 +22,22 @@ class LocalAuthApi {
     }
   }
 
-  static Future<bool> authenticate() async {
+  static Future<bool> authenticate(message) async {
     final isAvailable = await hasBiometrics();
     if (!isAvailable) return false;
 
     try {
       return await _auth.authenticate(
-        localizedReason: 'Scan Fingerprint to Login',
+        localizedReason: message,
+        authMessages: const <AuthMessages>[
+          AndroidAuthMessages(
+            signInTitle: 'Fingerprint required!',
+            cancelButton: 'No thanks',
+          ),
+          IOSAuthMessages(
+            cancelButton: 'No thanks',
+          ),
+        ],
         options: const AuthenticationOptions(
           useErrorDialogs: true,
           stickyAuth: true,

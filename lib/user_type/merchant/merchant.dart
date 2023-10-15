@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:spotmii/constant.dart';
 import 'package:spotmii/widgets.dart';
-import 'package:spotmii/main.dart';
 import '../../components/constants.dart';
-import '../../screens/QROverlay.dart';
-import '../../screens/login.dart';
+import '../../screens/qr/QROverlay.dart';
 import 'package:spotmii/database.dart';
+
+import '../../screens/auth/login.dart';
 
 class Merchant extends StatefulWidget {
   const Merchant({super.key});

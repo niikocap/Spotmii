@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:spotmii/screens/help_center.dart';
+import 'package:spotmii/screens/support/help_center.dart';
 import 'package:spotmii/screens/home.dart';
 import 'package:spotmii/screens/notifications.dart';
-import 'package:spotmii/screens/profile.dart';
-import 'package:spotmii/screens/qrscanner.dart';
+import 'package:spotmii/screens/settings/profile.dart';
+import 'package:spotmii/screens/qr/qrscanner.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'components/constants.dart';

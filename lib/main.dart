@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:forex_conversion/forex_conversion.dart';
 import 'package:spotmii/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:spotmii/blocs/user_bloc/user_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotmii/database.dart';
-import 'package:spotmii/screens/home.dart';
-import 'package:spotmii/screens/login.dart';
+import 'package:spotmii/screens/auth/fingerprint_login.dart';
+import 'package:spotmii/screens/auth/login.dart';
+
 import 'blocs/currency_bloc/currency_bloc.dart';
 import 'components/constants.dart';
 import 'models/user_model.dart';
@@ -17,7 +17,6 @@ import 'models/user_model.dart';
 late final isLogin;
 late final user;
 late final password;
-late SpotMiiUser? currentUser;
 var rates;
 late SharedPreferences preferences;
 
@@ -42,11 +41,6 @@ void main() async{
   user = await preferences.getString("user");
   password = await preferences.getString("password");
   if(isLogin){
-    print(await Database(url: url).send({
-      "req" : "signIn",
-      "user" : user,
-      "password" : password,
-    }));
     currentUser =  SpotMiiUser.convert(jsonDecode(jsonDecode(await Database(url: url).send({
       "req" : "signIn",
       "user" : user,
@@ -57,7 +51,7 @@ void main() async{
   }
   runApp(const MyApp());
 }
-//test
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -98,7 +92,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
             fontFamily: "Poppins"
         ),
-        home: !isLogin  ? Login() : Home(),
+        home: !isLogin  ? Login() : FingerprintPage(),
       ),
     );
   }

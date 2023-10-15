@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:spotmii/components/appBar.dart';
-import 'package:spotmii/main.dart';
 import 'package:spotmii/widgets.dart';
 import '../components/constants.dart';
 import '../database.dart';

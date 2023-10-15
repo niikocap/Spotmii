@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:spotmii/widgets.dart';
 import '../components/constants.dart';
-import '../constant.dart';
-import '../main.dart';
 import '../models/currency.dart';
 import '../database.dart';
-import 'money.dart';
+import 'money/request_money.dart';
 
 class RequestMoney extends StatefulWidget {
   const RequestMoney({super.key});
@@ -407,6 +405,7 @@ class _RequestQRState extends State<RequestQR> {
                     height: 225,
                     child: QrImageView(
                       backgroundColor: Color(0xff04123B),
+                      // ignore: deprecated_member_use
                       foregroundColor: Colors.white,
                       data: widget.data.toString(),
                     ),

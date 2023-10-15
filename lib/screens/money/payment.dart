@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spotmii/screens/info.dart';
+import 'package:spotmii/screens/support/info.dart';
 import 'package:spotmii/widgets.dart';
 
 class PaymentDetails extends StatefulWidget {

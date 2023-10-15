@@ -706,7 +706,7 @@ class _VerificationState extends State<Verification> {
               width: MediaQuery.of(context).size.width * 0.85,
               height: 40,
               child: MyWidgets.button("Submit", ()async{
-                final isAuthenticated = await LocalAuthApi.authenticate();
+                final isAuthenticated = await LocalAuthApi.authenticate("Scan fingerprint to Send Verify Request!");
 
                 if (isAuthenticated) {
 

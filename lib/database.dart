@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
-import 'package:spotmii/main.dart';
 import 'package:spotmii/models/transaction.dart';
 import '../models/user_model.dart';
+import 'components/constants.dart';
 
 class Database{
   final String url;

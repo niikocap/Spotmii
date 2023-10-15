@@ -2,9 +2,8 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:spotmii/widgets.dart';
-import '../components/constants.dart';
-import '../main.dart';
-import '../database.dart';
+import '../../components/constants.dart';
+import '../../database.dart';
 import 'login.dart';
 import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 
@@ -256,22 +255,22 @@ class _SignUpState extends State<SignUp> {
 
                     SizedBox(height: 5),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: MyWidgets.errorPasswordFormField(password, "Password",Color(0xff0A1B4D),context,visible,passwordErrorOn,passwordErrorMessage,_focus5,(){
-                        setState(() {
-                          visible = !visible;
-                        });
-                      })
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: MyWidgets.errorPasswordFormField(password, "Password",Color(0xff0A1B4D),context,visible,passwordErrorOn,passwordErrorMessage,_focus5,(){
+                          setState(() {
+                            visible = !visible;
+                          });
+                        })
                     ),
 
                     SizedBox(height: 5),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: MyWidgets.errorPasswordFormField(retypePassword, "Retype Password",Color(0xff0A1B4D),context,visible1,cPasswordErrorOn,cPasswordErrorMessage,_focus6,(){
-                        setState(() {
-                          visible1 = !visible1;
-                        });
-                      },)
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: MyWidgets.errorPasswordFormField(retypePassword, "Retype Password",Color(0xff0A1B4D),context,visible1,cPasswordErrorOn,cPasswordErrorMessage,_focus6,(){
+                          setState(() {
+                            visible1 = !visible1;
+                          });
+                        },)
                     ),
                     SizedBox(height: 20),
                     SizedBox(
@@ -365,11 +364,11 @@ class _SignUpState extends State<SignUp> {
                               builder: (BuildContext context) {
                                 return Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(10),
-                                      topLeft: Radius.circular(10),
-                                    ),
-                                    color: Colors.white
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(10),
+                                        topLeft: Radius.circular(10),
+                                      ),
+                                      color: Colors.white
                                   ),
                                   height: MediaQuery.of(context).size.height * 0.6,
                                   child: Column(
@@ -380,8 +379,8 @@ class _SignUpState extends State<SignUp> {
                                         width: 75,
                                         height: 5,
                                         decoration: BoxDecoration(
-                                          color: Colors.grey,
-                                          borderRadius: BorderRadius.circular(99)
+                                            color: Colors.grey,
+                                            borderRadius: BorderRadius.circular(99)
                                         ),
                                       ),
                                       SizedBox(height: 20,),
@@ -390,8 +389,8 @@ class _SignUpState extends State<SignUp> {
                                       FractionallySizedBox(widthFactor:0.7,child: Center(child: MyWidgets.text(" For verification purposes please enter the verification code we sent in your email and mobile number to verify your identity.", 15.0, FontWeight.normal, Color(0xff111111), context,false))),
                                       SizedBox(height: 20,),
                                       FractionallySizedBox(
-                                          widthFactor:0.8,
-                                          child: MyWidgets.errorTextFormField(emailVerification, "Email Verification Code", Color(0xff111111),context,eVerErrorOn,eVerErrorMessage,_focus8),
+                                        widthFactor:0.8,
+                                        child: MyWidgets.errorTextFormField(emailVerification, "Email Verification Code", Color(0xff111111),context,eVerErrorOn,eVerErrorMessage,_focus8),
                                       ),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
@@ -480,31 +479,31 @@ class _SignUpState extends State<SignUp> {
                                         width: MediaQuery.of(context).size.width * 0.8,
                                         height: 40,
                                         child: MyWidgets.button("Submit", ()async{
-                                        showDialog(
-                                            barrierDismissible: false,
-                                            context: context, builder: (context){
-                                          return MyWidgets.showLoading();
-                                        });
-                                        //check for the codes if correct
-                                        if(emailVerification.text.trim() == verCode1.toString() && mobileVerification.text.trim() == verCode2.toString()){
-                                          await Database(url: url).send({
-                                            "req" : "verified",
-                                            "code1" : verCode1,
-                                            "code2" : verCode2
+                                          showDialog(
+                                              barrierDismissible: false,
+                                              context: context, builder: (context){
+                                            return MyWidgets.showLoading();
                                           });
-                                          Navigator.pop(context);
-                                          MyWidgets.navigateP(MyWidgets.congratulation("Congratulations", "Your account has been successfully created!", (){
-                                            MyWidgets.navigateP(Login(), context);
-                                          }, context, "Sign In"), context);
-                                        }else{
-                                          setState(() {
-                                            eVerErrorOn = true;
-                                            eVerErrorMessage = "Wrong Verification Code";
-                                            mVerErrorOn = true;
-                                            mVerErrorMessage = "Wrong Verification Code";
-                                          });
-                                          Navigator.pop(context);
-                                        }
+                                          //check for the codes if correct
+                                          if(emailVerification.text.trim() == verCode1.toString() && mobileVerification.text.trim() == verCode2.toString()){
+                                            await Database(url: url).send({
+                                              "req" : "verified",
+                                              "code1" : verCode1,
+                                              "code2" : verCode2
+                                            });
+                                            Navigator.pop(context);
+                                            MyWidgets.navigateP(MyWidgets.congratulation("Congratulations", "Your account has been successfully created!", (){
+                                              MyWidgets.navigateP(Login(), context);
+                                            }, context, "Sign In"), context);
+                                          }else{
+                                            setState(() {
+                                              eVerErrorOn = true;
+                                              eVerErrorMessage = "Wrong Verification Code";
+                                              mVerErrorOn = true;
+                                              mVerErrorMessage = "Wrong Verification Code";
+                                            });
+                                            Navigator.pop(context);
+                                          }
                                         }, Color(0xff04123B), context),
                                       )
                                     ],

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tawk/flutter_tawk.dart';
 import 'package:spotmii/widgets.dart';
-
-import '../main.dart';
+import '../../components/constants.dart';
 
 class LiveChat extends StatelessWidget {
   const LiveChat({super.key});

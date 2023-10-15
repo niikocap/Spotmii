@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:spotmii/screens/money.dart';
 import 'package:spotmii/widgets.dart';
+import '../money/send_money.dart';
 import 'QROverlay.dart';
 
 class QRScanner extends StatefulWidget {
@@ -33,7 +33,7 @@ class _QRScannerState extends State<QRScanner> {
                         if(!scanned){
                           scanned = !scanned;
                           result = barcode.rawValue!;
-                          MyWidgets.navigatePR( Send(recipient: result), context);
+                          MyWidgets.navigatePR(Send(recipient: result), context);
                         }
                       }
                     }

@@ -2,16 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:spotmii/main.dart';
-import 'package:spotmii/screens/help_center.dart';
-import 'package:spotmii/screens/settings.dart';
+import 'package:spotmii/screens/support/help_center.dart';
+import 'package:spotmii/screens/settings/settings.dart';
 import 'package:spotmii/screens/verification.dart';
 import 'package:spotmii/widgets.dart';
-import '../components/constants.dart';
-import '../models/localauth.dart';
-import 'account.dart';
-import 'home.dart';
-import 'login.dart';
+import '../../components/constants.dart';
+import '../../models/localauth.dart';
+import '../account/link.dart';
+import '../auth/login.dart';
+import '../home.dart';
 import 'dart:io';
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -944,7 +943,7 @@ class _EditProfileState extends State<EditProfile> {
                           height: 60,
                           child: GestureDetector(
                             onTap: ()async{
-                              final isAuthenticated = await LocalAuthApi.authenticate();
+                              final isAuthenticated = await LocalAuthApi.authenticate("Scan fingerprint to Update Profile!");
                               if(isAuthenticated){
                                 MyWidgets.showLoading();
                                 var img = imagetoupload.path.split('/');

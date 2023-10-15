@@ -18,6 +18,6 @@ class LoadTransaction extends TransactionEvent{
 }
 
 class InitTransaction extends TransactionEvent{
-  String uid;
+  final String uid;
   InitTransaction({required this.uid});
 }
