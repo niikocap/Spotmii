@@ -34,7 +34,7 @@ class Database{
     String imageName = img[img.length-1];
     String imageName1 = img1[img1.length-1];
     String imageName2 = img2[img2.length-1];
-    FormData formData = new FormData.fromMap({
+    FormData formData = FormData.fromMap({
       "id" : currentUser!.userID,
       "req": "verifyAccount",
       "fname": fname,
@@ -66,14 +66,14 @@ class Database{
   }
   static convertCurrency(from,to,amount)async{
     final response  = await http.get(
-      Uri.parse("https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}"),
+      Uri.parse("https://api.exchangerate.host/convert?from=$from&to=$to&amount=$amount"),
     );
     return jsonDecode(response.body)["result"];
   }
   sendSMS(message,to)async{
     var uname = 'AC832d226c331da9c46854123395a13f0f';
     var pword = '72c5ec707249f658786c89861e2cab0f';
-    var authn = 'Basic ' + base64Encode(utf8.encode('$uname:$pword'));
+    var authn = 'Basic ${base64Encode(utf8.encode('$uname:$pword'))}';
 
     var headers = {
       'Content-Type': 'application/x-www-form-urlencoded',

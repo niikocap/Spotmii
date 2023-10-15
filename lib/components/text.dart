@@ -10,7 +10,7 @@ class myStyle{
     return TextStyle(
       fontWeight: weight != null ? weight : FontWeight.normal,
       fontSize: size,
-      color: color != null ? color : Color(0xff111111),
+      color: color != null ? color : const Color(0xff111111),
       fontFamily: family != null ? "Poppins" : family,
 
     );

@@ -32,14 +32,14 @@ void main() async{
     );
   }
   SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
+      const SystemUiOverlayStyle(
         statusBarBrightness: Brightness.dark,
       )
   );
-  var login = await preferences.getBool("isLogin");
+  var login = preferences.getBool("isLogin");
   isLogin = login == null ? false : true;
-  user = await preferences.getString("user");
-  password = await preferences.getString("password");
+  user = preferences.getString("user");
+  password = preferences.getString("password");
   if(isLogin){
     currentUser =  SpotMiiUser.convert(jsonDecode(jsonDecode(await Database(url: url).send({
       "req" : "signIn",
@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
             bottomSheetTheme: BottomSheetThemeData(
                 backgroundColor: Colors.red.withOpacity(0)
             ),
-            appBarTheme: AppBarTheme(
+            appBarTheme: const AppBarTheme(
                 systemOverlayStyle: SystemUiOverlayStyle(
                   statusBarIconBrightness: Brightness.light,
                   statusBarBrightness: Brightness.dark,
@@ -92,7 +92,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
             fontFamily: "Poppins"
         ),
-        home: !isLogin  ? Login() : FingerprintPage(),
+        home: !isLogin  ? const Login() : FingerprintPage(),
       ),
     );
   }

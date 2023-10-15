@@ -8,7 +8,7 @@ var selectedCurrency = _supportedCurrency.entries.last.key;
 
 class CustomFormWidget extends StatefulWidget {
   final controller;
-  const CustomFormWidget({required this.controller});
+  const CustomFormWidget({super.key, required this.controller});
 
   @override
   State<CustomFormWidget> createState() => _CustomFormWidgetState();
@@ -63,8 +63,8 @@ class _CustomFormWidgetState extends State<CustomFormWidget> {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        MyWidgets.text("Enter Amount", 20.0, FontWeight.bold, Color(0xff04123B), context,false),
-        SizedBox(height: 5,),
+        MyWidgets.text("Enter Amount", 20.0, FontWeight.bold, const Color(0xff04123B), context,false),
+        const SizedBox(height: 5,),
         FractionallySizedBox(
           widthFactor: 0.7,
           child: TextFormField(
@@ -77,14 +77,14 @@ class _CustomFormWidgetState extends State<CustomFormWidget> {
               prefixIcon: dropdown,
               hintText: "1000",
               contentPadding: const EdgeInsets.only(bottom: 0, right: 48,top: 0),
-              focusedBorder: UnderlineInputBorder(
+              focusedBorder: const UnderlineInputBorder(
 
               ),
-              enabledBorder: UnderlineInputBorder(
+              enabledBorder: const UnderlineInputBorder(
 
               ),
             ),
-            style: TextStyle(fontSize: MF(20, context),fontFamily: "Poppins",fontWeight: FontWeight.bold,color: Color(0xff04123B)),
+            style: TextStyle(fontSize: MF(20, context),fontFamily: "Poppins",fontWeight: FontWeight.bold,color: const Color(0xff04123B)),
             textAlign: TextAlign.center,
             inputFormatters: [
               ThousandsFormatter(),

@@ -19,13 +19,13 @@ class _LiveCurrencyState extends State<LiveCurrency> {
   currencyTile(currency,amount){
     return Container(
       width: MediaQuery.of(context).size.width  * 0.85,
-      margin: EdgeInsets.symmetric(vertical: 5),
-      padding: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
       decoration:BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           boxShadow: [
             BoxShadow(
-                offset: Offset(0,0),
+                offset: const Offset(0,0),
                 blurRadius: 3,
                 color: Colors.grey.withOpacity(0.8)
             )
@@ -34,8 +34,8 @@ class _LiveCurrencyState extends State<LiveCurrency> {
       ),
       child: Row(
         children: [
-          MyWidgets.text("${currency} : ", 20, FontWeight.bold, Color(0xff111111), context, false),
-          MyWidgets.text("${amount}", 20, FontWeight.bold, Color(0xff111111), context, false)
+          MyWidgets.text("$currency : ", 20, FontWeight.bold, const Color(0xff111111), context, false),
+          MyWidgets.text("$amount", 20, FontWeight.bold, const Color(0xff111111), context, false)
         ],
       ),
     );
@@ -57,11 +57,11 @@ class _LiveCurrencyState extends State<LiveCurrency> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyWidgets.appbar("Live Currency", context),
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
               child: Row(
                 children: [
@@ -126,7 +126,7 @@ class _LiveCurrencyState extends State<LiveCurrency> {
                       },
                     ),
                   ),
-                  MyWidgets.text("Base Currency: ${currency1}", 20, FontWeight.bold, Color(0xff111111), context, false),
+                  MyWidgets.text("Base Currency: $currency1", 20, FontWeight.bold, const Color(0xff111111), context, false),
                 ],
               ),
             ),
@@ -134,7 +134,7 @@ class _LiveCurrencyState extends State<LiveCurrency> {
                 future: getRates(),
                 builder: (context,snapshot) {
                   if(snapshot.hasData){
-                    return Container(
+                    return SizedBox(
                       height: MediaQuery.of(context).size.height  * 0.8,
                       width: MediaQuery.of(context).size.width  * 0.85,
                       child: ListView(
@@ -151,7 +151,7 @@ class _LiveCurrencyState extends State<LiveCurrency> {
                       ),
                     );
                   }else{
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }

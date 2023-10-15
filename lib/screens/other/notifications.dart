@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:spotmii/components/appBar.dart';
 import 'package:spotmii/widgets.dart';
-import '../components/constants.dart';
-import '../database.dart';
+import '../../components/constants.dart';
+import '../../database.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({super.key});
@@ -17,7 +17,7 @@ class _NotificationsState extends State<Notifications> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: myAppbar(title:"Notifications",size:MF(20,context),context: context).create(),
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.height,
         child: FutureBuilder(
           future: Database(url:url).send({
@@ -38,7 +38,7 @@ class _NotificationsState extends State<Notifications> {
                 ),
               );
             }else{
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),                //child: MyWidgets.notification("hello everyone", "- admin", "10-12-2024", context, "aaa"),
               );
             }

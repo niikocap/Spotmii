@@ -14,16 +14,16 @@ class Withdraw extends StatefulWidget {
 
 class _WithdrawState extends State<Withdraw> {
   bool showList = false;
-  Provider selected = Provider(image: Icon(Icons.shopping_bag), text: "Merchant Store",type: "store");
+  Provider selected = Provider(image: const Icon(Icons.shopping_bag), text: "Merchant Store",type: "store");
   var amountController = TextEditingController();
   List<Provider> provList = [
     Provider(
-        image: CircleAvatar(
+        image: const CircleAvatar(
           backgroundImage: NetworkImage("https://play-lh.googleusercontent.com/sG15qNhfx0Rc746q2416LCozt7wCoHI-VcwohvvLwZfp2fRFPCx7zysZrlNpmIaEvQ=w240-h480-rw"),
         ),
         text: "ANZ – Australia and New Zealand Banking Group",type: "bank"),
     Provider(
-        image: CircleAvatar(
+        image: const CircleAvatar(
           backgroundImage: NetworkImage("https://play-lh.googleusercontent.com/sG15qNhfx0Rc746q2416LCozt7wCoHI-VcwohvvLwZfp2fRFPCx7zysZrlNpmIaEvQ=w240-h480-rw"),
         ),
         text: "TEST – Australia and New Zealand Banking Group",type: "bank"),
@@ -40,24 +40,24 @@ class _WithdrawState extends State<Withdraw> {
 
       },
       child: Container(
-          margin: EdgeInsets.only(top: 5),
+          margin: const EdgeInsets.only(top: 5),
           decoration: BoxDecoration(
               color:Colors.white,
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
-                BoxShadow(offset: Offset(0,2),blurRadius: 2,color: Colors.grey.withOpacity(0.5))
+                BoxShadow(offset: const Offset(0,2),blurRadius: 2,color: Colors.grey.withOpacity(0.5))
               ]
           ),
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.symmetric(vertical: 15,horizontal: 15),
+          padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 15),
           child: Row(
             children: [
               prov.image,
-              SizedBox(width: 10,),
+              const SizedBox(width: 10,),
               Container(
                 alignment: Alignment.centerLeft,
                 width: MediaQuery.of(context).size.width * 0.60,
-                child: MyWidgets.text(prov.text, 17, FontWeight.bold, Color(0xff111111), context, false),
+                child: MyWidgets.text(prov.text, 17, FontWeight.bold, const Color(0xff111111), context, false),
               )
             ],
           )
@@ -72,22 +72,22 @@ class _WithdrawState extends State<Withdraw> {
         });
       },
       child: Container(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
-            color: Color(0xffEBEBEB),
+            color: const Color(0xffEBEBEB),
             borderRadius: BorderRadius.circular(10)
         ),
         width: MediaQuery.of(context).size.width * 0.85,
         child: Row(
           children: [
             Icon(!showList ? Icons.expand_circle_down : Icons.cancel,size: 25),
-            SizedBox(width: 10,),
+            const SizedBox(width: 10,),
             prov.image,
-            SizedBox(width: 10,),
+            const SizedBox(width: 10,),
             Container(
               alignment: Alignment.centerLeft,
               width: MediaQuery.of(context).size.width * 0.55,
-              child: MyWidgets.text(prov.text, 17, FontWeight.bold, Color(0xff111111), context, false),
+              child: MyWidgets.text(prov.text, 17, FontWeight.bold, const Color(0xff111111), context, false),
             )
           ],
         ),
@@ -98,30 +98,30 @@ class _WithdrawState extends State<Withdraw> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyWidgets.appbar("Withdraw", context),
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            SizedBox(height: 20,),
-            MyWidgets.text("Withdrawable Balance: \$${currentUser!.balance}", 25, FontWeight.bold, Color(0xff3B4652), context, false),
-            SizedBox(height: 20,),
-            FractionallySizedBox(child: CustomFormWidget(controller: amountController,),widthFactor: 0.85,),
-            SizedBox(height: 40,),
+            const SizedBox(height: 20,),
+            MyWidgets.text("Withdrawable Balance: \$${currentUser!.balance}", 25, FontWeight.bold, const Color(0xff3B4652), context, false),
+            const SizedBox(height: 20,),
+            FractionallySizedBox(widthFactor: 0.85,child: CustomFormWidget(controller: amountController,),),
+            const SizedBox(height: 40,),
             Container(
               width: MediaQuery.of(context).size.width * 0.85,
               alignment: Alignment.centerLeft,
-              child: MyWidgets.text("Choose Account", 20, FontWeight.bold, Color(0xff111111), context, false),
+              child: MyWidgets.text("Choose Account", 20, FontWeight.bold, const Color(0xff111111), context, false),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             myListTileButton(selected),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             AnimatedOpacity(
               opacity: showList ? 1 : 0,
               curve: Curves.fastOutSlowIn,
-              duration: Duration(seconds: 1),
+              duration: const Duration(seconds: 1),
               child: Visibility(
                 visible: showList,
-                child: Container(
+                child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.40,
                     width: MediaQuery.of(context).size.width * 0.85,
                     child: ListView.builder(
@@ -134,11 +134,11 @@ class _WithdrawState extends State<Withdraw> {
                 ),
               ),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Container(
-              child: MyWidgets.text("Please choose where to withdraw your money.", 16, FontWeight.normal, Color(0xff111111), context, false),
+              child: MyWidgets.text("Please choose where to withdraw your money.", 16, FontWeight.normal, const Color(0xff111111), context, false),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             FractionallySizedBox(
               widthFactor: 0.85,
               child: MyWidgets.button("Withdraw Money", ()async{
@@ -158,7 +158,7 @@ class _WithdrawState extends State<Withdraw> {
                       context: context,
                       builder: (context){
                         return Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(10),
@@ -177,7 +177,7 @@ class _WithdrawState extends State<Withdraw> {
                       context: context,
                       builder: (context){
                         return Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(10),
@@ -192,7 +192,7 @@ class _WithdrawState extends State<Withdraw> {
                       }
                   );
                 }
-              }, Color(0xff04123B), context),
+              }, const Color(0xff04123B), context),
             )
           ],
         ),

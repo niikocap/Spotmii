@@ -8,7 +8,7 @@ class AccountCard extends StatefulWidget {
   final cardName;
   final cardexp;
   final cardCVV;
-  AccountCard({required this.cardType,required this.cardNumber,required this.cardName,required this.cardexp,required this.cardCVV});
+  const AccountCard({super.key, required this.cardType,required this.cardNumber,required this.cardName,required this.cardexp,required this.cardCVV});
 
   @override
   State<AccountCard> createState() => _AccountCardState();
@@ -21,7 +21,7 @@ class _AccountCardState extends State<AccountCard> {
       appBar: MyWidgets.appbar("My Link Accounts", context),
       body: Column(
         children: [
-          SizedBox(height: 40,),
+          const SizedBox(height: 40,),
           CreditCardWidget(
             cardNumber: widget.cardNumber,
             expiryDate: widget.cardexp,
@@ -29,7 +29,7 @@ class _AccountCardState extends State<AccountCard> {
             isHolderNameVisible: true,
             cvvCode: widget.cardCVV,
             showBackView: false,
-            cardBgColor: Color(0xff04123B),
+            cardBgColor: const Color(0xff04123B),
             onCreditCardWidgetChange: (CreditCardBrand ) {
 
             }, //true when you want to show cvv(back) view

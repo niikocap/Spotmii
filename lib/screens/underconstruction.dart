@@ -3,7 +3,7 @@ import 'package:spotmii/widgets.dart';
 
 class UnderConstruction extends StatefulWidget {
   final String title;
-  const UnderConstruction({required this.title});
+  const UnderConstruction({super.key, required this.title});
 
   @override
   State<UnderConstruction> createState() => _UnderConstructionState();
@@ -15,36 +15,36 @@ class _UnderConstructionState extends State<UnderConstruction> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyWidgets.appbar(widget.title, context),
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            SizedBox(height: 40,),
+            const SizedBox(height: 40,),
             Container(
               width: MediaQuery.of(context).size.width * 0.85,
               alignment: Alignment.centerLeft,
-              child: MyWidgets.text("Select Country", 20, FontWeight.bold, Color(0xff111111), context, false)
+              child: MyWidgets.text("Select Country", 20, FontWeight.bold, const Color(0xff111111), context, false)
             ),
-            SizedBox(height: 5,),
-            Container(
+            const SizedBox(height: 5,),
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
               child: ButtonTheme(
                 alignedDropdown: true,
                 child: DropdownButtonFormField(
                     isExpanded: true,
-                    icon: Icon(Icons.expand_circle_down),
+                    icon: const Icon(Icons.expand_circle_down),
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 0),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 0),
                       enabledBorder: OutlineInputBorder(
-                        borderSide:  BorderSide(color: Color(0xff3B4652), width:0,),
+                        borderSide:  const BorderSide(color: Color(0xff3B4652), width:0,),
                         borderRadius: BorderRadius.circular(12.5),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:  BorderSide(color: Color(0xff3B4652), width:0,),
+                        borderSide:  const BorderSide(color: Color(0xff3B4652), width:0,),
                         borderRadius: BorderRadius.circular(12.5),
                       ),
                       filled: true,
-                      fillColor: Color(0xffE4E4E6),
+                      fillColor: const Color(0xffE4E4E6),
                     ),
                     items: [
                       "Afghanistan",
@@ -310,7 +310,7 @@ class _UnderConstructionState extends State<UnderConstruction> {
                 ),
               ),
             ),
-            SizedBox(height:50),
+            const SizedBox(height:50),
             Image.asset("assets/underconstruction.png",height: 250,)
           ],
         ),

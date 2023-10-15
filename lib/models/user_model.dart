@@ -11,24 +11,7 @@ class SpotMiiUser{
 
   }
   getCurrency(value){
-    if(value.toString().toUpperCase() == "PHP"){
-      return this.php;
-    }else if(value.toString().toUpperCase() == "USD"){
-      return this.usd;
-    }else if(value.toString().toUpperCase() == "EUR"){
-      return this.eur;
-    }else if(value.toString().toUpperCase() == "JPY"){
-      return this.jpy;
-    }else if(value.toString().toUpperCase() == "GBP"){
-      return this.gbp;
-    }else if(value.toString().toUpperCase() == "CHF"){
-      return this.chf;
-    }else if(value.toString().toUpperCase() == "AUD"){
-      return this.aud;
-    }else if(value.toString().toUpperCase() == "CNY"){
-      return this.cny;
-    }else{
-      return 0;
-    }
+    String code = value.toString().toUpperCase();
+    return code == "PHP" ? php : code == "USD" ? usd : code == "EUR" ? eur : code == "JPY" ? jpy : code == "GBP" ? gbp : code == "CHF" ? chf : code == "AUD" ? aud : code == "CNY" ? cny : 0;
   }
 }

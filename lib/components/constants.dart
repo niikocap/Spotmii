@@ -4,7 +4,7 @@ import 'package:spotmii/models/user_model.dart';
 //todo assign values
 Color mainColor = Colors.red;
 String url = "https://app.spotmii.com.au/services.php";
-Color button = Color(0xff04123B);
+Color button = const Color(0xff04123B);
 late SpotMiiUser? currentUser;
 const supportedCurrency = {'PHP':10000, '\$': 10000, '€': 800,'¥':10000,'£':10000,'Fr':10000,'A\$':10000,'C¥':10000};
 const supportedCurrency1 = {'PHP':10000, '\$': 10000, '€': 800,'¥':10000,'£':10000,'Fr':10000,'A\$':10000,'C¥':10000};

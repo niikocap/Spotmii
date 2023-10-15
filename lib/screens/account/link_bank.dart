@@ -29,34 +29,34 @@ class _LinkABankState extends State<LinkABank> {
           width: MediaQuery.of(context).size.width * 0.85,
           child: Column(
             children: [
-              SizedBox(height: 40,),
-              Align(alignment:Alignment.centerLeft,child: MyWidgets.text("Link a Bank Account", 40, FontWeight.bold, Color(0xff111111), context,false)),
-              Align(alignment: Alignment.centerLeft,child:  MyWidgets.text("The safety and security of your bank account information is ", 17, FontWeight.normal, Color(0xff111111), context,false),),
-              Align(alignment: Alignment.centerLeft,child: MyWidgets.text("protected by SpotMii.", 17, FontWeight.normal, Color(0xff111111), context, false),),
-              SizedBox(height: 20,),
-              MyWidgets.textFormField(nameController, "Full Name", Color(0xff04123B), (value){
+              const SizedBox(height: 40,),
+              Align(alignment:Alignment.centerLeft,child: MyWidgets.text("Link a Bank Account", 40, FontWeight.bold, const Color(0xff111111), context,false)),
+              Align(alignment: Alignment.centerLeft,child:  MyWidgets.text("The safety and security of your bank account information is ", 17, FontWeight.normal, const Color(0xff111111), context,false),),
+              Align(alignment: Alignment.centerLeft,child: MyWidgets.text("protected by SpotMii.", 17, FontWeight.normal, const Color(0xff111111), context, false),),
+              const SizedBox(height: 20,),
+              MyWidgets.textFormField(nameController, "Full Name", const Color(0xff04123B), (value){
 
               }, context),
-              SizedBox(height: 20,),
-              MyWidgets.textFormField(billingController, "Billing Address", Color(0xff04123B), (value){
+              const SizedBox(height: 20,),
+              MyWidgets.textFormField(billingController, "Billing Address", const Color(0xff04123B), (value){
 
               }, context),
-              SizedBox(height: 20,),
-              MyWidgets.textFormField(bankNameController, "Bank Name", Color(0xff04123B), (value){
+              const SizedBox(height: 20,),
+              MyWidgets.textFormField(bankNameController, "Bank Name", const Color(0xff04123B), (value){
 
               }, context),
-              SizedBox(height: 20,),
-              MyWidgets.textFormField(bankCodeController, "Bank Code", Color(0xff04123B), (value){
+              const SizedBox(height: 20,),
+              MyWidgets.textFormField(bankCodeController, "Bank Code", const Color(0xff04123B), (value){
 
               }, context),
-              SizedBox(height: 20,),
-              MyWidgets.textFormField(accountNumberController, "Account Number", Color(0xff04123B), (value){
+              const SizedBox(height: 20,),
+              MyWidgets.textFormField(accountNumberController, "Account Number", const Color(0xff04123B), (value){
 
               }, context),
-              SizedBox(height: 20,),
-              Align(alignment: Alignment.centerLeft,child:  MyWidgets.text("Be sure to double-check your account number. Banks may ", 17, FontWeight.normal, Color(0xff111111), context,false),),
-              Align(alignment: Alignment.centerLeft,child: MyWidgets.text("not flag errors until you send payments.", 17, FontWeight.normal, Color(0xff111111), context, false),),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
+              Align(alignment: Alignment.centerLeft,child:  MyWidgets.text("Be sure to double-check your account number. Banks may ", 17, FontWeight.normal, const Color(0xff111111), context,false),),
+              Align(alignment: Alignment.centerLeft,child: MyWidgets.text("not flag errors until you send payments.", 17, FontWeight.normal, const Color(0xff111111), context, false),),
+              const SizedBox(height: 20,),
               SizedBox(
                 height: 40,
                 width: MediaQuery.of(context).size.width * 0.85,
@@ -79,24 +79,24 @@ class _LinkABankState extends State<LinkABank> {
                         widthFactor: 0.80,
                         child:  MyWidgets.button("Home", (){
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                            return Home();
+                            return const Home();
                           }));
-                        }, Color(0xff04123B), context),
+                        }, const Color(0xff04123B), context),
                       ), context);
                     }else{
                       bmSheet.error("Link Failed!", "Bank linking failed due to some errors", FractionallySizedBox(
                         widthFactor: 0.80,
                         child:  MyWidgets.button("Home", (){
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                            return Home();
+                            return const Home();
                           }));
-                        }, Color(0xff04123B), context),
+                        }, const Color(0xff04123B), context),
                       ), context);
                     }
                   }else{
 
                   }
-                }, Color(0xff04123B), context),
+                }, const Color(0xff04123B), context),
               )
 
             ],

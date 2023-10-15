@@ -19,18 +19,18 @@ class _HelpCenterState extends State<HelpCenter> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyWidgets.appbar("Help Center", context),
-      body: Container(
+      body: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 40,),
+              const SizedBox(height: 40,),
               Container(
                 width: MediaQuery.of(context).size.width * 0.8,
                 alignment: Alignment.centerLeft,
-                child: MyWidgets.text("Hi, how can we help you?", 21.0, FontWeight.bold, Color(0xff3B4652),context,false),
+                child: MyWidgets.text("Hi, how can we help you?", 21.0, FontWeight.bold, const Color(0xff3B4652),context,false),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Container(
                 width: MediaQuery.of(context).size.width * 0.8,
                 alignment: Alignment.centerLeft,
@@ -39,15 +39,15 @@ class _HelpCenterState extends State<HelpCenter> {
                   style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: MF(17,context),
-                    color: Color(0xff3B4652)
+                    color: const Color(0xff3B4652)
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color(0xffE4E4E6),
+                  color: const Color(0xffE4E4E6),
                 ),
 
                 width: MediaQuery.of(context).size.width * 0.8,
@@ -58,35 +58,35 @@ class _HelpCenterState extends State<HelpCenter> {
                     border: InputBorder.none,
                     hintText: "Enter Subject",
                     fillColor: Colors.white,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
                     hintStyle: TextStyle(
-                        color: Color(0xff3B4652),
+                        color: const Color(0xff3B4652),
                         fontSize: MF(18, context),
                         fontFamily: "Poppins"
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 30,),
+              const SizedBox(height: 30,),
               Container(
                 width: MediaQuery.of(context).size.width * 0.8,
                 alignment: Alignment.centerLeft,
-                child: MyWidgets.text("Give as much detail as you can", 17.0, FontWeight.normal, Color(0xff3B4652),context,false),
+                child: MyWidgets.text("Give as much detail as you can", 17.0, FontWeight.normal, const Color(0xff3B4652),context,false),
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color(0xffE4E4E6),
+                  color: const Color(0xffE4E4E6),
                 ),
                 width: MediaQuery.of(context).size.width * 0.8,
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextField(
                   decoration:  InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Enter Description',
                     hintStyle: TextStyle(
-                        color: Color(0xff3B4652),
+                        color: const Color(0xff3B4652),
                         fontSize: MF(18, context),
                         fontFamily: "Poppins"
                     )
@@ -97,15 +97,15 @@ class _HelpCenterState extends State<HelpCenter> {
                   keyboardType: TextInputType.text,
                 ),
               ),
-              SizedBox(height: 40,),
+              const SizedBox(height: 40,),
               SizedBox(
                 height: 40,
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: MyWidgets.button("Submit",(){
                   MyWidgets.navigatePR(MyWidgets.congratulation("We've got your email","Check your email for our response. It usually takes up to 1 working day for us to answer.", (){
-                    MyWidgets.navigateP(Home(), context);
+                    MyWidgets.navigateP(const Home(), context);
                   },context,"Home"), context);
-                },Color(0xff0A1B4D),context),
+                },const Color(0xff0A1B4D),context),
               ),
 
 
@@ -114,10 +114,10 @@ class _HelpCenterState extends State<HelpCenter> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          MyWidgets.navigateP(LiveChat(), context);
+          MyWidgets.navigateP(const LiveChat(), context);
         },
-        child: Icon(Icons.messenger),
-        backgroundColor: Color(0xff0A1B4D),
+        backgroundColor: const Color(0xff0A1B4D),
+        child: const Icon(Icons.messenger),
       ),
     );
   }

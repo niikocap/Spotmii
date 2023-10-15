@@ -38,17 +38,17 @@ class _LinkACardState extends State<LinkACard> {
             width: MediaQuery.of(context).size.width * 0.85,
             child: Column(
               children: [
-                SizedBox(height: 40,),
-                Align(alignment:Alignment.centerLeft,child: MyWidgets.text("Link a Card", 40, FontWeight.bold, Color(0xff111111), context,false)),
-                SizedBox(height: 20,),
-                MyWidgets.textFormField(nameController, "Name", Color(0xff04123B), (value){
+                const SizedBox(height: 40,),
+                Align(alignment:Alignment.centerLeft,child: MyWidgets.text("Link a Card", 40, FontWeight.bold, const Color(0xff111111), context,false)),
+                const SizedBox(height: 20,),
+                MyWidgets.textFormField(nameController, "Name", const Color(0xff04123B), (value){
 
                 }, context),
-                SizedBox(height: 20,),
-                MyWidgets.textFormField(cardNumberController, "Debit or Credit card Number", Color(0xff04123B), (value){
+                const SizedBox(height: 20,),
+                MyWidgets.textFormField(cardNumberController, "Debit or Credit card Number", const Color(0xff04123B), (value){
 
                 }, context),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 Container(
                   height: 40,
                   decoration: BoxDecoration(
@@ -59,21 +59,21 @@ class _LinkACardState extends State<LinkACard> {
                   width: MediaQuery.of(context).size.width * 0.85,
                   child: DropdownButtonFormField(
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 0),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:  BorderSide(color: Color(0xff04123B), width: 1.5,),
+                        borderSide:  const BorderSide(color: Color(0xff04123B), width: 1.5,),
                         borderRadius: BorderRadius.circular(99),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xff04123B), width: 1.5,),
+                        borderSide: const BorderSide(color: Color(0xff04123B), width: 1.5,),
                         borderRadius: BorderRadius.circular(99),
                       ),
                       errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xff3B4652), width: 1.5,),
+                        borderSide: const BorderSide(color: Color(0xff3B4652), width: 1.5,),
                         borderRadius: BorderRadius.circular(99),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xff04123B), width: 1.5,),
+                        borderSide: const BorderSide(color: Color(0xff04123B), width: 1.5,),
                         borderRadius: BorderRadius.circular(99),
                       ),
                     ),
@@ -85,7 +85,7 @@ class _LinkACardState extends State<LinkACard> {
                     style: TextStyle(
                         fontSize: MF(18, context),
                         fontFamily: "Poppins",
-                        color:Color(0xff3B4652)
+                        color:const Color(0xff3B4652)
                     ),
                     // Array list of items
                     items: items.map((String items) {
@@ -103,19 +103,19 @@ class _LinkACardState extends State<LinkACard> {
                     },
                   ),
                 ),
-                SizedBox(height: 20,),
-                MyWidgets.textFormField(expController, "Expiration Date", Color(0xff04123B), (value){
+                const SizedBox(height: 20,),
+                MyWidgets.textFormField(expController, "Expiration Date", const Color(0xff04123B), (value){
 
                 }, context),
-                SizedBox(height: 20,),
-                MyWidgets.textFormField(securityCodeController, "Security Code", Color(0xff04123B), (value){
+                const SizedBox(height: 20,),
+                MyWidgets.textFormField(securityCodeController, "Security Code", const Color(0xff04123B), (value){
 
                 }, context),
-                SizedBox(height: 20,),
-                MyWidgets.textFormField(billingController, "Billing Address", Color(0xff04123B), (value){
+                const SizedBox(height: 20,),
+                MyWidgets.textFormField(billingController, "Billing Address", const Color(0xff04123B), (value){
 
                 }, context),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 SizedBox(
                   height: 40,
                   width: MediaQuery.of(context).size.width * 0.85,
@@ -138,25 +138,25 @@ class _LinkACardState extends State<LinkACard> {
                           widthFactor: 0.80,
                           child:  MyWidgets.button("Home", (){
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                              return Home();
+                              return const Home();
                             }));
-                          }, Color(0xff04123B), context),
+                          }, const Color(0xff04123B), context),
                         ), context);
                       }else{
                         bmSheet.error("Link Failed!", "Card linking failed due to some errors", FractionallySizedBox(
                           widthFactor: 0.80,
                           child:  MyWidgets.button("Home", (){
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                              return Home();
+                              return const Home();
                             }));
-                          }, Color(0xff04123B), context),
+                          }, const Color(0xff04123B), context),
                         ), context);
                       }
                     }else{
                       //show fingerprint auth error
                     }
 
-                  }, Color(0xff04123B), context),
+                  }, const Color(0xff04123B), context),
                 )
               ],
             ),

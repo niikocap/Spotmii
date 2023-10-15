@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spotmii/screens/support/help_center.dart';
 import 'package:spotmii/screens/home.dart';
-import 'package:spotmii/screens/notifications.dart';
+import 'package:spotmii/screens/other/notifications.dart';
 import 'package:spotmii/screens/settings/profile.dart';
 import 'package:spotmii/screens/qr/qrscanner.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -19,7 +19,7 @@ class MyWidgets{
   }
   static textField(TextEditingController controller,String hint,Color color,context){
     BorderSide borderSide = BorderSide(color: color, width: 2.0,);
-    return Container(
+    return SizedBox(
       height: 45,
       child: Align(
         alignment: Alignment.center,
@@ -38,7 +38,7 @@ class MyWidgets{
             ),
             fillColor: Colors.white,
             hintText: hint,
-            contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 0),
             hintStyle: TextStyle(
                 color: color,
                 fontSize: MF(18,context)
@@ -70,7 +70,7 @@ class MyWidgets{
         ),
         fillColor: Colors.white,
         hintText: hint,
-        contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 0),
         hintStyle: TextStyle(
             color: color,
             fontSize: 15,
@@ -115,7 +115,7 @@ class MyWidgets{
               focusedErrorBorder: border,
               fillColor: Colors.white,
               hintText: hint,
-              contentPadding: EdgeInsets.symmetric(horizontal: 20),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20),
               hintStyle: TextStyle(
                   color: color,
                   fontSize: MF(17,context),
@@ -171,7 +171,7 @@ class MyWidgets{
             focusedErrorBorder: border,
             fillColor: Colors.white,
             hintText: hint,
-            contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
             hintStyle: TextStyle(
                 color: color,
                 fontSize: MF(17, context),
@@ -224,7 +224,7 @@ class MyWidgets{
               focusedErrorBorder: border,
               fillColor: Colors.white,
               hintText: hint,
-              contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 0),
               hintStyle: TextStyle(
                   color: color,
                   fontSize: MF(17, context),
@@ -300,7 +300,7 @@ class MyWidgets{
               fillColor: Colors.white,
               hintText: hint,
 
-              contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 0),
               hintStyle: TextStyle(
                   color: color,
                   fontSize: MF(17, context),
@@ -351,40 +351,38 @@ class MyWidgets{
     return Scaffold(
       backgroundColor: Colors.white,
       appBar:  AppBar(
-        title: MyWidgets.text("", 22.0, FontWeight.bold, Color(0xff111111),context,false),
+        title: MyWidgets.text("", 22.0, FontWeight.bold, const Color(0xff111111),context,false),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white,
       ),
-      body: Container(
-        child: Column(
-          children: [
-            SizedBox(
-              height:40,
-            ),
-            IconButton(
-              icon: Image.asset('assets/3.png'),
-              iconSize: 150,
-              onPressed: () {},
-            ),
-            SizedBox(height: 50,),
-            MyWidgets.text(type, 30.0, FontWeight.bold,Colors.black,context,false),
-            SizedBox(height: 30,),
-            Align(
-                alignment:Alignment.center,
-                child: Container(
-                  width: 300,
-                    child: MyWidgets.text(message, 17.0, FontWeight.normal,Colors.black,context,false)
-                )
-            ),
-            SizedBox(height: 40,),
-            SizedBox(
-              height: 40,
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: button(buttonn,callback,Color(0xff04123B),context),
-            )
-          ],
-        ),
+      body: Column(
+        children: [
+          const SizedBox(
+            height:40,
+          ),
+          IconButton(
+            icon: Image.asset('assets/3.png'),
+            iconSize: 150,
+            onPressed: () {},
+          ),
+          const SizedBox(height: 50,),
+          MyWidgets.text(type, 30.0, FontWeight.bold,Colors.black,context,false),
+          const SizedBox(height: 30,),
+          Align(
+              alignment:Alignment.center,
+              child: SizedBox(
+                width: 300,
+                  child: MyWidgets.text(message, 17.0, FontWeight.normal,Colors.black,context,false)
+              )
+          ),
+          const SizedBox(height: 40,),
+          SizedBox(
+            height: 40,
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: button(buttonn,callback,const Color(0xff04123B),context),
+          )
+        ],
       ),
     );
   }
@@ -406,14 +404,14 @@ class MyWidgets{
   }
   static AppBar appbar(String title,context){
     return AppBar(
-        title: MyWidgets.text(title, 20.0, FontWeight.bold, Color(0xff111111),context,false),
+        title: MyWidgets.text(title, 20.0, FontWeight.bold, const Color(0xff111111),context,false),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white,
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: IconButton(onPressed: (){MyWidgets.navigatePR(Home(), context);}, icon: Image.asset("assets/homeicon.png"),iconSize: 15,),
+            child: IconButton(onPressed: (){MyWidgets.navigatePR(const Home(), context);}, icon: Image.asset("assets/homeicon.png"),iconSize: 15,),
           )
         ],
         leading: Padding(
@@ -430,7 +428,7 @@ class MyWidgets{
   }
   static AppBar appbar1(String title,context){
     return AppBar(
-        title: MyWidgets.text(title, 20.0, FontWeight.bold, Color(0xff111111),context,false),
+        title: MyWidgets.text(title, 20.0, FontWeight.bold, const Color(0xff111111),context,false),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white,
@@ -454,13 +452,13 @@ class MyWidgets{
       },
       child: Container(
         height:70,
-        margin: EdgeInsets.symmetric(horizontal: 0,vertical: 5),
-        decoration: BoxDecoration(
+        margin: const EdgeInsets.symmetric(horizontal: 0,vertical: 5),
+        decoration: const BoxDecoration(
             border: Border(
               bottom: BorderSide(width: 0.1,color: Colors.grey)
             )
         ),
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.9,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -470,10 +468,10 @@ class MyWidgets{
                 width: 45,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(99),
-                  color:Color(0xffF1F1F1),
+                  color:const Color(0xffF1F1F1),
                 ),
                 padding: const EdgeInsets.all(10),
-                margin: EdgeInsets.fromLTRB(0,0,20,0),
+                margin: const EdgeInsets.fromLTRB(0,0,20,0),
                 child: CircleAvatar(
                   backgroundImage: background,
                   radius:50,
@@ -487,8 +485,8 @@ class MyWidgets{
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyWidgets.text(who, 16.0, FontWeight.normal, Color(0xff111111),context,false),
-                    MyWidgets.text(type, 14.0, FontWeight.normal, Color(0xff111111),context,false),
+                    MyWidgets.text(who, 16.0, FontWeight.normal, const Color(0xff111111),context,false),
+                    MyWidgets.text(type, 14.0, FontWeight.normal, const Color(0xff111111),context,false),
                   ],
                 ),
               ),
@@ -499,8 +497,8 @@ class MyWidgets{
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    MyWidgets.text(price, 16.0, FontWeight.normal, Color(0xff111111),context,false),
-                    MyWidgets.text(date,  14.0, FontWeight.normal, Color(0xff111111),context,false),
+                    MyWidgets.text(price, 16.0, FontWeight.normal, const Color(0xff111111),context,false),
+                    MyWidgets.text(date,  14.0, FontWeight.normal, const Color(0xff111111),context,false),
                   ],
                 ),
               ),
@@ -518,8 +516,8 @@ class MyWidgets{
       child: Container(
         height:70,
         //width: MediaQuery.of(context).size.width * 0.9,
-        margin: EdgeInsets.symmetric(horizontal: 0,vertical: 5),
-        decoration: BoxDecoration(
+        margin: const EdgeInsets.symmetric(horizontal: 0,vertical: 5),
+        decoration: const BoxDecoration(
 
             border: Border(
                 bottom: BorderSide(width: 0.1,color: Colors.grey)
@@ -527,7 +525,7 @@ class MyWidgets{
           //color: Color(0xffF1F1F1),
           //borderRadius: BorderRadius.circular(5.0)
         ),
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.9,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -539,8 +537,8 @@ class MyWidgets{
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyWidgets.text(who, 18.0, FontWeight.normal, Color(0xff111111),context,false),
-                    MyWidgets.text(type, 15.0, FontWeight.normal, Color(0xff111111),context,false),
+                    MyWidgets.text(who, 18.0, FontWeight.normal, const Color(0xff111111),context,false),
+                    MyWidgets.text(type, 15.0, FontWeight.normal, const Color(0xff111111),context,false),
                   ],
                 ),
               ),
@@ -551,7 +549,7 @@ class MyWidgets{
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    MyWidgets.text(date,  15.0, FontWeight.normal, Color(0xff111111),context,false),
+                    MyWidgets.text(date,  15.0, FontWeight.normal, const Color(0xff111111),context,false),
                   ],
                 ),
               ),
@@ -569,79 +567,77 @@ class MyWidgets{
         height: MediaQuery.of(context).size.height * 0.075,
         //margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.015,horizontal: MediaQuery.of(context).size.width * 0.1,),
         decoration: BoxDecoration(
-          color: Color(0xff8A8A8A).withOpacity(0.05),
+          color: const Color(0xff8A8A8A).withOpacity(0.05),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Container(
+            SizedBox(
               //color: Colors.white,
               width: MediaQuery.of(context).size.width * 0.19,
               height: MediaQuery.of(context).size.height * 0.07,
               child: IconButton(
-                icon: Icon(Icons.home,color: active == 0 ? Color(0xff084E80): Colors.black,),
+                icon: Icon(Icons.home,color: active == 0 ? const Color(0xff084E80): Colors.black,),
                 iconSize: 22.5,
                 onPressed: () {
                   if(active != 0){
-                    MyWidgets.navigateP(Home(), context);
+                    MyWidgets.navigateP(const Home(), context);
                   }
                 },
               ),
             ),
-            Container(
+            SizedBox(
               //color: Colors.white,
               width: MediaQuery.of(context).size.width * 0.19,
               height: MediaQuery.of(context).size.height * 0.07,
               child: IconButton(
-                icon: Icon(Icons.notifications,color: active == 1 ? Color(0xff084E80): Colors.black,),
+                icon: Icon(Icons.notifications,color: active == 1 ? const Color(0xff084E80): Colors.black,),
                 iconSize: 22.5,
                 onPressed: () {
                   if(active != 1){
-                    MyWidgets.navigateP(Notifications(), context);
+                    MyWidgets.navigateP(const Notifications(), context);
                   }
                 },
               ),
             ),
-            Container(
+            SizedBox(
               //color: Colors.white,
               width: MediaQuery.of(context).size.width * 0.24,
               height: MediaQuery.of(context).size.height * 0.07,
-              child: Container(
-                child: IconButton(
-                  icon: Icon(Icons.qr_code_2,color: active == 2 ? Color(0xff084E80): Colors.black,),
-                  iconSize: 35,
-                  onPressed: () {
-                    if(active != 2){
-                      MyWidgets.navigateP(QRScanner(), context);
-                    }
-                  },
-                ),
-              ),
-            ),
-            Container(
-              //color: Colors.white,
-              width: MediaQuery.of(context).size.width * 0.19,
-              height: MediaQuery.of(context).size.height * 0.07,
               child: IconButton(
-                icon: Icon(Icons.help,color: active == 3 ? Color(0xff084E80): Colors.black,),
-                iconSize: 22.5,
+                icon: Icon(Icons.qr_code_2,color: active == 2 ? const Color(0xff084E80): Colors.black,),
+                iconSize: 35,
                 onPressed: () {
-                  if(active != 3){
-                    MyWidgets.navigateP(HelpCenter(), context);
+                  if(active != 2){
+                    MyWidgets.navigateP(const QRScanner(), context);
                   }
                 },
               ),
             ),
-            Container(
+            SizedBox(
               //color: Colors.white,
               width: MediaQuery.of(context).size.width * 0.19,
               height: MediaQuery.of(context).size.height * 0.07,
               child: IconButton(
-                icon: Icon(Icons.person,color: active == 4 ? Color(0xff084E80): Colors.black,),
+                icon: Icon(Icons.help,color: active == 3 ? const Color(0xff084E80): Colors.black,),
+                iconSize: 22.5,
+                onPressed: () {
+                  if(active != 3){
+                    MyWidgets.navigateP(const HelpCenter(), context);
+                  }
+                },
+              ),
+            ),
+            SizedBox(
+              //color: Colors.white,
+              width: MediaQuery.of(context).size.width * 0.19,
+              height: MediaQuery.of(context).size.height * 0.07,
+              child: IconButton(
+                icon: Icon(Icons.person,color: active == 4 ? const Color(0xff084E80): Colors.black,),
                 iconSize: 22.5,
                 onPressed: () {
                   if(active != 4){
-                    MyWidgets.navigateP(Profile(), context);
+                    MyWidgets.navigateP(const Profile(), context);
                   }
                 },
               ),
@@ -658,7 +654,7 @@ class MyWidgets{
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
+          SizedBox(
             width: (MediaQuery.of(context).size.width * .9) / 5.5,
             child: icon,
           ),
@@ -669,7 +665,7 @@ class MyWidgets{
   }
   static Widget sendAgain(callback,image){
     return IconButton(
-        padding: EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 5),
         onPressed: callback,
         icon: CircleAvatar(
           backgroundImage: image,

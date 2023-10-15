@@ -5,7 +5,7 @@ import 'navigator.dart';
 class myAppbar{
   String title;
   double size;
-  final context;
+  final BuildContext context;
   myAppbar({required this.title,required this.size,required this.context});
   AppBar create(){
     return AppBar(
@@ -16,7 +16,7 @@ class myAppbar{
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: IconButton(onPressed: (){
-            MyNavigation.push(context,Home());
+            MyNavigation.push(context,const Home());
           }, icon: Image.asset("assets/homeicon.png"),iconSize: 15,),
         )
       ],
@@ -36,7 +36,7 @@ class myAppbar{
           fontFamily: "Poppins",
           fontSize: size,
           fontWeight: FontWeight.bold,
-          color: Color(0xff111111)
+          color: const Color(0xff111111)
         ),
       ),
     );

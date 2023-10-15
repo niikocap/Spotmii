@@ -34,7 +34,7 @@ class MyTextField{
               filled: true,
               focusedBorder: border,enabledBorder: border,errorBorder: border,focusedErrorBorder: border,fillColor: Colors.white,
               hintText: hintText,
-              contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 0),
               hintStyle: TextStyle(
                   color: color,
                   fontSize: size,
@@ -69,7 +69,7 @@ class MyTextField{
       borderSide:  borderSide,
       borderRadius: BorderRadius.circular(40),
     );
-    return Container(
+    return SizedBox(
       height: 45,
       child: Align(
         alignment: Alignment.center,
@@ -81,7 +81,7 @@ class MyTextField{
             focusedBorder: border,enabledBorder: border,
             fillColor: Colors.white,
             hintText: hintText,
-            contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 0),
             hintStyle: TextStyle(
                 color: color,
                 fontSize: MF(18,context)

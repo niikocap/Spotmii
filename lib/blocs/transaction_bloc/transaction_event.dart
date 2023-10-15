@@ -19,5 +19,5 @@ class LoadTransaction extends TransactionEvent{
 
 class InitTransaction extends TransactionEvent{
   final String uid;
-  InitTransaction({required this.uid});
+  const InitTransaction({required this.uid});
 }

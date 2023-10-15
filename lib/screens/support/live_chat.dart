@@ -11,7 +11,7 @@ class LiveChat extends StatelessWidget {
     return Scaffold(
       appBar: MyWidgets.appbar("Live Chat", context),
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height -  MediaQuery.of(context).viewPadding.top,
           width: MediaQuery.of(context).size.width,
           child: Tawk(

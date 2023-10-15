@@ -18,7 +18,7 @@ class _SignUpState extends State<SignUp> {
   late Timer _time1, _time2;
   int time1 = 0, time2 = 0;
   var fName = TextEditingController(), lName = TextEditingController(), userName = TextEditingController(), email = TextEditingController(), number = TextEditingController(), password = TextEditingController(), retypePassword = TextEditingController(), emailVerification = TextEditingController(), mobileVerification = TextEditingController();
-  FocusNode _focus1 = FocusNode(), _focus2 = FocusNode(), _focus3 = FocusNode(),_focus4 = FocusNode(), _focus5 = FocusNode(), _focus6 = FocusNode(), _focus7 = FocusNode(), _focus8 = FocusNode(),_focus9 = FocusNode();
+  final FocusNode _focus1 = FocusNode(), _focus2 = FocusNode(), _focus3 = FocusNode(),_focus4 = FocusNode(), _focus5 = FocusNode(), _focus6 = FocusNode(), _focus7 = FocusNode(), _focus8 = FocusNode(),_focus9 = FocusNode();
   bool emailErrorOn = false,passwordErrorOn = false, usernameErrorOn = false, cPasswordErrorOn = false, numberErrorOn = false, fNameErrorOn = false, lNameErrorOn = false, mVerErrorOn = false, eVerErrorOn = false,timer1On = false, timer2On = false, visible = true, visible1 = true, isChecked = true;
   String emailErrorMessage = "", passwordErrorMessage = "", fNameErrorMessage = "",cPasswordErrorMessage = "", numberErrorMessage = "", usernameErrorMessage = "",lNameErrorMessage = "",mVerErrorMessage = "", eVerErrorMessage = "", verCode1 = "", verCode2 = "",code = "+63", verCode = "";
   final countryPicker  = const FlCountryCodePicker(), _formKey = GlobalKey<FormState>();
@@ -91,7 +91,7 @@ class _SignUpState extends State<SignUp> {
     String minutes =( time / 60 ).floor().toString();
     int seconds =( time % 60 );
     String segundo = "";
-    segundo = seconds < 10 ? "0" + seconds.toString() : seconds.toString();
+    segundo = seconds < 10 ? "0$seconds" : seconds.toString();
     return "$minutes:$segundo";
   }
   @override
@@ -99,45 +99,45 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       appBar: MyWidgets.appbar1("Sign Up", context),
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: Align(
                     alignment: Alignment.centerLeft,
-                    child: MyWidgets.text("Create an Account", 23.0, FontWeight.bold, Color(0xff111111),context,false)
+                    child: MyWidgets.text("Create an Account", 23.0, FontWeight.bold, const Color(0xff111111),context,false)
                 ),
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               Form(
                 key: _formKey,
                 child: Column(
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.8,
-                      child: MyWidgets.errorTextFormField(fName, "First Name",Color(0xff0A1B4D),context,fNameErrorOn,fNameErrorMessage,_focus1),
+                      child: MyWidgets.errorTextFormField(fName, "First Name",const Color(0xff0A1B4D),context,fNameErrorOn,fNameErrorMessage,_focus1),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.8,
-                      child: MyWidgets.errorTextFormField(lName, "Last Name",Color(0xff0A1B4D),context,lNameErrorOn,lNameErrorMessage,_focus7),
+                      child: MyWidgets.errorTextFormField(lName, "Last Name",const Color(0xff0A1B4D),context,lNameErrorOn,lNameErrorMessage,_focus7),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.8,
-                      child: MyWidgets.errorTextFormField(userName, "Username",Color(0xff0A1B4D),context,usernameErrorOn,usernameErrorMessage,_focus2),
+                      child: MyWidgets.errorTextFormField(userName, "Username",const Color(0xff0A1B4D),context,usernameErrorOn,usernameErrorMessage,_focus2),
                     ),
 
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.8,
-                      child: MyWidgets.errorTextFormField(email, "Email Address",Color(0xff0A1B4D),context,emailErrorOn,emailErrorMessage,_focus3),
+                      child: MyWidgets.errorTextFormField(email, "Email Address",const Color(0xff0A1B4D),context,emailErrorOn,emailErrorMessage,_focus3),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: Container(
@@ -153,7 +153,7 @@ class _SignUpState extends State<SignUp> {
                               focusNode: _focus4,
                               controller: number,
                               style: TextStyle(
-                                  color: Color(0xff0A1B4D),
+                                  color: const Color(0xff0A1B4D),
                                   fontSize: MF(17, context),
                                   fontFamily: "Poppins"
                               ),
@@ -166,30 +166,30 @@ class _SignUpState extends State<SignUp> {
                                       print(code);
                                     });
                                   },
-                                  child: MyWidgets.text("$code | ", 17, FontWeight.normal, Color(0xff0A1B4D), context, false),
+                                  child: MyWidgets.text("$code | ", 17, FontWeight.normal, const Color(0xff0A1B4D), context, false),
                                 ),
                                 filled: true,
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide:  BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
+                                  borderSide:  const BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide:  BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
+                                  borderSide:  const BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 errorBorder: OutlineInputBorder(
-                                  borderSide:  BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
+                                  borderSide:  const BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
-                                  borderSide:  BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
+                                  borderSide:  const BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 fillColor: Colors.white,
                                 hintText: "Mobile Number",
-                                contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 0),
                                 hintStyle: TextStyle(
-                                    color: Color(0xff0A1B4D),
+                                    color: const Color(0xff0A1B4D),
                                     fontSize: MF(17, context),
                                     fontFamily: "Poppins"
                                 ),
@@ -253,36 +253,36 @@ class _SignUpState extends State<SignUp> {
                     ),
                     */
 
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 0.8,
-                        child: MyWidgets.errorPasswordFormField(password, "Password",Color(0xff0A1B4D),context,visible,passwordErrorOn,passwordErrorMessage,_focus5,(){
+                        child: MyWidgets.errorPasswordFormField(password, "Password",const Color(0xff0A1B4D),context,visible,passwordErrorOn,passwordErrorMessage,_focus5,(){
                           setState(() {
                             visible = !visible;
                           });
                         })
                     ),
 
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 0.8,
-                        child: MyWidgets.errorPasswordFormField(retypePassword, "Retype Password",Color(0xff0A1B4D),context,visible1,cPasswordErrorOn,cPasswordErrorMessage,_focus6,(){
+                        child: MyWidgets.errorPasswordFormField(retypePassword, "Retype Password",const Color(0xff0A1B4D),context,visible1,cPasswordErrorOn,cPasswordErrorMessage,_focus6,(){
                           setState(() {
                             visible1 = !visible1;
                           });
                         },)
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Checkbox(
-                            checkColor: isChecked? Colors.white : Color(0xff0A1B4D),
-                            fillColor: MaterialStateProperty.resolveWith((states) => Color(0xff0A1B4D)),
+                            checkColor: isChecked? Colors.white : const Color(0xff0A1B4D),
+                            fillColor: MaterialStateProperty.resolveWith((states) => const Color(0xff0A1B4D)),
                             value: isChecked,
-                            shape: CircleBorder(),
+                            shape: const CircleBorder(),
                             onChanged: (bool? value) {
                               setState(() {
                                 isChecked = value!;
@@ -291,17 +291,17 @@ class _SignUpState extends State<SignUp> {
                           ),
                           Column(
                             children: [
-                              MyWidgets.text("By Signing up, you agree to our ", 17.0, FontWeight.normal, Color(0xff111111),context,false),
+                              MyWidgets.text("By Signing up, you agree to our ", 17.0, FontWeight.normal, const Color(0xff111111),context,false),
                               Row(
                                 children: [
                                   GestureDetector(
                                     onTap: (){},
-                                    child: MyWidgets.text("Privacy Policy", 19.0, FontWeight.bold, Color(0xff111111),context,false),
+                                    child: MyWidgets.text("Privacy Policy", 19.0, FontWeight.bold, const Color(0xff111111),context,false),
                                   ),
-                                  MyWidgets.text(" and ", 17.0, FontWeight.normal, Color(0xff111111),context,false),
+                                  MyWidgets.text(" and ", 17.0, FontWeight.normal, const Color(0xff111111),context,false),
                                   GestureDetector(
                                     onTap: (){},
-                                    child: MyWidgets.text("Terms of Use.", 19.0, FontWeight.bold, Color(0xff111111),context,false),
+                                    child: MyWidgets.text("Terms of Use.", 19.0, FontWeight.bold, const Color(0xff111111),context,false),
                                   ),
                                 ],
                               )
@@ -312,7 +312,7 @@ class _SignUpState extends State<SignUp> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     SizedBox(
                       width: MediaQuery.of(context).size.width *0.8,
                       height: 40,
@@ -326,13 +326,13 @@ class _SignUpState extends State<SignUp> {
                           verCode2 = generate(6);
                           timer1On = true;
                           timer2On = true;
-                          _time1 = Timer(Duration(minutes: 5),(){
+                          _time1 = Timer(const Duration(minutes: 5),(){
                             timer1On = false;
                             _time1.cancel();
                             eVerErrorOn = true;
                             eVerErrorMessage = "Verification Code Expired!";
                           });
-                          _time2 = Timer(Duration(minutes: 5),(){
+                          _time2 = Timer(const Duration(minutes: 5),(){
                             timer2On = false;
                             _time2.cancel();
                             mVerErrorOn = true;
@@ -363,7 +363,7 @@ class _SignUpState extends State<SignUp> {
                               context: context,
                               builder: (BuildContext context) {
                                 return Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       borderRadius: BorderRadius.only(
                                         topRight: Radius.circular(10),
                                         topLeft: Radius.circular(10),
@@ -374,7 +374,7 @@ class _SignUpState extends State<SignUp> {
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      SizedBox(height: 10,),
+                                      const SizedBox(height: 10,),
                                       Container(
                                         width: 75,
                                         height: 5,
@@ -383,19 +383,19 @@ class _SignUpState extends State<SignUp> {
                                             borderRadius: BorderRadius.circular(99)
                                         ),
                                       ),
-                                      SizedBox(height: 20,),
-                                      Center(child: MyWidgets.text("Verification Code", 25.0, FontWeight.bold, Color(0xff111111), context,false)),
-                                      SizedBox(height: 40,),
-                                      FractionallySizedBox(widthFactor:0.7,child: Center(child: MyWidgets.text(" For verification purposes please enter the verification code we sent in your email and mobile number to verify your identity.", 15.0, FontWeight.normal, Color(0xff111111), context,false))),
-                                      SizedBox(height: 20,),
+                                      const SizedBox(height: 20,),
+                                      Center(child: MyWidgets.text("Verification Code", 25.0, FontWeight.bold, const Color(0xff111111), context,false)),
+                                      const SizedBox(height: 40,),
+                                      FractionallySizedBox(widthFactor:0.7,child: Center(child: MyWidgets.text(" For verification purposes please enter the verification code we sent in your email and mobile number to verify your identity.", 15.0, FontWeight.normal, const Color(0xff111111), context,false))),
+                                      const SizedBox(height: 20,),
                                       FractionallySizedBox(
                                         widthFactor:0.8,
-                                        child: MyWidgets.errorTextFormField(emailVerification, "Email Verification Code", Color(0xff111111),context,eVerErrorOn,eVerErrorMessage,_focus8),
+                                        child: MyWidgets.errorTextFormField(emailVerification, "Email Verification Code", const Color(0xff111111),context,eVerErrorOn,eVerErrorMessage,_focus8),
                                       ),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          MyWidgets.text("Didn't receive the OTP? ", 15.0, FontWeight.normal, Color(0xff111111), context,false),
+                                          MyWidgets.text("Didn't receive the OTP? ", 15.0, FontWeight.normal, const Color(0xff111111), context,false),
                                           TextButton(
                                             onPressed: ()async{
                                               if(!timer1On){
@@ -415,7 +415,7 @@ class _SignUpState extends State<SignUp> {
                                                   "body" : "To continue signing up on SpotMii your Email verification code is $verCode1."
                                                 });
                                                 print(checking);
-                                                _time1 = Timer.periodic(Duration(seconds: 1), (time) {
+                                                _time1 = Timer.periodic(const Duration(seconds: 1), (time) {
                                                   setState(() {
                                                     if(time1 >= 300){
                                                       time1 = 0;
@@ -428,22 +428,22 @@ class _SignUpState extends State<SignUp> {
                                                 });
 
                                               }else{
-                                                MyWidgets.message("Verification already sent! ${time1}", context);
+                                                MyWidgets.message("Verification already sent! $time1", context);
                                               }
                                             },
-                                            child: MyWidgets.text("RESEND OTP", 16.0, FontWeight.bold, Color(0xff04123B), context,false),
+                                            child: MyWidgets.text("RESEND OTP", 16.0, FontWeight.bold, const Color(0xff04123B), context,false),
                                           ),
-                                          MyWidgets.text("${simplifyTime(time1)}", 17.0, FontWeight.bold, Colors.red, context,false),
+                                          MyWidgets.text(simplifyTime(time1), 17.0, FontWeight.bold, Colors.red, context,false),
                                         ],
                                       ),
                                       FractionallySizedBox(
                                         widthFactor:0.8,
-                                        child: MyWidgets.errorTextFormField(mobileVerification, "Mobile Verification Code", Color(0xff111111),context,eVerErrorOn,mVerErrorMessage,_focus9),
+                                        child: MyWidgets.errorTextFormField(mobileVerification, "Mobile Verification Code", const Color(0xff111111),context,eVerErrorOn,mVerErrorMessage,_focus9),
                                       ),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          MyWidgets.text("Didn't receive the OTP? ", 15.0, FontWeight.normal, Color(0xff111111), context,false),
+                                          MyWidgets.text("Didn't receive the OTP? ", 15.0, FontWeight.normal, const Color(0xff111111), context,false),
                                           TextButton(
                                             onPressed: ()async{
                                               if(!timer2On){
@@ -456,7 +456,7 @@ class _SignUpState extends State<SignUp> {
                                                   "code2" : verCode2,
                                                 });
                                                 await db.sendSMS("SpotMii Verification: $verCode2", number.text.trim());
-                                                _time2 = Timer.periodic(Duration(seconds: 1), (time) {
+                                                _time2 = Timer.periodic(const Duration(seconds: 1), (time) {
                                                   setState(() {
                                                     if(time2 >= 300){
                                                       time2 = 0;
@@ -470,9 +470,9 @@ class _SignUpState extends State<SignUp> {
                                                 MyWidgets.message("Code Already Sent!", context);
                                               }
                                             },
-                                            child: MyWidgets.text("RESEND OTP", 16.0, FontWeight.bold, Color(0xff04123B), context,false),
+                                            child: MyWidgets.text("RESEND OTP", 16.0, FontWeight.bold, const Color(0xff04123B), context,false),
                                           ),
-                                          MyWidgets.text("${simplifyTime(time2)}", 17.0, FontWeight.bold, Colors.red, context,false),
+                                          MyWidgets.text(simplifyTime(time2), 17.0, FontWeight.bold, Colors.red, context,false),
                                         ],
                                       ),
                                       SizedBox(
@@ -493,7 +493,7 @@ class _SignUpState extends State<SignUp> {
                                             });
                                             Navigator.pop(context);
                                             MyWidgets.navigateP(MyWidgets.congratulation("Congratulations", "Your account has been successfully created!", (){
-                                              MyWidgets.navigateP(Login(), context);
+                                              MyWidgets.navigateP(const Login(), context);
                                             }, context, "Sign In"), context);
                                           }else{
                                             setState(() {
@@ -504,7 +504,7 @@ class _SignUpState extends State<SignUp> {
                                             });
                                             Navigator.pop(context);
                                           }
-                                        }, Color(0xff04123B), context),
+                                        }, const Color(0xff04123B), context),
                                       )
                                     ],
                                   ),
@@ -575,13 +575,13 @@ class _SignUpState extends State<SignUp> {
                           MyWidgets.message("Agree to our terms and condition if you want to signup!", context);
                         }
                         Navigator.pop(context);
-                      },Color(0xff0A1B4D),context),
+                      },const Color(0xff0A1B4D),context),
                     ),
                   ],
                 ),
               ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,

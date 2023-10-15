@@ -26,13 +26,13 @@ class _TransactionState extends State<Transaction> {
       appBar: MyWidgets.appbar("Transaction", context),
       body: Column(
         children: [
-          Container(
+          SizedBox(
             height: (MediaQuery.of(context).size.height * 0.825 ) - 0.5,
             child: Column(
               children: [
-                SizedBox(height: 10,),
-                MyWidgets.text("See your latest transaction history here. \n Some transaction may reflect within 24 hours.", 14.0, FontWeight.normal, Color(0xff111111),context,false),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
+                MyWidgets.text("See your latest transaction history here. \n Some transaction may reflect within 24 hours.", 14.0, FontWeight.normal, const Color(0xff111111),context,false),
+                const SizedBox(height: 10,),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.75,
                   child: FutureBuilder(
@@ -43,22 +43,22 @@ class _TransactionState extends State<Transaction> {
                           return ListView.builder(
                             itemCount: data.length,
                             itemBuilder: (context,index){
-                              return MyWidgets.transaction(AssetImage('assets/10.png'), data[index]["ts_to"], data[index]["ts_type"], data[index]["ts_amount"], data[index]["ts_date"], context, data[index]["ts_account"]);
+                              return MyWidgets.transaction(const AssetImage('assets/10.png'), data[index]["ts_to"], data[index]["ts_type"], data[index]["ts_amount"], data[index]["ts_date"], context, data[index]["ts_account"]);
                             },
                           );
                         }else{
                           return Center(
-                            child: Container(
+                            child: SizedBox(
                               height: MediaQuery.of(context).size.height * 0.75,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
+                                  SizedBox(
                                     height:130,
                                     child: Image.asset("assets/notransactions.png"),
                                   ),
-                                  SizedBox(height:10),
-                                  MyWidgets.text("No Transactions Yet!", 22, FontWeight.bold, Color(0xff111111), context, false)
+                                  const SizedBox(height:10),
+                                  MyWidgets.text("No Transactions Yet!", 22, FontWeight.bold, const Color(0xff111111), context, false)
                                 ],
                               ),
                             ),

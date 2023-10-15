@@ -4,7 +4,7 @@ import 'constants.dart';
 
 class MyIcons{
   static feature(image,callback,color,text,textcolor,context){
-    return Container(
+    return SizedBox(
       width: ((MediaQuery.of(context).size.width * 0.9) / 5),
       child: GestureDetector(
         onTap: callback,
@@ -16,12 +16,12 @@ class MyIcons{
                 color: color,
                 borderRadius: BorderRadius.circular(5)
               ),
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               width: ((MediaQuery.of(context).size.width * 0.9) / 5.6),
               //height: ((MediaQuery.of(context).size.width * 1) / 6),
               child: Image.asset(image,height: 27.5,),
             ),
-            SizedBox(height: 5,),
+            const SizedBox(height: 5,),
             myText(text:text,overflow:TextOverflow.ellipsis,style:myStyle(size:MF(14,context),color: textcolor).create(),).create(),
           ],
         ),

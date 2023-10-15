@@ -18,30 +18,29 @@ class FingerprintPage extends StatelessWidget {
   List<String> error = ["We didn't recognize that Mobile Number Try again","We didn't recognize that Email. Try again","We didn't recognize that Username. Try again"];
   final _formKey = GlobalKey<FormState>();
   bool visible = true;
+
+  FingerprintPage({super.key});
   @override
   Widget build(BuildContext context) {
     //print(context.read<TransactionBloc>().state);
     return Scaffold(
 
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          //decoration: MyWidgets.gradient(),
-
-
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
 
-              SizedBox(height: 40,),
+              const SizedBox(height: 40,),
               IconButton(
                 icon: Image.asset('assets/1.png'),
                 iconSize: 150,
                 onPressed: () {},
               ),
-              SizedBox(height: 50,),
+              const SizedBox(height: 50,),
               Column(
                 children: [
                   Visibility(
@@ -78,35 +77,35 @@ class FingerprintPage extends StatelessWidget {
                                 decoration:  InputDecoration(
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide:  BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
+                                    borderSide:  const BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   disabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
+                                    borderSide: const BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
+                                    borderSide: const BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
+                                    borderSide: const BorderSide(color: Color(0xff0A1B4D), width: 1.5,),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   fillColor: Colors.white,
                                   hintText: "Email",
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                                   suffixIcon: IconButton(
-                                    color: Color(0xff0A1B4D),
+                                    color: const Color(0xff0A1B4D),
                                     onPressed: ()async{
                                       SharedPreferences preferences = await SharedPreferences.getInstance();
                                       await preferences.clear();
-                                      MyWidgets.navigateP(Login(), context);
+                                      MyWidgets.navigateP(const Login(), context);
                                     },
-                                    icon: Icon(Icons.change_circle_outlined),
+                                    icon: const Icon(Icons.change_circle_outlined),
                                   ),
                                   hintStyle: TextStyle(
-                                      color: Color(0xff0A1B4D),
+                                      color: const Color(0xff0A1B4D),
                                       fontSize: MF(18.0, context),
                                       fontFamily: "Poppins"
                                   ),
@@ -115,12 +114,12 @@ class FingerprintPage extends StatelessWidget {
                             ),
                           ),
 
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                           Visibility(
                             visible: false,
                             child: SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.80,
-                                child: MyWidgets.passwordFormField(passwordController, 'Password',Color(0xff0A1B4D),(value){
+                                child: MyWidgets.passwordFormField(passwordController, 'Password',const Color(0xff0A1B4D),(value){
                                   if (value == null || value.isEmpty) {
                                     return 'Password cannot be empty!';
                                   }else if(value.length < 9){
@@ -134,7 +133,7 @@ class FingerprintPage extends StatelessWidget {
                         ],
                       )
                   ),
-                  Visibility(
+                  const Visibility(
                       visible: false,
                       child: SizedBox(height: 35,)
                   ),
@@ -160,26 +159,26 @@ class FingerprintPage extends StatelessWidget {
                         }
 
                          */
-                          MyWidgets.navigatePR(Home(), context);
-                        },Color(0xff04123B),context)
+                          MyWidgets.navigatePR(const Home(), context);
+                        },const Color(0xff04123B),context)
                     ),
                   ),
                   Visibility(
                     visible: true,
                     child: Column(
                       children: [
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         FractionallySizedBox(
                           widthFactor: 0.8,
                           child: TextButton(
                               onPressed: ()async{
                                 SharedPreferences preferences = await SharedPreferences.getInstance();
                                 await preferences.clear();
-                                MyWidgets.navigateP(Login(), context);
+                                MyWidgets.navigateP(const Login(), context);
                               },
-                              child: MyWidgets.text("Login via password", 20.0, FontWeight.bold, Color(0xff111111), context,false)),
+                              child: MyWidgets.text("Login via password", 20.0, FontWeight.bold, const Color(0xff111111), context,false)),
                         ),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         IconButton(
                           icon: Image.asset('assets/2.png'),
                           iconSize: 90,
@@ -188,15 +187,15 @@ class FingerprintPage extends StatelessWidget {
                             if (isAuthenticated) {
                               if(currentUser!.type == "admin"){
                                 Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(builder: (context) => Admin()),
+                                  MaterialPageRoute(builder: (context) => const Admin()),
                                 );
                               }else if(currentUser!.type == "merchant"){
                                 Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(builder: (context) => Merchant()),
+                                  MaterialPageRoute(builder: (context) => const Merchant()),
                                 );
                               }else{
                                 Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(builder: (context) => Home()),
+                                  MaterialPageRoute(builder: (context) => const Home()),
                                 );
                               }
 
@@ -205,7 +204,7 @@ class FingerprintPage extends StatelessWidget {
                             }
                           },
                         ),
-                        SizedBox(height: 120,)
+                        const SizedBox(height: 120,)
                       ],
                     ),
                   ),
@@ -232,7 +231,7 @@ class FingerprintPage extends StatelessWidget {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Availability'),
+          title: const Text('Availability'),
           content: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -247,14 +246,14 @@ class FingerprintPage extends StatelessWidget {
   );
 
   Widget buildText(String text, bool checked) => Container(
-    margin: EdgeInsets.symmetric(vertical: 8),
+    margin: const EdgeInsets.symmetric(vertical: 8),
     child: Row(
       children: [
         checked
-            ? Icon(Icons.check, color: Colors.green, size: 24)
-            : Icon(Icons.close, color: Colors.red, size: 24),
+            ? const Icon(Icons.check, color: Colors.green, size: 24)
+            : const Icon(Icons.close, color: Colors.red, size: 24),
         const SizedBox(width: 12),
-        Text(text, style: TextStyle(fontSize: 24)),
+        Text(text, style: const TextStyle(fontSize: 24)),
       ],
     ),
   );
@@ -267,7 +266,7 @@ class FingerprintPage extends StatelessWidget {
 
       if (isAuthenticated) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => const HomePage()),
         );
       }
     },
@@ -280,31 +279,33 @@ class FingerprintPage extends StatelessWidget {
   }) =>
       ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
-          minimumSize: Size.fromHeight(50),
+          minimumSize: const Size.fromHeight(50),
         ),
         icon: Icon(icon, size: 26),
         label: Text(
           text,
-          style: TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 20),
         ),
         onPressed: onClicked,
       );
 }
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) => Scaffold(
     body: Padding(
-      padding: EdgeInsets.all(32),
+      padding: const EdgeInsets.all(32),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Home',
               style: TextStyle(fontSize: 40),
             ),
-            SizedBox(height: 48),
+            const SizedBox(height: 48),
             buildLogoutButton(context)
           ],
         ),
@@ -314,9 +315,9 @@ class HomePage extends StatelessWidget {
 
   Widget buildLogoutButton(BuildContext context) => ElevatedButton(
     style: ElevatedButton.styleFrom(
-      minimumSize: Size.fromHeight(50),
+      minimumSize: const Size.fromHeight(50),
     ),
-    child: Text(
+    child: const Text(
       'Logout',
       style: TextStyle(fontSize: 20),
     ),

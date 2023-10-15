@@ -25,17 +25,18 @@ class _SignVerifyState extends State<SignVerify> {
   String verCode2 = "";
   bool mVerErrorOn = false;
   bool eVerErrorOn = false;
-  FocusNode _focus8 = FocusNode();
-  FocusNode _focus9 = FocusNode();
+  final FocusNode _focus8 = FocusNode(),_focus9 = FocusNode();
   var emailVerification = TextEditingController();
   var mobileVerification = TextEditingController();
   String mVerErrorMessage = "";
   String eVerErrorMessage = "";
+  @override
   void initState() {
     super.initState();
     _focus8.addListener(_onFocusChange8);
     _focus9.addListener(_onFocusChange9);
   }
+  @override
   void dispose() {
     super.dispose();
     _focus8.removeListener(_onFocusChange8);_focus9.removeListener(_onFocusChange9);
@@ -65,7 +66,7 @@ class _SignVerifyState extends State<SignVerify> {
     String minutes =( time / 60 ).floor().toString();
     int seconds =( time % 60 );
     String segundo = "";
-    segundo = seconds < 10 ? "0" + seconds.toString() : seconds.toString();
+    segundo = seconds < 10 ? "0$seconds" : seconds.toString();
     return "$minutes:$segundo";
   }
   @override
@@ -73,7 +74,7 @@ class _SignVerifyState extends State<SignVerify> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(10),
                 topLeft: Radius.circular(10),
@@ -83,19 +84,19 @@ class _SignVerifyState extends State<SignVerify> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 40,),
-              Center(child: MyWidgets.text("Verification Code", 25.0, FontWeight.bold, Color(0xff111111), context,false)),
-              SizedBox(height: 40,),
-              FractionallySizedBox(widthFactor:0.7,child: Center(child: MyWidgets.text(" For verification purposes please enter the verification code we sent in your email and mobile number to verify your identity.", 15.0, FontWeight.normal, Color(0xff111111), context,false))),
-              SizedBox(height: 20,),
+              const SizedBox(height: 40,),
+              Center(child: MyWidgets.text("Verification Code", 25.0, FontWeight.bold, const Color(0xff111111), context,false)),
+              const SizedBox(height: 40,),
+              FractionallySizedBox(widthFactor:0.7,child: Center(child: MyWidgets.text(" For verification purposes please enter the verification code we sent in your email and mobile number to verify your identity.", 15.0, FontWeight.normal, const Color(0xff111111), context,false))),
+              const SizedBox(height: 20,),
               FractionallySizedBox(
                 widthFactor:0.8,
-                child: MyWidgets.errorTextFormField(emailVerification, "Email Verification Code", Color(0xff111111),context,eVerErrorOn,eVerErrorMessage,_focus8),
+                child: MyWidgets.errorTextFormField(emailVerification, "Email Verification Code", const Color(0xff111111),context,eVerErrorOn,eVerErrorMessage,_focus8),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  MyWidgets.text("Didn't receive the OTP? ", 15.0, FontWeight.normal, Color(0xff111111), context,false),
+                  MyWidgets.text("Didn't receive the OTP? ", 15.0, FontWeight.normal, const Color(0xff111111), context,false),
                   TextButton(
                     onPressed: ()async{
                       if(!timer1On){
@@ -116,7 +117,7 @@ class _SignVerifyState extends State<SignVerify> {
                           "body" : "To continue signing up on SpotMii your Email verification code is $verCode1."
                         });
                         print(checking);
-                        _time1 = Timer.periodic(Duration(seconds: 1), (time) {
+                        _time1 = Timer.periodic(const Duration(seconds: 1), (time) {
                           setState(() {
                             if(time1 >= 300){
                               time1 = 0;
@@ -129,22 +130,22 @@ class _SignVerifyState extends State<SignVerify> {
                         });
 
                       }else{
-                        MyWidgets.message("Verification already sent! ${time1}", context);
+                        MyWidgets.message("Verification already sent! $time1", context);
                       }
                     },
-                    child: MyWidgets.text("RESEND OTP", 16.0, FontWeight.bold, Color(0xff04123B), context,false),
+                    child: MyWidgets.text("RESEND OTP", 16.0, FontWeight.bold, const Color(0xff04123B), context,false),
                   ),
-                  MyWidgets.text("${simplifyTime(time1)}", 17.0, FontWeight.bold, Colors.red, context,false),
+                  MyWidgets.text(simplifyTime(time1), 17.0, FontWeight.bold, Colors.red, context,false),
                 ],
               ),
               FractionallySizedBox(
                 widthFactor:0.8,
-                child: MyWidgets.errorTextFormField(mobileVerification, "Mobile Verification Code", Color(0xff111111),context,eVerErrorOn,mVerErrorMessage,_focus9),
+                child: MyWidgets.errorTextFormField(mobileVerification, "Mobile Verification Code", const Color(0xff111111),context,eVerErrorOn,mVerErrorMessage,_focus9),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  MyWidgets.text("Didn't receive the OTP? ", 15.0, FontWeight.normal, Color(0xff111111), context,false),
+                  MyWidgets.text("Didn't receive the OTP? ", 15.0, FontWeight.normal, const Color(0xff111111), context,false),
                   TextButton(
                     onPressed: ()async{
                       if(!timer2On){
@@ -165,7 +166,7 @@ class _SignVerifyState extends State<SignVerify> {
                         });
                         print(checking);
 
-                        _time2 = Timer.periodic(Duration(seconds: 1), (time) {
+                        _time2 = Timer.periodic(const Duration(seconds: 1), (time) {
                           setState(() {
                             if(time2 >= 300){
                               time2 = 0;
@@ -181,13 +182,13 @@ class _SignVerifyState extends State<SignVerify> {
                         MyWidgets.message("Code Already Sent!", context);
                       }
                     },
-                    child: MyWidgets.text("RESEND OTP", 16.0, FontWeight.bold, Color(0xff04123B), context,false),
+                    child: MyWidgets.text("RESEND OTP", 16.0, FontWeight.bold, const Color(0xff04123B), context,false),
 
                   ),
-                  MyWidgets.text("${simplifyTime(time2)}", 17.0, FontWeight.bold, Colors.red, context,false),
+                  MyWidgets.text(simplifyTime(time2), 17.0, FontWeight.bold, Colors.red, context,false),
                 ],
               ),
-              SizedBox(height: 40,),
+              const SizedBox(height: 40,),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
                 height: 40,
@@ -195,7 +196,7 @@ class _SignVerifyState extends State<SignVerify> {
                   showDialog(
                       barrierDismissible: false,
                       context: context, builder: (context){
-                    return Center(
+                    return const Center(
                       child:CircularProgressIndicator(),
                     );
                   });
@@ -213,7 +214,7 @@ class _SignVerifyState extends State<SignVerify> {
                       "code2" : verCode2
                     });
                     MyWidgets.navigatePR(MyWidgets.congratulation("Congratulations", "Your account has been successfully created!", (){
-                      MyWidgets.navigatePR(Login(), context);
+                      MyWidgets.navigatePR(const Login(), context);
                     }, context, "Sign In"), context);
                   }else{
                     eVerErrorOn = true;
@@ -221,7 +222,7 @@ class _SignVerifyState extends State<SignVerify> {
                     mVerErrorOn = true;
                     mVerErrorMessage = "Wrong Verification Code";
                   }
-                }, Color(0xff04123B), context),
+                }, const Color(0xff04123B), context),
               )
 
             ],

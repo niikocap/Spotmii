@@ -36,14 +36,14 @@ class _VerificationState extends State<Verification> {
   String dropdownvalue = 'Passport';
   String genderValue = 'Male';
   Future<File> getImage() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     File file = File(image!.path);
     return file;
   }
   Future<File> getImage1() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
     File file = File(image!.path);
     return file;
   }
@@ -66,25 +66,25 @@ class _VerificationState extends State<Verification> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 15,),
+            const SizedBox(height: 15,),
             Center(
-              child: Container(
+              child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width * 0.4,
                       child: Column(
                         children: [
                           Align(
                               alignment:Alignment.centerLeft,
-                              child: MyWidgets.text("First name", 17.0, FontWeight.bold, Color(0xff3B4652),context,false)
+                              child: MyWidgets.text("First name", 17.0, FontWeight.bold, const Color(0xff3B4652),context,false)
                           ),
-                          SizedBox(height: 5,),
+                          const SizedBox(height: 5,),
                           SizedBox(
                             height: 40,
-                            child: MyWidgets.textFormField(fNameController, "First name", Color(0xff3B4652),(value){
+                            child: MyWidgets.textFormField(fNameController, "First name", const Color(0xff3B4652),(value){
                               if(value == null){
                                 return "First Name cannot be empty";
                               }
@@ -93,18 +93,18 @@ class _VerificationState extends State<Verification> {
                         ],
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width * 0.4,
                       child: Column(
                         children: [
                           Align(
                               alignment:Alignment.centerLeft,
-                              child: MyWidgets.text("Last name", 17.0, FontWeight.bold, Color(0xff3B4652),context,false)
+                              child: MyWidgets.text("Last name", 17.0, FontWeight.bold, const Color(0xff3B4652),context,false)
                           ),
-                          SizedBox(height: 5,),
+                          const SizedBox(height: 5,),
                           SizedBox(
                             height: 40,
-                            child: MyWidgets.textFormField(lNameController, "Last name", Color(0xff3B4652),(value){
+                            child: MyWidgets.textFormField(lNameController, "Last name", const Color(0xff3B4652),(value){
                               if(value == null){
                                 return "First Name cannot be empty";
                               }
@@ -117,19 +117,19 @@ class _VerificationState extends State<Verification> {
                 ),
               ),
             ),
-            SizedBox(height: 15,),
-            Container(
+            const SizedBox(height: 15,),
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
               child: Column(
                 children: [
                   Align(
                       alignment:Alignment.centerLeft,
-                      child: MyWidgets.text("Full Address", 17.0, FontWeight.bold, Color(0xff3B4652),context,false)
+                      child: MyWidgets.text("Full Address", 17.0, FontWeight.bold, const Color(0xff3B4652),context,false)
                   ),
-                  SizedBox(height: 5,),
+                  const SizedBox(height: 5,),
                   SizedBox(
                     height: 40,
-                    child:  MyWidgets.textFormField(addressController, "Full Address", Color(0xff3B4652),(value){
+                    child:  MyWidgets.textFormField(addressController, "Full Address", const Color(0xff3B4652),(value){
                       if(value == null){
                         return "First Name cannot be empty";
                       }
@@ -139,22 +139,22 @@ class _VerificationState extends State<Verification> {
                 ],
               ),
             ),
-            SizedBox(height: 15,),
-            Container(
+            const SizedBox(height: 15,),
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.40,
                     child: Column(
                       children: [
                         Align(
                             alignment:Alignment.centerLeft,
-                            child: MyWidgets.text("Select Country", 17.0, FontWeight.bold, Color(0xff3B4652),context,false)
+                            child: MyWidgets.text("Select Country", 17.0, FontWeight.bold, const Color(0xff3B4652),context,false)
                         ),
-                        SizedBox(height: 5,),
-                        Container(
+                        const SizedBox(height: 5,),
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.50,
                           height: 40,
                           child:  TextField(
@@ -164,15 +164,15 @@ class _VerificationState extends State<Verification> {
                                 isCollapsed: true,
                               hintText: "Select Country",
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide:  BorderSide(color:  Color(0xff3B4652), width: 1.5,),
+                                  borderSide:  const BorderSide(color:  Color(0xff3B4652), width: 1.5,),
                                   borderRadius: BorderRadius.circular(40),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color:  Color(0xff3B4652), width: 1.5,),
+                                  borderSide: const BorderSide(color:  Color(0xff3B4652), width: 1.5,),
                                   borderRadius: BorderRadius.circular(40),
                                 ),
                               prefixIcon: IconButton(
-                                color: Color(0xff3B4652),
+                                color: const Color(0xff3B4652),
                                 onPressed: ()async{
                                   final code1 = await countryPicker.showPicker(context: context);
                                   setState(() {
@@ -180,18 +180,18 @@ class _VerificationState extends State<Verification> {
                                     code = code1.dialCode;
                                   });
                                 },
-                                icon: Icon(Icons.flag),
+                                icon: const Icon(Icons.flag),
                               ),
                               hintStyle: TextStyle(
                                   fontSize: MF(18, context),
                                   fontFamily: "Poppins",
-                                  color: Color(0xff3B4652)
+                                  color: const Color(0xff3B4652)
                               ),
                             ),
                             style: TextStyle(
                                 fontSize: MF(18, context),
                                 fontFamily: "Poppins",
-                                color: Color(0xff3B4652)
+                                color: const Color(0xff3B4652)
                             ),
                           )
                         )
@@ -199,18 +199,18 @@ class _VerificationState extends State<Verification> {
                       ],
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.40,
                     child: Column(
                       children: [
                         Align(
                             alignment:Alignment.centerLeft,
-                            child: MyWidgets.text("Zip Code", 17.0, FontWeight.bold, Color(0xff3B4652),context,false)
+                            child: MyWidgets.text("Zip Code", 17.0, FontWeight.bold, const Color(0xff3B4652),context,false)
                         ),
-                        SizedBox(height: 5,),
+                        const SizedBox(height: 5,),
                         SizedBox(
                           height: 40,
-                          child:  MyWidgets.textFormField(controller, "Zip Code", Color(0xff3B4652),(value){
+                          child:  MyWidgets.textFormField(controller, "Zip Code", const Color(0xff3B4652),(value){
                             if(value == null){
                               return "First Name cannot be empty";
                             }
@@ -223,38 +223,38 @@ class _VerificationState extends State<Verification> {
                 ],
               ),
             ),
-            SizedBox(height: 15,),
-            Container(
+            const SizedBox(height: 15,),
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
               child: Column(
                 children: [
                   Align(
                       alignment:Alignment.centerLeft,
-                      child: MyWidgets.text("Mobile Number", 17.0, FontWeight.bold, Color(0xff3B4652),context,false)
+                      child: MyWidgets.text("Mobile Number", 17.0, FontWeight.bold, const Color(0xff3B4652),context,false)
                   ),
-                  SizedBox(height: 5,),
-                  Container(
+                  const SizedBox(height: 5,),
+                  SizedBox(
                     height: 40,
                     child:  TextField(
                       controller: numberController,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
                         isCollapsed: true,
                         hintText: "Enter Mobile Number",
-                        prefixText: code + " | ",
+                        prefixText: "$code | ",
                         focusedBorder: OutlineInputBorder(
-                          borderSide:  BorderSide(color:  Color(0xff3B4652), width: 1.5,),
+                          borderSide:  const BorderSide(color:  Color(0xff3B4652), width: 1.5,),
                           borderRadius: BorderRadius.circular(40),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color:  Color(0xff3B4652), width: 1.5,),
+                          borderSide: const BorderSide(color:  Color(0xff3B4652), width: 1.5,),
                           borderRadius: BorderRadius.circular(40),
                         ),
                         hintStyle: TextStyle(
                           fontFamily: "Poppins",
                           fontSize: MF(18, context),
-                          color: Color(0xff3B4652)
+                          color: const Color(0xff3B4652)
                         )
                       ),
                     )
@@ -263,21 +263,21 @@ class _VerificationState extends State<Verification> {
                 ],
               ),
             ),
-            SizedBox(height: 15,),
-            Container(
+            const SizedBox(height: 15,),
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.40,
                     child: Column(
                       children: [
                         Align(
                             alignment:Alignment.centerLeft,
-                            child: MyWidgets.text("Birthdate", 17.0, FontWeight.bold, Color(0xff3B4652),context,false)
+                            child: MyWidgets.text("Birthdate", 17.0, FontWeight.bold, const Color(0xff3B4652),context,false)
                         ),
-                        SizedBox(height: 5,),
+                        const SizedBox(height: 5,),
                         SizedBox(
                           height: 40,
                           child:  TextField(
@@ -289,37 +289,37 @@ class _VerificationState extends State<Verification> {
 
                               hintText: "Select Date",
                               prefixIcon: IconButton(
-                                color: Color(0xff04123B),
+                                color: const Color(0xff04123B),
                                 onPressed: ()async{
                                   var date = await showDatePicker(context: context, initialDate: DateTime(2010), firstDate: DateTime(1960), lastDate: DateTime(2010));
                                   setState(() {
                                     birthdayController.text = date.toString().split(" ")[0];
                                   });
                                 },
-                                icon: Icon(Icons.calendar_month_rounded,color: Color(0xff3B4652),),
+                                icon: const Icon(Icons.calendar_month_rounded,color: Color(0xff3B4652),),
                               ),
                               disabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xff3B4652), width: 1.5,),
+                                borderSide: const BorderSide(color: Color(0xff3B4652), width: 1.5,),
                                 borderRadius: BorderRadius.circular(40),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide:  BorderSide(color: Color(0xff3B4652), width: 1.5,),
+                                borderSide:  const BorderSide(color: Color(0xff3B4652), width: 1.5,),
                                 borderRadius: BorderRadius.circular(40),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color:Color(0xff3B4652), width: 1.5,),
+                                borderSide: const BorderSide(color:Color(0xff3B4652), width: 1.5,),
                                 borderRadius: BorderRadius.circular(40),
                               ),
                               hintStyle: TextStyle(
                                 fontFamily: "Poppins",
                                 fontSize: MF(18, context),
-                                color: Color(0xff3B4652)
+                                color: const Color(0xff3B4652)
                               )
                             ),
                             style: TextStyle(
                                 fontFamily: "Poppins",
                                 fontSize: MF(18, context),
-                                color: Color(0xff3B4652)
+                                color: const Color(0xff3B4652)
                             ),
                           )
                         )
@@ -327,15 +327,15 @@ class _VerificationState extends State<Verification> {
                       ],
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: Column(
                       children: [
                         Align(
                             alignment:Alignment.centerLeft,
-                            child: MyWidgets.text("Gender", 17.0, FontWeight.bold, Color(0xff04123B),context,false)
+                            child: MyWidgets.text("Gender", 17.0, FontWeight.bold, const Color(0xff04123B),context,false)
                         ),
-                        SizedBox(height: 5,),
+                        const SizedBox(height: 5,),
                         Container(
                           height: 40,
                           decoration: BoxDecoration(
@@ -346,21 +346,21 @@ class _VerificationState extends State<Verification> {
                           width: MediaQuery.of(context).size.width * 0.4,
                           child: DropdownButtonFormField(
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 0),
                               focusedBorder: OutlineInputBorder(
-                                borderSide:  BorderSide(color: Color(0xff3B4652), width: 1.5,),
+                                borderSide:  const BorderSide(color: Color(0xff3B4652), width: 1.5,),
                                 borderRadius: BorderRadius.circular(99),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xff3B4652), width: 1.5,),
+                                borderSide: const BorderSide(color: Color(0xff3B4652), width: 1.5,),
                                 borderRadius: BorderRadius.circular(99),
                               ),
                               errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xff3B4652), width: 1.5,),
+                                borderSide: const BorderSide(color: Color(0xff3B4652), width: 1.5,),
                                 borderRadius: BorderRadius.circular(99),
                               ),
                               focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xff3B4652), width: 1.5,),
+                                borderSide: const BorderSide(color: Color(0xff3B4652), width: 1.5,),
                                 borderRadius: BorderRadius.circular(99),
                               ),
                             ),
@@ -372,7 +372,7 @@ class _VerificationState extends State<Verification> {
                             style: TextStyle(
                               fontFamily: "Poppins",
                               fontSize: MF(18,context),
-                              color: Color(0xff3B4652)
+                              color: const Color(0xff3B4652)
                             ),
                             // Array list of items
                             items: items1.map((String items1) {
@@ -397,7 +397,7 @@ class _VerificationState extends State<Verification> {
                 ],
               ),
             ),
-            SizedBox(height: 15,),
+            const SizedBox(height: 15,),
             Container(
               height: 40,
               decoration: BoxDecoration(
@@ -408,21 +408,21 @@ class _VerificationState extends State<Verification> {
               width: MediaQuery.of(context).size.width * 0.85,
               child: DropdownButtonFormField(
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 0),
                   focusedBorder: OutlineInputBorder(
-                    borderSide:  BorderSide(color: Color(0xff3B4652), width: 1.5,),
+                    borderSide:  const BorderSide(color: Color(0xff3B4652), width: 1.5,),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xff3B4652), width: 1.5,),
+                    borderSide: const BorderSide(color: Color(0xff3B4652), width: 1.5,),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xff3B4652), width: 1.5,),
+                    borderSide: const BorderSide(color: Color(0xff3B4652), width: 1.5,),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xff3B4652), width: 1.5,),
+                    borderSide: const BorderSide(color: Color(0xff3B4652), width: 1.5,),
                     borderRadius: BorderRadius.circular(15),
                   ),
                 ),
@@ -434,7 +434,7 @@ class _VerificationState extends State<Verification> {
                 style: TextStyle(
                   fontSize: MF(18, context),
                   fontFamily: "Poppins",
-                  color:Color(0xff3B4652)
+                  color:const Color(0xff3B4652)
                 ),
                 // Array list of items
                 items: items.map((String items) {
@@ -452,14 +452,14 @@ class _VerificationState extends State<Verification> {
                 },
               ),
             ),
-            SizedBox(height: 10,),
-            Container(
+            const SizedBox(height: 10,),
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
               child: Column(
                 children: [
                   Align(
                       alignment:Alignment.bottomLeft,
-                      child: MyWidgets.text("Upload ID type for verification", 16.0, FontWeight.normal, Color(0xff3B4652),context,false)
+                      child: MyWidgets.text("Upload ID type for verification", 16.0, FontWeight.normal, const Color(0xff3B4652),context,false)
                   ),
                   Visibility(
                     visible: dropdownvalue != 'Bank Account Statement',
@@ -482,10 +482,10 @@ class _VerificationState extends State<Verification> {
                                 icon: Image.asset("assets/28.png"),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               width: (MediaQuery.of(context).size.width * 0.40),
                               height: backImage != null || frontImage != null ? 100 : 30,
-                              child:  frontImage == null ? Column(children: [Text("Front ID Image")],) : Column(
+                              child:  frontImage == null ? const Column(children: [Text("Front ID Image")],) : Column(
                                 children: [
                                    GestureDetector(
                                        onTap: (){
@@ -494,7 +494,7 @@ class _VerificationState extends State<Verification> {
                                              builder: (context){
                                                return Column(
                                                  children: [
-                                                   SizedBox(height: 10,),
+                                                   const SizedBox(height: 10,),
                                                    SizedBox(
                                                      height: 40,
                                                      width:MediaQuery.of(context).size.width * 0.85,
@@ -502,10 +502,8 @@ class _VerificationState extends State<Verification> {
                                                        Navigator.pop(context);
                                                      }, Colors.redAccent, context),
                                                    ),
-                                                   SizedBox(height: 10,),
-                                                   Container(
-                                                     child: Image.file(File(frontImage.path),fit: BoxFit.contain,height: MediaQuery.of(context).size.height * 0.85,),
-                                                   ),
+                                                   const SizedBox(height: 10,),
+                                                   Image.file(File(frontImage.path),fit: BoxFit.contain,height: MediaQuery.of(context).size.height * 0.85,),
 
 
                                                  ],
@@ -513,10 +511,10 @@ class _VerificationState extends State<Verification> {
                                              }
                                          );
                                        },
-                                       child: MyWidgets.text(frontImage.path.split("/")[frontImage.path.split("/").length-1], 15, FontWeight.normal, Color(0xff111111), context,false)
+                                       child: MyWidgets.text(frontImage.path.split("/")[frontImage.path.split("/").length-1], 15, FontWeight.normal, const Color(0xff111111), context,false)
                                    ),
                                   Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
                                     child: GestureDetector(
                                       onTap: (){
                                         setState(() {
@@ -533,7 +531,7 @@ class _VerificationState extends State<Verification> {
                         ),
                         Column(
                           children: [
-                            Container(
+                            SizedBox(
                               width: (MediaQuery.of(context).size.width * 0.40),
                               child: IconButton(
                                 iconSize: (MediaQuery.of(context).size.width * 0.40),
@@ -546,10 +544,10 @@ class _VerificationState extends State<Verification> {
                                 icon: Image.asset("assets/29.png"),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               height: backImage != null || frontImage != null ? 100 : 30,
                               width: (MediaQuery.of(context).size.width * 0.40),
-                              child: backImage == null ? Column(children: [Text("Back ID Image")],) : Column(
+                              child: backImage == null ? const Column(children: [Text("Back ID Image")],) : Column(
                                 children: [
                                   GestureDetector(
                                       onTap: (){
@@ -558,7 +556,7 @@ class _VerificationState extends State<Verification> {
                                             builder: (context){
                                               return Column(
                                                 children: [
-                                                  SizedBox(height: 10,),
+                                                  const SizedBox(height: 10,),
                                                   SizedBox(
                                                     height: 40,
                                                     width:MediaQuery.of(context).size.width * 0.85,
@@ -566,10 +564,8 @@ class _VerificationState extends State<Verification> {
                                                       Navigator.pop(context);
                                                     }, Colors.redAccent, context),
                                                   ),
-                                                  SizedBox(height: 10,),
-                                                  Container(
-                                                    child: Image.file(File(backImage.path),fit: BoxFit.contain,height: MediaQuery.of(context).size.height * 0.85,),
-                                                  ),
+                                                  const SizedBox(height: 10,),
+                                                  Image.file(File(backImage.path),fit: BoxFit.contain,height: MediaQuery.of(context).size.height * 0.85,),
 
 
                                                 ],
@@ -577,10 +573,10 @@ class _VerificationState extends State<Verification> {
                                             }
                                         );
                                       },
-                                      child: MyWidgets.text(backImage.path.split("/")[backImage.path.split("/").length-1], 15, FontWeight.normal, Color(0xff111111), context,false)
+                                      child: MyWidgets.text(backImage.path.split("/")[backImage.path.split("/").length-1], 15, FontWeight.normal, const Color(0xff111111), context,false)
                                   ),
                                   Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
                                     child: GestureDetector(
                                       onTap: (){
                                         setState(() {
@@ -603,7 +599,7 @@ class _VerificationState extends State<Verification> {
                     visible: dropdownvalue == 'Bank Account Statement',
                     child: Column(
                       children: [
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         SizedBox(
                           height: 40,
                           width: MediaQuery.of(context).size.width * 0.85,
@@ -618,10 +614,10 @@ class _VerificationState extends State<Verification> {
                             } else {
                               // User canceled the picker
                             }
-                          }, Color(0xff04123B), context),
+                          }, const Color(0xff04123B), context),
                         ),
-                        SizedBox(height: 10,),
-                        MyWidgets.text("We accept PDF, PNG, WEBP, JPEG", 15, FontWeight.normal, Color(0xff111111), context,false),
+                        const SizedBox(height: 10,),
+                        MyWidgets.text("We accept PDF, PNG, WEBP, JPEG", 15, FontWeight.normal, const Color(0xff111111), context,false),
                       ],
                     ),
                   )
@@ -629,15 +625,15 @@ class _VerificationState extends State<Verification> {
               ),
             ),
 
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
               child: Column(
                 children: [
                   Align(
                       alignment:Alignment.center,
-                      child: MyWidgets.text("Upload Selfie Holding your ID for verification", 16.0, FontWeight.normal, Color(0xff3B4652),context,false)
+                      child: MyWidgets.text("Upload Selfie Holding your ID for verification", 16.0, FontWeight.normal, const Color(0xff3B4652),context,false)
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.85,
                     height: 40,
@@ -647,14 +643,14 @@ class _VerificationState extends State<Verification> {
 
                       });
 
-                    }, Color(0xff04123B),context),
+                    }, const Color(0xff04123B),context),
                   ),
-                  SizedBox(height: 5,),
-                  selfieImage == null ? Text("") : Row(
+                  const SizedBox(height: 5,),
+                  selfieImage == null ? const Text("") : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
                         child: GestureDetector(
                           onTap: (){
                             showDialog(
@@ -662,7 +658,7 @@ class _VerificationState extends State<Verification> {
                               builder: (context){
                                 return Column(
                                   children: [
-                                    SizedBox(height: 10,),
+                                    const SizedBox(height: 10,),
                                     SizedBox(
                                       height: 40,
                                       width:MediaQuery.of(context).size.width * 0.85,
@@ -670,10 +666,8 @@ class _VerificationState extends State<Verification> {
                                         Navigator.pop(context);
                                       }, Colors.redAccent, context),
                                     ),
-                                    SizedBox(height: 10,),
-                                    Container(
-                                      child: Image.file(File(selfieImage.path),fit: BoxFit.contain,height: MediaQuery.of(context).size.height * 0.85,),
-                                    ),
+                                    const SizedBox(height: 10,),
+                                    Image.file(File(selfieImage.path),fit: BoxFit.contain,height: MediaQuery.of(context).size.height * 0.85,),
 
 
                                   ],
@@ -686,7 +680,7 @@ class _VerificationState extends State<Verification> {
                       ),
                       //MyWidgets.text(selfieImage.path.split("/")[selfieImage.path.split("/").length-1], 15, FontWeight.normal, Color(0xff111111), context),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
                         child: GestureDetector(
                           onTap: (){
                             setState(() {
@@ -701,7 +695,7 @@ class _VerificationState extends State<Verification> {
                 ],
               ),
             ),
-            SizedBox(height: 5,),
+            const SizedBox(height: 5,),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
               height: 40,
@@ -724,7 +718,7 @@ class _VerificationState extends State<Verification> {
                       return Container(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height * 0.4,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(15),
@@ -733,23 +727,23 @@ class _VerificationState extends State<Verification> {
                         ),
                         child: Column(
                             children: [
-                              SizedBox(height:10,),
+                              const SizedBox(height:10,),
                               Container(height: 5,width:50,decoration: BoxDecoration(borderRadius: BorderRadius.circular(99),color: Colors.grey)),
-                              SizedBox(height:10),
+                              const SizedBox(height:10),
                               IconButton(
-                                icon: Icon(Icons.warning_rounded,color: Colors.amber,),
+                                icon: const Icon(Icons.warning_rounded,color: Colors.amber,),
                                 iconSize: 125,
                                 onPressed: () {},
                               ),
-                              SizedBox(height:10),
-                              MyWidgets.text("Verification Application Pending!", 25, FontWeight.bold, Color(0xff111111), context,false),
-                              Container(width:MediaQuery.of(context).size.width * 1,child: MyWidgets.text("Please wait till your application is being processed", 17, FontWeight.normal, Color(0xff111111), context,false)),
-                              SizedBox(height:30),
+                              const SizedBox(height:10),
+                              MyWidgets.text("Verification Application Pending!", 25, FontWeight.bold, const Color(0xff111111), context,false),
+                              SizedBox(width:MediaQuery.of(context).size.width * 1,child: MyWidgets.text("Please wait till your application is being processed", 17, FontWeight.normal, const Color(0xff111111), context,false)),
+                              const SizedBox(height:30),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.8,
                                 child: MyWidgets.button("Home", (){
-                                  MyWidgets.navigatePR(Home(), context);
-                                }, Color(0xff04123B), context),
+                                  MyWidgets.navigatePR(const Home(), context);
+                                }, const Color(0xff04123B), context),
                               ),
 
                             ]
@@ -759,14 +753,14 @@ class _VerificationState extends State<Verification> {
                   }else{
                     Navigator.pop(context);
                     showDialog(context: context, builder: (context){
-                      return Text("Sample Dialog for failed submit");
+                      return const Text("Sample Dialog for failed submit");
                     });
                   }
 
                 }
-              }, Color(0xff04123B),context),
+              }, const Color(0xff04123B),context),
             ),
-            SizedBox(height: 15,),
+            const SizedBox(height: 15,),
           ],
         ),
       ),
@@ -786,30 +780,28 @@ class _verConfirmState extends State<verConfirm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyWidgets.appbar("KYC Verification", context),
-      body: Container(
-        child: Column(
-          children: [
-            SizedBox(height: 40,),
-            IconButton(
-              padding: EdgeInsets.zero,
-              constraints: BoxConstraints(),
-              onPressed: (){
-               
-              },
-              iconSize: 200,
-              icon: Image.asset("assets/verIcon.png"),
-            ),
-            SizedBox(height: 10,),
-            FractionallySizedBox(widthFactor: 1,),
-            MyWidgets.text("Verify your identity!", 30, FontWeight.bold, Color(0xff111111), context,false),
-            SizedBox(height: 20,),
-            FractionallySizedBox(widthFactor: 0.85,child:  MyWidgets.text("This process is designed to verify your identity, and to protect you from identity theft. As we're a financial service, we have to comply with KYC and AML requirements. \n\n You just need to go through some steps which will help us to build a secure system together.", 18, FontWeight.bold, Color(0xff111111), context,false),),
-            SizedBox(height: 20,),
-            SizedBox(width: MediaQuery.of(context).size.width * 0.85,height: 40,child: MyWidgets.button("Verify", (){
-              MyWidgets.navigatePR(Verification(), context);
-            }, Color(0xff04123B), context),)
-          ],
-        ),
+      body: Column(
+        children: [
+          const SizedBox(height: 40,),
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            onPressed: (){
+
+            },
+            iconSize: 200,
+            icon: Image.asset("assets/verIcon.png"),
+          ),
+          const SizedBox(height: 10,),
+          const FractionallySizedBox(widthFactor: 1,),
+          MyWidgets.text("Verify your identity!", 30, FontWeight.bold, const Color(0xff111111), context,false),
+          const SizedBox(height: 20,),
+          FractionallySizedBox(widthFactor: 0.85,child:  MyWidgets.text("This process is designed to verify your identity, and to protect you from identity theft. As we're a financial service, we have to comply with KYC and AML requirements. \n\n You just need to go through some steps which will help us to build a secure system together.", 18, FontWeight.bold, const Color(0xff111111), context,false),),
+          const SizedBox(height: 20,),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.85,height: 40,child: MyWidgets.button("Verify", (){
+            MyWidgets.navigatePR(const Verification(), context);
+          }, const Color(0xff04123B), context),)
+        ],
       ),
     );
   }
@@ -829,18 +821,16 @@ class _ConfirmPasswordState extends State<ConfirmPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyWidgets.appbar("KYC Verification", context),
-      body: Container(
-        child: Column(
-          children: [
-            Column(
-              children: [
-                MyWidgets.text("Last Name", 14.0, FontWeight.bold, Color(0xff3B4652),context,false),
-                MyWidgets.textField(controller, "Enter Last Name",Color(0xff0A1B4D),context),
-              ],
-            ),
-            MyWidgets.button("Submit", (){}, Color(0xff04123B),context),
-          ],
-        ),
+      body: Column(
+        children: [
+          Column(
+            children: [
+              MyWidgets.text("Last Name", 14.0, FontWeight.bold, const Color(0xff3B4652),context,false),
+              MyWidgets.textField(controller, "Enter Last Name",const Color(0xff0A1B4D),context),
+            ],
+          ),
+          MyWidgets.button("Submit", (){}, const Color(0xff04123B),context),
+        ],
       ),
     );
   }

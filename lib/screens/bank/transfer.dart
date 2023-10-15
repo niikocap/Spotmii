@@ -32,28 +32,28 @@ class _BankTransferState extends State<BankTransfer> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 40,),
-            FractionallySizedBox(widthFactor:0.9,child: MyWidgets.text("ANZ – Australia and New Zealand Banking Group", 17.0, FontWeight.bold, Color(0xff111111), context,false)),
-            SizedBox(height: 10,),
+            const SizedBox(height: 40,),
+            FractionallySizedBox(widthFactor:0.9,child: MyWidgets.text("ANZ – Australia and New Zealand Banking Group", 17.0, FontWeight.bold, const Color(0xff111111), context,false)),
+            const SizedBox(height: 10,),
             Center(child: CustomFormWidget(controller: controller,)),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: TextField(
                 controller: controller,
                 decoration: InputDecoration(
-                  focusedBorder: UnderlineInputBorder(
+                  focusedBorder: const UnderlineInputBorder(
 
                   ),
-                  enabledBorder: UnderlineInputBorder(
+                  enabledBorder: const UnderlineInputBorder(
 
                   ),
-                  errorBorder: UnderlineInputBorder(
+                  errorBorder: const UnderlineInputBorder(
 
                   ),
                   hintText: "Account Name:",
                   hintStyle: TextStyle(
-                      color: Color(0xff04123B),
+                      color: const Color(0xff04123B),
                       fontSize: MF(17,context),
                       fontFamily: "Poppins",
                       fontWeight: FontWeight.bold
@@ -61,24 +61,24 @@ class _BankTransferState extends State<BankTransfer> {
                 ),
               ),
             ),
-            SizedBox(height: 5,),
+            const SizedBox(height: 5,),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: TextField(
                 controller: controller,
                 decoration: InputDecoration(
-                  focusedBorder: UnderlineInputBorder(
+                  focusedBorder: const UnderlineInputBorder(
 
                   ),
-                  enabledBorder: UnderlineInputBorder(
+                  enabledBorder: const UnderlineInputBorder(
 
                   ),
-                  errorBorder: UnderlineInputBorder(
+                  errorBorder: const UnderlineInputBorder(
 
                   ),
                   hintText: "Account Number:",
                   hintStyle: TextStyle(
-                      color: Color(0xff04123B),
+                      color: const Color(0xff04123B),
                       fontSize: MF(17,context),
                       fontFamily: "Poppins",
                       fontWeight: FontWeight.bold
@@ -86,9 +86,9 @@ class _BankTransferState extends State<BankTransfer> {
                 ),
               ),
             ),
-            SizedBox(height: 30,),
-            Container(width:MediaQuery.of(context).size.width * 0.8,child: MyWidgets.text("Please verify the accuracy and completeness of the details before you proceed.", 15.0, FontWeight.normal, Color(0xff111111), context,false)),
-            SizedBox(height: 30),
+            const SizedBox(height: 30,),
+            SizedBox(width:MediaQuery.of(context).size.width * 0.8,child: MyWidgets.text("Please verify the accuracy and completeness of the details before you proceed.", 15.0, FontWeight.normal, const Color(0xff111111), context,false)),
+            const SizedBox(height: 30),
             SizedBox(
               height:40,
               width:MediaQuery.of(context).size.width * 0.80,
@@ -97,11 +97,11 @@ class _BankTransferState extends State<BankTransfer> {
                     context: context,
                     builder: (BuildContext context) {
                       return Container(
-                        color:Color(0xff04123B),
+                        color:const Color(0xff04123B),
                         height: 60,
                         child: GestureDetector(
                           onTap: (){
-                            MyWidgets.navigatePR(TopUpFailed(), context);
+                            MyWidgets.navigatePR(const TopUpFailed(), context);
                           },
                           child: Center(
                             child: MyWidgets.text("Continue", 25.0, FontWeight.bold, Colors.white,context,false),
@@ -109,7 +109,7 @@ class _BankTransferState extends State<BankTransfer> {
                         ),
                       );
                     });
-              }, Color(0xff04123B),context),
+              }, const Color(0xff04123B),context),
             )
           ],
         ),

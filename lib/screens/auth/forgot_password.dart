@@ -29,33 +29,33 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return Scaffold(
       appBar: MyWidgets.appbar1("Forgot Password", context),
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
                 //MyWidgets.text("Spotmii", 53.0, FontWeight.bold)
-                SizedBox(height: 40,),
+                const SizedBox(height: 40,),
                 IconButton(
                   icon: Image.asset('assets/4.png'),
                   iconSize: 100,
                   onPressed: () {},
                 ),
-                SizedBox(height: 40,),
+                const SizedBox(height: 40,),
                 SizedBox(
                   width:MediaQuery.of(context).size.width * 0.8,
-                  child:MyWidgets.text("Enter your email and we'll send you a link to change a new password", 15.0, FontWeight.normal,Color(0xff111111),context,false),
+                  child:MyWidgets.text("Enter your email and we'll send you a link to change a new password", 15.0, FontWeight.normal,const Color(0xff111111),context,false),
                 ),
-                SizedBox(height: 15,),
+                const SizedBox(height: 15,),
                 SizedBox(
                   width:MediaQuery.of(context).size.width * 0.8,
-                  child:MyWidgets.textFormField(controller, "Email",Color(0xff0A1B4D),(value){
+                  child:MyWidgets.textFormField(controller, "Email",const Color(0xff0A1B4D),(value){
                     if(value == ""){
                       return "This field cannot be empty";
                     }
                   },context),
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 SizedBox(
                   width: MediaQuery.of(context).size.width *0.8,
                   height: 40,
@@ -90,7 +90,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
 class SendAuth extends StatefulWidget {
   final sender;
-  const SendAuth({required this.sender});
+  const SendAuth({super.key, required this.sender});
 
   @override
   State<SendAuth> createState() => _SendAuthState();
@@ -102,32 +102,32 @@ class _SendAuthState extends State<SendAuth> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyWidgets.appbar1("Verification Code",context),
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
 
-            SizedBox(height:40),
+            const SizedBox(height:40),
             IconButton(
               icon: Image.asset('assets/4.png',),
               iconSize: 100,
               onPressed: () {},
             ),
-            SizedBox(height:40),
+            const SizedBox(height:40),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
-              child:  MyWidgets.text("Enter the verification code we send in your email to reset your password.", 15.0, FontWeight.normal,Color(0xff111111),context,false),
+              child:  MyWidgets.text("Enter the verification code we send in your email to reset your password.", 15.0, FontWeight.normal,const Color(0xff111111),context,false),
             ),
-            SizedBox(height:15),
+            const SizedBox(height:15),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
-              child:MyWidgets.textFormField(controller, "Verification Code",Color(0xff0A1B4D),(value){
+              child:MyWidgets.textFormField(controller, "Verification Code",const Color(0xff0A1B4D),(value){
                 if(value == ""){
                   return "This field cannot be empty";
                 }
               },context),
             ),
-            SizedBox(height:20),
+            const SizedBox(height:20),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               height: 40,
@@ -150,7 +150,7 @@ class _SendAuthState extends State<SendAuth> {
                     //todo show error
                   }
                 //
-              },Color(0xff04123B),context),
+              },const Color(0xff04123B),context),
             ),
 
 
@@ -175,127 +175,125 @@ class _VerifyAuthState extends State<VerifyAuth> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              //MyWidgets.text1("OTP Verification", 40.0, FontWeight.bold),
-              SizedBox(height:40),
-              IconButton(
-                icon: Image.asset('assets/3.png'),
-                iconSize: 100,
-                onPressed: () {},
-              ),
-              SizedBox(height:40),
-              //MyWidgets.text1("Verification Code", 23.0, FontWeight.normal),
-              SizedBox(height:10),
-              //MyWidgets.text1("Enter OTP sent to", 18.0, FontWeight.bold),
-              SizedBox(height:10),
-              //MyWidgets.text1("+1 2345678", 18.0, FontWeight.bold),
-              SizedBox(height:10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(5),
-                    width: 50,
-                    height: 50,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
+      body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            //MyWidgets.text1("OTP Verification", 40.0, FontWeight.bold),
+            const SizedBox(height:40),
+            IconButton(
+              icon: Image.asset('assets/3.png'),
+              iconSize: 100,
+              onPressed: () {},
+            ),
+            const SizedBox(height:40),
+            //MyWidgets.text1("Verification Code", 23.0, FontWeight.normal),
+            const SizedBox(height:10),
+            //MyWidgets.text1("Enter OTP sent to", 18.0, FontWeight.bold),
+            const SizedBox(height:10),
+            //MyWidgets.text1("+1 2345678", 18.0, FontWeight.bold),
+            const SizedBox(height:10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  width: 50,
+                  height: 50,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    border: Border.all(color: Colors.blueAccent,width: 2)
+                  ),
+                  child: MyWidgets.text(
+                    "1",20.0,FontWeight.bold,Colors.black,context
+                      ,false),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  width: 50,
+                  height: 50,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
                       border: Border.all(color: Colors.blueAccent,width: 2)
-                    ),
-                    child: MyWidgets.text(
+                  ),
+                  child: MyWidgets.text(
                       "1",20.0,FontWeight.bold,Colors.black,context
-                        ,false),
+                      ,false),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  width: 50,
+                  height: 50,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      border: Border.all(color: Colors.blueAccent,width: 2)
                   ),
-                  Container(
-                    margin: EdgeInsets.all(5),
-                    width: 50,
-                    height: 50,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        border: Border.all(color: Colors.blueAccent,width: 2)
-                    ),
-                    child: MyWidgets.text(
-                        "1",20.0,FontWeight.bold,Colors.black,context
-                        ,false),
+                  child: MyWidgets.text(
+                      "1",20.0,FontWeight.bold,Colors.black,context
+                      ,false),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  width: 50,
+                  height: 50,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      border: Border.all(color: Colors.blueAccent,width: 2)
                   ),
-                  Container(
-                    margin: EdgeInsets.all(5),
-                    width: 50,
-                    height: 50,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        border: Border.all(color: Colors.blueAccent,width: 2)
-                    ),
-                    child: MyWidgets.text(
-                        "1",20.0,FontWeight.bold,Colors.black,context
-                        ,false),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(5),
-                    width: 50,
-                    height: 50,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        border: Border.all(color: Colors.blueAccent,width: 2)
-                    ),
-                    child: MyWidgets.text(
-                        "1",20.0,FontWeight.bold,Colors.black,context
-                        ,false      ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.alarm,color: Colors.blue,),
-                  Text(
-                    "0:23s",
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
+                  child: MyWidgets.text(
+                      "1",20.0,FontWeight.bold,Colors.black,context
+                      ,false      ),
+                ),
+              ],
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.alarm,color: Colors.blue,),
+                Text(
+                  "0:23s",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
 
+                  ),
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                //MyWidgets.text1("Didn't receive OTP?", 20.0, FontWeight.normal),
+                TextButton(
+                  onPressed: (){},
+                  child: const Text(
+                    "RESEND OTP",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 20.0
                     ),
-                  )
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //MyWidgets.text1("Didn't receive OTP?", 20.0, FontWeight.normal),
-                  TextButton(
-                    onPressed: (){},
-                    child: Text(
-                      "RESEND OTP",
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 20.0
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 50,
-                width: MediaQuery.of(context).size.width * 0.85,
-                child: MyWidgets.button("Submit", (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ResetPassword(who: "",)),
-                  );
-                },Colors.black,context),
-              )
-            ]
-        ),
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 50,
+              width: MediaQuery.of(context).size.width * 0.85,
+              child: MyWidgets.button("Submit", (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ResetPassword(who: "",)),
+                );
+              },Colors.black,context),
+            )
+          ]
       ),
     );
   }
@@ -303,7 +301,7 @@ class _VerifyAuthState extends State<VerifyAuth> {
 
 class ResetPassword extends StatefulWidget {
   final String who;
-  const ResetPassword({required this.who});
+  const ResetPassword({super.key, required this.who});
 
   @override
   State<ResetPassword> createState() => _ResetPasswordState();
@@ -318,7 +316,7 @@ class _ResetPasswordState extends State<ResetPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyWidgets.appbar1("Reset Password", context),
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
@@ -326,26 +324,26 @@ class _ResetPasswordState extends State<ResetPassword> {
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 IconButton(
                   icon: Image.asset('assets/1(1).png'),
                   iconSize: 100,
                   onPressed: () {},
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: MyWidgets.text("New Password", 18.0, FontWeight.bold,Color(0xff111111),context,false),
+                    child: MyWidgets.text("New Password", 18.0, FontWeight.bold,const Color(0xff111111),context,false),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: MyWidgets.passwordFormField(newPassController, 'Password',Color(0xff0A1B4D),(value){
+                    child: MyWidgets.passwordFormField(newPassController, 'Password',const Color(0xff0A1B4D),(value){
                       if (value == null || value.isEmpty) {
                         return 'Password cannot be empty!';
                       }else if(value.length < 9){
@@ -358,12 +356,12 @@ class _ResetPasswordState extends State<ResetPassword> {
                     },context)
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: MyWidgets.passwordFormField(cNewPassController, 'Password',Color(0xff0A1B4D),(value){
+                    child: MyWidgets.passwordFormField(cNewPassController, 'Password',const Color(0xff0A1B4D),(value){
                       if (value == null || value.isEmpty) {
                         return 'Password cannot be empty!';
                       }else if(value.length < 9){
@@ -380,7 +378,7 @@ class _ResetPasswordState extends State<ResetPassword> {
 
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             SizedBox(
@@ -400,13 +398,13 @@ class _ResetPasswordState extends State<ResetPassword> {
                     context,
                     MaterialPageRoute<void>(
                       builder: (BuildContext context) => MyWidgets.congratulation("Congratulations","Your Password has been Reset Sucessfully.",(){
-                        MyWidgets.navigatePR(Login(), context);
+                        MyWidgets.navigatePR(const Login(), context);
                       },context,"Sign in"),
                     ),
                   );
                 }
 
-              },Color(0xff04123B),context),
+              },const Color(0xff04123B),context),
             )
           ],
         ),

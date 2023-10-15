@@ -26,7 +26,7 @@ class _RequestMoneyState extends State<RequestMoney> {
             if(rSent){
               return Container(
                 height: MediaQuery.of(context).size.height * 0.3,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(10),
@@ -38,11 +38,11 @@ class _RequestMoneyState extends State<RequestMoney> {
                   children: [
                     FractionallySizedBox(
                       widthFactor: 0.70,
-                      child: MyWidgets.text("You have Sent Request to ${number}", 28, FontWeight.bold, Colors.black, context, false),
+                      child: MyWidgets.text("You have Sent Request to $number", 28, FontWeight.bold, Colors.black, context, false),
                     ),
-                    SizedBox(height: 10,),
-                    MyWidgets.text("${Currency.getSymbol(currency)} ${amount}", 50, FontWeight.bold, Colors.black, context, false),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
+                    MyWidgets.text("${Currency.getSymbol(currency)} $amount", 50, FontWeight.bold, Colors.black, context, false),
+                    const SizedBox(height: 10,),
                     FractionallySizedBox(
                       widthFactor: 0.85,
                       child: MyWidgets.button("Cancel", ()async{
@@ -63,7 +63,7 @@ class _RequestMoneyState extends State<RequestMoney> {
             }else{
               return Container(
                 height: MediaQuery.of(context).size.height * 0.3,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(10),
@@ -75,11 +75,11 @@ class _RequestMoneyState extends State<RequestMoney> {
                   children: [
                     FractionallySizedBox(
                       widthFactor: 0.70,
-                      child: MyWidgets.text("You have Sent Request to ${number}", 28, FontWeight.bold, Colors.black, context, false),
+                      child: MyWidgets.text("You have Sent Request to $number", 28, FontWeight.bold, Colors.black, context, false),
                     ),
-                    SizedBox(height: 10,),
-                    MyWidgets.text("${Currency.getSymbol(currency)} ${amount}", 50, FontWeight.bold, Colors.black, context, false),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
+                    MyWidgets.text("${Currency.getSymbol(currency)} $amount", 50, FontWeight.bold, Colors.black, context, false),
+                    const SizedBox(height: 10,),
                     FractionallySizedBox(
                       widthFactor: 0.85,
                       child: MyWidgets.button("Pay Now", ()async{
@@ -94,9 +94,9 @@ class _RequestMoneyState extends State<RequestMoney> {
                          //todo show error
                          print("failed");
                        }
-                      }, Color(0xff04123B), context),
+                      }, const Color(0xff04123B), context),
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     FractionallySizedBox(
                       widthFactor: 0.85,
                       child: MyWidgets.button("Cancel", ()async{
@@ -120,7 +120,7 @@ class _RequestMoneyState extends State<RequestMoney> {
         );
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
         decoration: BoxDecoration(
             border: Border(
                 bottom: BorderSide(
@@ -132,7 +132,7 @@ class _RequestMoneyState extends State<RequestMoney> {
         child: Row(
           children: [
             Image.asset(sent?  "assets/req_sent.png" : "assets/req_received.png",width: 25,height: 25,),
-            SizedBox(width: 15,),
+            const SizedBox(width: 15,),
 
             Column(
               children: [
@@ -144,11 +144,11 @@ class _RequestMoneyState extends State<RequestMoney> {
                           children: [
                             TextSpan(
                               text: "You sent a request to ",
-                              style: MyWidgets.TS(16, context, Color(0xff111111), FontWeight.normal),
+                              style: MyWidgets.TS(16, context, const Color(0xff111111), FontWeight.normal),
                             ),
                             TextSpan(
                               text: number,
-                              style: MyWidgets.TS(16, context, Color(0xff111111), FontWeight.bold),
+                              style: MyWidgets.TS(16, context, const Color(0xff111111), FontWeight.bold),
                             ),
 
                           ]
@@ -161,7 +161,7 @@ class _RequestMoneyState extends State<RequestMoney> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      MyWidgets.text("${currency} ${amount}", 17, FontWeight.normal, Colors.black, context, false),
+                      MyWidgets.text("$currency $amount", 17, FontWeight.normal, Colors.black, context, false),
                       MyWidgets.text(date, 17, FontWeight.normal, Colors.black, context, false),
                     ],
                   ),
@@ -184,87 +184,87 @@ class _RequestMoneyState extends State<RequestMoney> {
         body: Column(
           children: [
             Container(
-              child:Container(
-                color: Color(0xffE8E8E8),
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap:(){
-                            setState(() {
-                              if(!rSent)
-                                rSent = true;
-                            });
-                          },
-                          child: Stack(
-                              children: [
-                                Visibility(
-                                  visible: rSCount > 0,
-                                  child: Positioned(
-                                    top: 2.5,
-                                    right: 2.5,
-                                    child: CircleAvatar(
-                                      radius: 7,
-                                      backgroundColor: Colors.red,
-                                      child: MyWidgets.text(rSCount.toString(), 13, FontWeight.bold, Colors.white, context, false),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: rSent ? BorderSide(width: 3,color: Color(0xff04123B)) : BorderSide(width: 0,color: Color(0xff04123B)),
-                                    )
-                                  ),
-                                  padding: EdgeInsets.symmetric(horizontal: 10,vertical: 15),
-                                  width: MediaQuery.of(context).size.width*0.5,
-                                  child: MyWidgets.text("Request Sent", 20, FontWeight.bold, Color(0xff111111), context, false),
-                                ),
-                              ]
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: (){
-                            setState(() {
-                              if(rSent)
-                                rSent = false;
-                            });
-                          },
-                          child: Stack(
+              color: const Color(0xffE8E8E8),
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap:(){
+                          setState(() {
+                            if(!rSent) {
+                              rSent = true;
+                            }
+                          });
+                        },
+                        child: Stack(
                             children: [
                               Visibility(
-                                visible: rRCount > 0,
+                                visible: rSCount > 0,
                                 child: Positioned(
                                   top: 2.5,
                                   right: 2.5,
                                   child: CircleAvatar(
                                     radius: 7,
                                     backgroundColor: Colors.red,
-                                    child: MyWidgets.text(rRCount.toString(), 13, FontWeight.bold, Colors.white, context, false),
+                                    child: MyWidgets.text(rSCount.toString(), 13, FontWeight.bold, Colors.white, context, false),
                                   ),
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.symmetric(horizontal: 10,vertical: 12.5),
                                 decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: !rSent ? BorderSide(width: 3,color: Color(0xff04123B)) : BorderSide(width: 0,color: Color(0xff04123B)),
-                                    )
+                                  border: Border(
+                                    bottom: rSent ? const BorderSide(width: 3,color: Color(0xff04123B)) : const BorderSide(width: 0,color: Color(0xff04123B)),
+                                  )
                                 ),
+                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 15),
                                 width: MediaQuery.of(context).size.width*0.5,
-                                child: MyWidgets.text("Request Received", 20, FontWeight.bold, Color(0xff111111), context, false),
+                                child: MyWidgets.text("Request Sent", 20, FontWeight.bold, const Color(0xff111111), context, false),
                               ),
                             ]
-                          ),
-                        )
-                      ],
-                    ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            if(rSent) {
+                              rSent = false;
+                            }
+                          });
+                        },
+                        child: Stack(
+                          children: [
+                            Visibility(
+                              visible: rRCount > 0,
+                              child: Positioned(
+                                top: 2.5,
+                                right: 2.5,
+                                child: CircleAvatar(
+                                  radius: 7,
+                                  backgroundColor: Colors.red,
+                                  child: MyWidgets.text(rRCount.toString(), 13, FontWeight.bold, Colors.white, context, false),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 12.5),
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom: !rSent ? const BorderSide(width: 3,color: Color(0xff04123B)) : const BorderSide(width: 0,color: Color(0xff04123B)),
+                                  )
+                              ),
+                              width: MediaQuery.of(context).size.width*0.5,
+                              child: MyWidgets.text("Request Received", 20, FontWeight.bold, const Color(0xff111111), context, false),
+                            ),
+                          ]
+                        ),
+                      )
+                    ],
+                  ),
 
-                  ],
-                ),
-              )
+                ],
+              ),
             ),
             Visibility(
               visible: rSent,
@@ -277,7 +277,7 @@ class _RequestMoneyState extends State<RequestMoney> {
                   if(snapshot.hasData){
                     List data = jsonDecode(snapshot.data!);
                     rSCount = data.length;
-                    if(data.length == 0){
+                    if(data.isEmpty){
                       return Container(
                         height: MediaQuery.of(context).size.height * 0.75,
                         color: Colors.white,
@@ -285,7 +285,7 @@ class _RequestMoneyState extends State<RequestMoney> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset("assets/notransactions.png",height: 130,),
-                            SizedBox(height: 20,),
+                            const SizedBox(height: 20,),
                             MyWidgets.text("Sorry! there are no data to show", 22, FontWeight.bold, Colors.black, context, false)
                           ],
                         ),
@@ -321,7 +321,7 @@ class _RequestMoneyState extends State<RequestMoney> {
                       if(snapshot.hasData){
                         List data = jsonDecode(snapshot.data!);
                         rRCount = data.length;
-                        if(data.length == 0){
+                        if(data.isEmpty){
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.75,
                             color: Colors.white,
@@ -329,7 +329,7 @@ class _RequestMoneyState extends State<RequestMoney> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset("assets/notransactions.png",height: 130,),
-                                SizedBox(height: 20,),
+                                const SizedBox(height: 20,),
                                 MyWidgets.text("Sorry! there are no data to show!", 22, FontWeight.bold, Colors.black, context, false)
                               ],
                             ),
@@ -360,8 +360,8 @@ class _RequestMoneyState extends State<RequestMoney> {
         bottomNavigationBar: Container(
           margin: EdgeInsets.symmetric(horizontal: (MediaQuery.of(context).size.width * 0.075)),
           child: MyWidgets.button("New Request", (){
-            MyWidgets.navigateP(Request(), context);
-          }, Color(0xff04123B), context),
+            MyWidgets.navigateP(const Request(), context);
+          }, const Color(0xff04123B), context),
         ),
       ),
     );
@@ -371,7 +371,7 @@ class _RequestMoneyState extends State<RequestMoney> {
 
 class RequestQR extends StatefulWidget {
   final data;
-  const RequestQR({required this.data});
+  const RequestQR({super.key, required this.data});
 
   @override
   State<RequestQR> createState() => _RequestQRState();
@@ -379,41 +379,41 @@ class RequestQR extends StatefulWidget {
 
 class _RequestQRState extends State<RequestQR> {
   Widget myBorder(){
-    return Container(margin:EdgeInsets.only(right: 2.5),width: 5,height: 3,decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.white,),);
+    return Container(margin:const EdgeInsets.only(right: 2.5),width: 5,height: 3,decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.white,),);
   }
   @override
   Widget build(BuildContext context) {
     print(widget.data);
     return Scaffold(
       appBar: MyWidgets.appbar("Request Money", context),
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            SizedBox(height: 50,),
+            const SizedBox(height: 50,),
             Container(
               width: MediaQuery.of(context).size.width * 0.8,
               decoration: BoxDecoration(
-                  color: Color(0xff04123B),
+                  color: const Color(0xff04123B),
                   borderRadius: BorderRadius.circular(10)
               ),
               child: Column(
                 children: [
-                  SizedBox(height: 40,),
-                  Container(
+                  const SizedBox(height: 40,),
+                  SizedBox(
                     width: 225,
                     height: 225,
                     child: QrImageView(
-                      backgroundColor: Color(0xff04123B),
+                      backgroundColor: const Color(0xff04123B),
                       // ignore: deprecated_member_use
                       foregroundColor: Colors.white,
                       data: widget.data.toString(),
                     ),
                   ),
-                  SizedBox(height: 15,),
+                  const SizedBox(height: 15,),
                   MyWidgets.text(widget.data[1] + " " + widget.data[2], 50, FontWeight.bold, Colors.white, context, false),
                   MyWidgets.text("Amount", 20, FontWeight.bold, Colors.white, context, false),
-                  SizedBox(height: 15,),
+                  const SizedBox(height: 15,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -421,31 +421,31 @@ class _RequestQRState extends State<RequestQR> {
                       myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),
                     ],
                   ),
-                  SizedBox(height: 15,),
+                  const SizedBox(height: 15,),
                   MyWidgets.text(widget.data[0], 40, FontWeight.bold, Colors.white, context, false),
                   MyWidgets.text("Send this to the recipient to continue!", 16, FontWeight.bold, Colors.white, context, false),
-                  SizedBox(height: 15,),
+                  const SizedBox(height: 15,),
                 ],
               ),
             ),
-            SizedBox(height: 20,),
-            Container(
+            const SizedBox(height: 20,),
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.file_download_outlined),
-                      SizedBox(width: 5,),
-                      MyWidgets.text("Download", 20, FontWeight.bold, Color(0xff04123B), context, false)
+                      const Icon(Icons.file_download_outlined),
+                      const SizedBox(width: 5,),
+                      MyWidgets.text("Download", 20, FontWeight.bold, const Color(0xff04123B), context, false)
                     ],
                   ),
                   Row(
                     children: [
-                      Icon(Icons.share_rounded),
-                      SizedBox(width: 5,),
-                      MyWidgets.text("Share QR", 20, FontWeight.bold, Color(0xff04123B), context, false)
+                      const Icon(Icons.share_rounded),
+                      const SizedBox(width: 5,),
+                      MyWidgets.text("Share QR", 20, FontWeight.bold, const Color(0xff04123B), context, false)
                     ],
                   )
                 ],

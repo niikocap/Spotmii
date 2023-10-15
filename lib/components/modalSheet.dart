@@ -15,7 +15,7 @@ class bmSheet{
       builder: (context){
         return Container(
           height: height,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(10),
@@ -32,7 +32,7 @@ class bmSheet{
         context: context,
         builder: (context){
           return Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
@@ -44,10 +44,10 @@ class bmSheet{
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset("assets/3.png",width: MediaQuery.of(context).size.width * 0.5,),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 myText(text:title,style:myStyle(size:MF(35,context),weight: FontWeight.bold).create(),).create(),
                 FractionallySizedBox(widthFactor:0.9,child: myText(text:message,alignment:TextAlign.center,style:myStyle(size:MF(20,context),).create(),).create()),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 button,
               ],
             ),
@@ -60,7 +60,7 @@ class bmSheet{
         context: context,
         builder: (context){
           return Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
@@ -72,16 +72,16 @@ class bmSheet{
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset("assets/failed.png",width: MediaQuery.of(context).size.width * 0.5,),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 myText(text:title,style:myStyle(size:MF(35,context),weight: FontWeight.bold).create(),).create(),
                 FractionallySizedBox(widthFactor:0.9,child: myText(text:message,alignment:TextAlign.center,style:myStyle(size:MF(20,context),).create(),).create()),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 button,
                 FractionallySizedBox(
                   widthFactor: 0.80,
                   child:  MyWidgets.button("Retry", (){
                     Navigator.pop(context);
-                  }, Color(0xff04123B), context),
+                  }, const Color(0xff04123B), context),
                 )
               ],
             ),

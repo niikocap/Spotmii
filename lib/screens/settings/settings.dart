@@ -20,15 +20,15 @@ class _SettingsState extends State<Settings> {
         alignment: Alignment.center,
         child: Column(
           children: [
-            SizedBox(height: 40,),
+            const SizedBox(height: 40,),
             Container(
 
 
               width: MediaQuery.of(context).size.width * 0.85,
               height: 50,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
               decoration: BoxDecoration(
-                  color: Color(0xff04123B),
+                  color: const Color(0xff04123B),
                   borderRadius: BorderRadius.circular(10)
               ),
               child: Row(
@@ -74,15 +74,15 @@ class _SecurityState extends State<Security> {
         alignment: Alignment.center,
         child: Column(
           children: [
-            SizedBox(height: 40,),
+            const SizedBox(height: 40,),
             Container(
     
 
               width: MediaQuery.of(context).size.width * 0.85,
               height: 50,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
               decoration: BoxDecoration(
-                color: Color(0xff04123B),
+                color: const Color(0xff04123B),
                 borderRadius: BorderRadius.circular(10)
               ),
               child: Row(
@@ -144,7 +144,7 @@ class _ResetPassword1State extends State<ResetPassword1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyWidgets.appbar("Reset Password", context),
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
@@ -152,20 +152,20 @@ class _ResetPassword1State extends State<ResetPassword1> {
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: MyWidgets.text("Old Password", 18.0, FontWeight.bold,Color(0xff111111),context,false),
+                    child: MyWidgets.text("Old Password", 18.0, FontWeight.bold,const Color(0xff111111),context,false),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: Align(
                       alignment: Alignment.centerLeft,
-                      child: MyWidgets.passwordFormField(oldPassController, 'Old password.',Color(0xff0A1B4D),(value){
+                      child: MyWidgets.passwordFormField(oldPassController, 'Old password.',const Color(0xff0A1B4D),(value){
                         if (value == null || value.isEmpty) {
                           return 'Password cannot be empty!';
                         }else if(value.length < 9){
@@ -178,20 +178,20 @@ class _ResetPassword1State extends State<ResetPassword1> {
                       },context)
                   ),
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: MyWidgets.text("New Password", 18.0, FontWeight.bold,Color(0xff111111),context,false),
+                    child: MyWidgets.text("New Password", 18.0, FontWeight.bold,const Color(0xff111111),context,false),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: Align(
                       alignment: Alignment.centerLeft,
-                      child: MyWidgets.passwordFormField(newPassController, 'New password.',Color(0xff0A1B4D),(value){
+                      child: MyWidgets.passwordFormField(newPassController, 'New password.',const Color(0xff0A1B4D),(value){
                         if (value == null || value.isEmpty) {
                           return 'Password cannot be empty!';
                         }else if(value.length < 9){
@@ -204,12 +204,12 @@ class _ResetPassword1State extends State<ResetPassword1> {
                       },context)
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: MyWidgets.passwordFormField(cNewPassController, 'Confirm new password.',Color(0xff0A1B4D),(value){
+                    child: MyWidgets.passwordFormField(cNewPassController, 'Confirm new password.',const Color(0xff0A1B4D),(value){
                       if (value == null || value.isEmpty) {
                         return 'Password cannot be empty!';
                       }else if(value.length < 9){
@@ -226,7 +226,7 @@ class _ResetPassword1State extends State<ResetPassword1> {
 
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             SizedBox(
@@ -241,7 +241,7 @@ class _ResetPassword1State extends State<ResetPassword1> {
                     },context,"Sign in"),
                   ),
                 );
-              },Color(0xff04123B),context),
+              },const Color(0xff04123B),context),
             )
           ],
         ),

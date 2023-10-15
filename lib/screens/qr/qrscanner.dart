@@ -22,7 +22,7 @@ class _QRScannerState extends State<QRScanner> {
         children: [
 
           Positioned(
-              child: Container(
+              child: SizedBox(
                 height: MediaQuery.of(context).size.height ,
                 child: MobileScanner(
                     allowDuplicates: false,
@@ -45,7 +45,7 @@ class _QRScannerState extends State<QRScanner> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 100,),
+                  const SizedBox(height: 100,),
                   CustomPaint(
                     foregroundPainter: BorderPainter(),
                     child: Container(
@@ -59,15 +59,15 @@ class _QRScannerState extends State<QRScanner> {
 
                     ),
                   ),
-                  SizedBox(height: 200,),
+                  const SizedBox(height: 200,),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(3),
                       color: Colors.white,
                     ),
                     width: 200,
-                    child: MyWidgets.text("Scan to Send!", 25, FontWeight.bold, Color(0xff111111), context, false)
+                    child: MyWidgets.text("Scan to Send!", 25, FontWeight.bold, const Color(0xff111111), context, false)
                   )
                 ],
               ),

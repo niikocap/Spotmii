@@ -25,7 +25,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   var con1 = TextEditingController(), con2 = TextEditingController(),con3 = TextEditingController(), con4 = TextEditingController(), con5 = TextEditingController(), con6 = TextEditingController();
-  FocusNode _focus1 = FocusNode(),_focus2 = FocusNode();
+  final FocusNode _focus1 = FocusNode(),_focus2 = FocusNode();
   var userController = TextEditingController(),passwordController = TextEditingController();
   int errorIndex = 0,time2 = 0;
   bool emailErrorOn = false, otpVisible = false,passwordErrorOn = false,opt2Visible = false;
@@ -57,7 +57,7 @@ class _LoginState extends State<Login> {
     return Container(
       height: 40,
       width: 40,
-      margin: EdgeInsets.all(2.5),
+      margin: const EdgeInsets.all(2.5),
       child: Align(
         alignment: Alignment.center,
         child: TextField(
@@ -67,14 +67,14 @@ class _LoginState extends State<Login> {
           decoration: InputDecoration(
               hintText: "",
               focusedBorder: OutlineInputBorder(
-                borderSide:  BorderSide(color: Colors.blue,width: 2),
+                borderSide:  const BorderSide(color: Colors.blue,width: 2),
                 borderRadius: BorderRadius.circular(10),
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue,width: 2),
+                borderSide: const BorderSide(color: Colors.blue,width: 2),
                 borderRadius: BorderRadius.circular(10),
               ),
-              contentPadding: EdgeInsets.symmetric(horizontal: 5,vertical: 2.5)
+              contentPadding: const EdgeInsets.symmetric(horizontal: 5,vertical: 2.5)
           ),
         ),
       ),
@@ -85,7 +85,7 @@ class _LoginState extends State<Login> {
     String minutes =( time / 60 ).floor().toString();
     int seconds =( time % 60 );
     String segundo = "";
-    segundo = seconds < 10 ? "0" + seconds.toString() : seconds.toString();
+    segundo = seconds < 10 ? "0$seconds" : seconds.toString();
     return "$minutes:$segundo";
   }
   @override
@@ -110,7 +110,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
 
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           //decoration: MyWidgets.gradient(),
 
@@ -133,12 +133,12 @@ class _LoginState extends State<Login> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 50,),
+                  const SizedBox(height: 50,),
                   //SizedBox(height: 30,),
                   Column(
 
                     children: [
-                      FractionallySizedBox(widthFactor: 1,),
+                      const FractionallySizedBox(widthFactor: 1,),
                       Visibility(
                           visible: errorVisible,
                           child: Text(
@@ -151,7 +151,7 @@ class _LoginState extends State<Login> {
                             ),
                           )
                       ),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                       Column(
                         children: [
                           Container(
@@ -159,12 +159,12 @@ class _LoginState extends State<Login> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: MyWidgets.errorTextFormField(userController, 'Email',Color(0xff0A1B4D),context,emailErrorOn,emailErrorMessage,_focus1),
+                            child: MyWidgets.errorTextFormField(userController, 'Email',const Color(0xff0A1B4D),context,emailErrorOn,emailErrorMessage,_focus1),
                           ),
                           const SizedBox(height: 10,),
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.80,
-                              child: MyWidgets.errorPasswordFormField(passwordController, 'Password' ,Color(0xff0A1B4D),context, visible, passwordErrorOn, passwordErrorMessage, _focus2,(){
+                              child: MyWidgets.errorPasswordFormField(passwordController, 'Password' ,const Color(0xff0A1B4D),context, visible, passwordErrorOn, passwordErrorMessage, _focus2,(){
                                 setState(() {
                                   visible = !visible;
                                 });
@@ -213,16 +213,16 @@ class _LoginState extends State<Login> {
                                 Navigator.pop(context);
                               }else if(jsonDecode(response)[0] == "false"){
                                 currentUser = SpotMiiUser.convert(jsonDecode(response)[1]);
-                                MyWidgets.navigateP(SignVerify(), context);
+                                MyWidgets.navigateP(const SignVerify(), context);
                               }else{
                                 currentUser = SpotMiiUser.convert(jsonDecode(jsonDecode(response)));
                                 //print(await Database.conversionRates(currentUser!.currency));
                                 //rates = ["result"];
                                 if(currentUser!.type == "admin"){
-                                  MyWidgets.navigatePR(Admin(), context);
+                                  MyWidgets.navigatePR(const Admin(), context);
                                 }else if(currentUser!.type == "merchant"){
                                   print("merchant");
-                                  MyWidgets.navigatePR(Merchant(), context);
+                                  MyWidgets.navigatePR(const Merchant(), context);
                                 } else if(currentUser!.twoFactor == "true"){
                                   String genCode = generate(6);
                                   if(!timer2On){
@@ -235,7 +235,7 @@ class _LoginState extends State<Login> {
                                         builder: (BuildContext context, setState) {
                                           if(!timer2On){
                                             timer2On = true;
-                                            _time2 = Timer.periodic(Duration(seconds: 1), (time) {
+                                            _time2 = Timer.periodic(const Duration(seconds: 1), (time) {
                                               setState(() {
                                                 if(time2 >= 300){
                                                   time2 = 0;
@@ -251,7 +251,7 @@ class _LoginState extends State<Login> {
                                                 bottom: MediaQuery.of(context).viewInsets.bottom),
                                             child: Container(
 
-                                              decoration: BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius: BorderRadius.only(
                                                       topRight: Radius.circular(15),
@@ -270,7 +270,7 @@ class _LoginState extends State<Login> {
                                                       visible: opt2Visible,
                                                       child: MyWidgets.text("Code Already Sent!", 18, FontWeight.normal, Colors.red, context,false)
                                                   ),
-                                                  SizedBox(height: 10,),
+                                                  const SizedBox(height: 10,),
                                                   FractionallySizedBox(
                                                     widthFactor: 0.8,
                                                     child: PinFieldAutoFill(
@@ -278,7 +278,7 @@ class _LoginState extends State<Login> {
                                                             textStyle: TextStyle(
                                                                 fontSize: MF(20, context),
                                                                 fontFamily: "Poppins",
-                                                                color: Color(0xff111111)
+                                                                color: const Color(0xff111111)
                                                             ),
                                                             strokeWidth: 2,
                                                             strokeColor: Colors.blue
@@ -293,12 +293,12 @@ class _LoginState extends State<Login> {
                                                         codeLength: 6//code length, default 6
                                                     ),
                                                   ),
-                                                  SizedBox(height: 10,),
+                                                  const SizedBox(height: 10,),
                                                   Row(
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
-                                                      Icon(Icons.alarm,color: Colors.blue,size: 20,),
-                                                      SizedBox(width: 5,),
+                                                      const Icon(Icons.alarm,color: Colors.blue,size: 20,),
+                                                      const SizedBox(width: 5,),
                                                       Text(
                                                         simplifyTime(time2).toString(),
                                                         style: TextStyle(
@@ -314,14 +314,14 @@ class _LoginState extends State<Login> {
                                                   Row(
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
-                                                      MyWidgets.text("Didn't receive OTP,", 17.0, FontWeight.normal,Color(0xff111111),context,false),
+                                                      MyWidgets.text("Didn't receive OTP,", 17.0, FontWeight.normal,const Color(0xff111111),context,false),
                                                       TextButton(
                                                         onPressed: (){
                                                           if(!timer2On){
                                                             timer2On = true;
                                                             genCode = generate(6);
 
-                                                            _time2 = Timer.periodic(Duration(seconds: 1), (time) {
+                                                            _time2 = Timer.periodic(const Duration(seconds: 1), (time) {
 
                                                               setState(() {
 
@@ -337,7 +337,7 @@ class _LoginState extends State<Login> {
 
                                                           }else{
                                                             opt2Visible = true;
-                                                            Timer(Duration(seconds: 5),(){
+                                                            Timer(const Duration(seconds: 5),(){
                                                               setState((){
                                                                 opt2Visible = true;
                                                               });
@@ -361,12 +361,12 @@ class _LoginState extends State<Login> {
                                                         await prefs.setString('password', passwordController.text.trim());
                                                         setState(() {
                                                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                                                            return Home();
+                                                            return const Home();
                                                           }));
                                                         });
                                                       }else{
                                                         otpVisible = true;
-                                                        Timer(Duration(seconds: 5),(){
+                                                        Timer(const Duration(seconds: 5),(){
                                                           setState((){
                                                             otpVisible = false;
                                                           });
@@ -390,7 +390,7 @@ class _LoginState extends State<Login> {
                                   await prefs.setString('password', passwordController.text.trim());
                                   setState(() {
                                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                                      return Home();
+                                      return const Home();
                                     }));
                                   });
                                 }
@@ -399,24 +399,24 @@ class _LoginState extends State<Login> {
                             }else{
                               Navigator.pop(context);
                             }
-                          },Color(0xff04123B),context)
+                          },const Color(0xff04123B),context)
                       ),
-                      SizedBox(height: 15,),
+                      const SizedBox(height: 15,),
                       TextButton(
                         onPressed: (){
-                          MyWidgets.navigateP(ForgotPassword(), context);
+                          MyWidgets.navigateP(const ForgotPassword(), context);
                         },
                         child: Text(
                           'Forgot Password',
                           style: TextStyle(
-                              color: Color(0xff111111),
+                              color: const Color(0xff111111),
                               fontSize: MF(18,context),
                               fontFamily: "Poppins",
                               fontWeight: FontWeight.bold
                           ),
                         ),
                       ),
-                      SizedBox(height:25,),
+                      const SizedBox(height:25,),
                       IconButton(
                         icon: Image.asset('assets/2.png'),
                         iconSize: 90,
@@ -437,12 +437,12 @@ class _LoginState extends State<Login> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      MyWidgets.text("Don't have an account?", 17.0, FontWeight.normal, Color(0xff111111),context,false),
+                      MyWidgets.text("Don't have an account?", 17.0, FontWeight.normal, const Color(0xff111111),context,false),
                       TextButton(
                         onPressed: (){
-                          MyWidgets.navigateP(SignUp(), context);
+                          MyWidgets.navigateP(const SignUp(), context);
                         },
-                        child: MyWidgets.text("Sign Up", 19.0, FontWeight.bold, Color(0xff111111),context,false),
+                        child: MyWidgets.text("Sign Up", 19.0, FontWeight.bold, const Color(0xff111111),context,false),
                       ),
                     ],
                   ),
