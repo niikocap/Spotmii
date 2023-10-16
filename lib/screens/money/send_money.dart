@@ -105,6 +105,7 @@ class _SendState extends State<Send> {
                         var data = jsonDecode(snapshot.data!);
                         return SizedBox(
                           height: 70,
+                          width: MediaQuery.of(context).size.width * 0.9,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount:  data.length,

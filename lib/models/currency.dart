@@ -41,6 +41,27 @@ class Currency{
     }
     return cur;
   }
+  static getLocale(value){
+    var cur = "";
+    if(value == 'Philippine Peso'){
+      cur = "en_PH";
+    }else if(value == 'US Dollar'){
+      cur = "en_US";
+    }else if(value == 'Euro'){
+      cur = "es";
+    }else if(value == 'Pound'){
+      cur = "en_GB";
+    }else if(value == 'Australian Dollar'){
+      cur = "en_AU";
+    }else if(value == 'Swiss Franc'){
+      cur = "de_CH";
+    }else if(value == 'Chinese Yuan'){
+      cur = "zh_CN";
+    }else if(value == 'Japanese Yen'){
+      cur = "ja_JP";
+    }
+    return cur;
+  }
   static getText(value){
     var cur = "";
     if(value == 'PHP'){

@@ -9,15 +9,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotmii/database.dart';
 import 'package:spotmii/screens/auth/fingerprint_login.dart';
 import 'package:spotmii/screens/auth/login.dart';
-
-import 'blocs/currency_bloc/currency_bloc.dart';
 import 'components/constants.dart';
 import 'models/user_model.dart';
 
 late final isLogin;
 late final user;
 late final password;
-var rates;
 late SharedPreferences preferences;
 
 void main() async{
@@ -71,9 +68,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => UserBloc(),
         ),
-        BlocProvider(
-          create: (context)=>CurrencyBloc(),
-        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,6 +1,6 @@
 ### Developer notes
-♥ liitan yung size ng transaction space sa draggable menu
-♥ manage vertical spacing - in Homepage
-♥ activities icon
-♥ send again spacing - in Homepage
-♥ notification page
+♥ Fix Some overflows on small devices ( very little )
+♥ Fix conversion negative when it is just rounded off
+♥ Fix transaction generation 
+♥ Fix send/request money not working
+♥ Add chart to live currency

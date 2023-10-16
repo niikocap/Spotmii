@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotmii/models/transaction.dart';
 import '../models/user_model.dart';
 import 'components/constants.dart';
@@ -16,16 +17,19 @@ class Database{
     );
     return response.body;
   }
-  updateUser()async{
-    final response  = await http.post(
+  Future<String> get() async  {
+    final response  = await http.get(
       Uri.parse(url),
-      body: {
-        "req" : "getUser",
-        "id" : currentUser!.userID,
-      },
     );
-    currentUser = SpotMiiUser.convert(jsonDecode(response.body)[0]);
-    //rates = await conversionRates(currentUser!.currency)["result"];
+    return response.body;
+  }
+  static updateUser(url)async{
+    var sharedPref = await SharedPreferences.getInstance();
+    currentUser = SpotMiiUser.convert(jsonDecode(jsonDecode(await Database(url: url).send({
+      "req" : "signIn",
+      "user" : sharedPref.getString("user"),
+      "password" : sharedPref.getString("password"),
+    }))));
   }
   imageSend(File image,File image1,File image2,fname,lname,address,country,zip,number,docType,gender,birthday)async{
     var img = image.path.split('/');

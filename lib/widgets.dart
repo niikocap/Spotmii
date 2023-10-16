@@ -7,6 +7,7 @@ import 'package:spotmii/screens/qr/qrscanner.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'components/constants.dart';
+import 'components/text.dart';
 
 class MyWidgets{
   static TextStyle TS(size,context,color,weight){
@@ -648,18 +649,21 @@ class MyWidgets{
     );
   }
   static Widget feature(icon,text,callback,color,context){
-    return GestureDetector(
-      onTap: callback,
-      //width: (MediaQuery.of(context).size.width * .9) / 4.5,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: (MediaQuery.of(context).size.width * .9) / 5.5,
-            child: icon,
-          ),
-          MyWidgets.text(text, 15.0, FontWeight.normal, color,context,false),
-        ],
+    return SizedBox(
+      width: (MediaQuery.of(context).size.width * .9) / 5,
+      child: GestureDetector(
+        onTap: callback,
+        //width: (MediaQuery.of(context).size.width * .9) / 4.5,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: (MediaQuery.of(context).size.width * .9) / 5.5,
+              child: icon,
+            ),
+            myText(text:text,overflow: TextOverflow.ellipsis,style:myStyle(size:MF(14,context),color: color).create(),).create(),
+          ],
+        ),
       ),
     );
   }

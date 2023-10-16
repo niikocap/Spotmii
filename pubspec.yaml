@@ -35,7 +35,7 @@ dependencies:
   search_choices: ^2.2.5
   qr_flutter: ^4.0.0
   local_auth: ^2.1.6
-  pattern_formatter: ^2.0.0
+  pattern_formatter: ^3.0.0
   http: ^0.13.6
   shared_preferences: ^2.1.0
   fl_country_code_picker: ^0.0.4
@@ -51,6 +51,7 @@ dependencies:
   flutter_native_splash: ^2.3.2
   forex_conversion: ^0.2.5+1
   flutter_native_contact_picker: ^0.0.4
+  syncfusion_flutter_charts: ^23.1.40
 
 flutter_native_splash:
   image: assets/1.png
