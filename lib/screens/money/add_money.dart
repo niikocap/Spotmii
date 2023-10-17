@@ -1,9 +1,19 @@
+import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:spotmii/widgets.dart';
+import '../../components/button.dart';
 import '../../components/constants.dart';
 import '../../components/custom_form.dart';
+import '../../components/text.dart';
 import '../../database.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Provider{
   final image;
@@ -218,6 +228,7 @@ class TopUpMerchant extends StatefulWidget {
   final String transaction;
   final String amount;
   final String currency;
+
   const TopUpMerchant({super.key, required this.transaction,required this.amount,required this.currency});
 
   @override
@@ -225,6 +236,7 @@ class TopUpMerchant extends StatefulWidget {
 }
 
 class _TopUpMerchantState extends State<TopUpMerchant> {
+  final ScreenshotController screenshotController = ScreenshotController();
   Widget myBorder(){
     return Container(margin:const EdgeInsets.only(right: 2.5),width: 5,height: 3,decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.white,),);
   }
@@ -237,40 +249,43 @@ class _TopUpMerchantState extends State<TopUpMerchant> {
         child: Column(
           children: [
             const SizedBox(height: 50,),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              decoration: BoxDecoration(
-                  color: const Color(0xff04123B),
-                  borderRadius: BorderRadius.circular(10)
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(height: 40,),
-                  SizedBox(
-                    width: 225,
-                    height: 225,
-                    child: QrImageView(
-                      backgroundColor: const Color(0xff04123B),
-                      // ignore: deprecated_member_use
-                      foregroundColor: Colors.white,
-                      data: widget.transaction,
+            Screenshot(
+              controller: screenshotController,
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                decoration: BoxDecoration(
+                    color: const Color(0xff04123B),
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 40,),
+                    SizedBox(
+                      width: 225,
+                      height: 225,
+                      child: QrImageView(
+                        backgroundColor: const Color(0xff04123B),
+                        // ignore: deprecated_member_use
+                        foregroundColor: Colors.white,
+                        data: widget.transaction,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 15,),
-                  MyWidgets.text(widget.currency + widget.amount, 50, FontWeight.bold, Colors.white, context, false),
-                  MyWidgets.text("Amount", 20, FontWeight.bold, Colors.white, context, false),
-                  const SizedBox(height: 15,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),
-                      myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),
-                    ],
-                  ),
-                  const SizedBox(height: 15,),
-                  MyWidgets.text("Go to the nearest partner store to continue!", 16, FontWeight.bold, Colors.white, context, false),
-                  const SizedBox(height: 15,),
-                ],
+                    const SizedBox(height: 15,),
+                    MyWidgets.text(widget.currency + widget.amount, 50, FontWeight.bold, Colors.white, context, false),
+                    MyWidgets.text("Amount", 20, FontWeight.bold, Colors.white, context, false),
+                    const SizedBox(height: 15,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),
+                        myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),myBorder(),
+                      ],
+                    ),
+                    const SizedBox(height: 15,),
+                    MyWidgets.text("Go to the nearest partner store to continue!", 16, FontWeight.bold, Colors.white, context, false),
+                    const SizedBox(height: 15,),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 15,),
@@ -279,19 +294,47 @@ class _TopUpMerchantState extends State<TopUpMerchant> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.file_download_outlined),
-                      const SizedBox(width: 5,),
-                      MyWidgets.text("Download", 20, FontWeight.bold, const Color(0xff04123B), context, false)
-                    ],
+                  GestureDetector(
+                    onTap: ()async{
+                      await screenshotController.capture(delay: const Duration(milliseconds: 20)).then((Uint8List? image)async{
+                        String fileName = "Screenshot_${DateTime.now().microsecondsSinceEpoch}";
+                        if (image != null) {
+                          final result = await ImageGallerySaver.saveImage(image,name: fileName);
+                          if(result["isSuccess"]){
+                            MyWidgets.message("Success", context);
+                            //fix diaglog
+                          }else{
+                            MyWidgets.message("failed", context);
+                          }
+                        }
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        const Icon(Icons.file_download_outlined),
+                        const SizedBox(width: 5,),
+                        MyWidgets.text("Download", 20, FontWeight.bold, const Color(0xff04123B), context, false)
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      const Icon(Icons.share_rounded),
-                      const SizedBox(width: 5,),
-                      MyWidgets.text("Share QR", 20, FontWeight.bold, const Color(0xff04123B), context, false)
-                    ],
+                  GestureDetector(
+                    onTap: ()async{
+                      await screenshotController.capture(delay: const Duration(milliseconds: 10)).then((Uint8List? image) async {
+                        if (image != null) {
+                          final directory = await getApplicationDocumentsDirectory();
+                          final imagePath = await File('${directory.path}/image.png').create();
+                          await imagePath.writeAsBytes(image);
+                          await Share.shareFiles([imagePath.path]);
+                        }
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        const Icon(Icons.share_rounded),
+                        const SizedBox(width: 5,),
+                        MyWidgets.text("Share QR", 20, FontWeight.bold, const Color(0xff04123B), context, false)
+                      ],
+                    ),
                   )
                 ],
               ),

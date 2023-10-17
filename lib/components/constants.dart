@@ -10,11 +10,7 @@ const supportedCurrency = {'PHP':10000, '\$': 10000, '€': 800,'¥':10000,'£':
 const supportedCurrency1 = {'PHP':10000, '\$': 10000, '€': 800,'¥':10000,'£':10000,'Fr':10000,'A\$':10000,'C¥':10000};
 
 double MF(size,context){
+
   double ratio = MediaQuery.of(context).devicePixelRatio;
-  //return MediaQuery.of(context).textScaleFactor * size;
-  if(ratio > 2.4){
-    return (size / 2.75) * 2.2;
-  }else{
-    return ( size / 2.75 ) * ratio;
-  }
+  return ratio < 2.5 ? (size / 2.75) * 2 : ratio <= 3 ? (size / 2.75) * 2.2 : ratio <= 3.5 ? (size / 2.75) * 2.1 : ratio <= 4 ? (size / 2.75) * 2 : size;
 }

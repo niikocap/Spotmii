@@ -9,8 +9,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotmii/database.dart';
 import 'package:spotmii/screens/auth/fingerprint_login.dart';
 import 'package:spotmii/screens/auth/login.dart';
+import 'package:spotmii/screens/home.dart';
 import 'components/constants.dart';
 import 'models/user_model.dart';
+import 'package:device_preview/device_preview.dart';
 
 late final isLogin;
 late final user;
@@ -54,39 +56,46 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context){
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) {
-            if(currentUser != null){
-              return TransactionBloc()..add(InitTransaction(uid:currentUser!.userID));
-            }else{
-              return TransactionBloc();
-            }
-          },
+    return DevicePreview(
+      enabled: false,
+      builder: (context)=> MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) {
+              if(currentUser != null){
+                return TransactionBloc()..add(InitTransaction(uid:currentUser!.userID));
+              }else{
+                return TransactionBloc();
+              }
+            },
+          ),
+          BlocProvider(
+            create: (context) => UserBloc(),
+          ),
+        ],
+        child: MaterialApp(
+          //
+          builder: DevicePreview.appBuilder,
+          locale: DevicePreview.locale(context),
+          //
+          debugShowCheckedModeBanner: false,
+          title: 'SpotMii',
+          theme: ThemeData(
+              bottomSheetTheme: BottomSheetThemeData(
+                  backgroundColor: Colors.red.withOpacity(0)
+              ),
+              appBarTheme: const AppBarTheme(
+                  systemOverlayStyle: SystemUiOverlayStyle(
+                    statusBarIconBrightness: Brightness.light,
+                    statusBarBrightness: Brightness.dark,
+                    statusBarColor: Color(0xff050E29),
+                  )
+              ),
+              primarySwatch: Colors.blue,
+              fontFamily: "Poppins"
+          ),
+          home: !isLogin  ? const Login() : FingerprintPage(),
         ),
-        BlocProvider(
-          create: (context) => UserBloc(),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'SpotMii',
-        theme: ThemeData(
-            bottomSheetTheme: BottomSheetThemeData(
-                backgroundColor: Colors.red.withOpacity(0)
-            ),
-            appBarTheme: const AppBarTheme(
-                systemOverlayStyle: SystemUiOverlayStyle(
-                  statusBarIconBrightness: Brightness.light,
-                  statusBarBrightness: Brightness.dark,
-                  statusBarColor: Color(0xff050E29),
-                )
-            ),
-            primarySwatch: Colors.blue,
-            fontFamily: "Poppins"
-        ),
-        home: !isLogin  ? const Login() : FingerprintPage(),
       ),
     );
   }
