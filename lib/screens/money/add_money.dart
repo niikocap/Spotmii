@@ -1,17 +1,13 @@
-import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:spotmii/widgets.dart';
-import '../../components/button.dart';
 import '../../components/constants.dart';
 import '../../components/custom_form.dart';
-import '../../components/text.dart';
 import '../../database.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -324,6 +320,7 @@ class _TopUpMerchantState extends State<TopUpMerchant> {
                           final directory = await getApplicationDocumentsDirectory();
                           final imagePath = await File('${directory.path}/image.png').create();
                           await imagePath.writeAsBytes(image);
+                          // ignore: deprecated_member_use
                           await Share.shareFiles([imagePath.path]);
                         }
                       });

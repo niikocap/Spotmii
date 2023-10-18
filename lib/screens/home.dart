@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotmii/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:spotmii/components/featureIcons.dart';
 import 'package:spotmii/screens/settings/profile.dart';
@@ -15,14 +13,12 @@ import '../blocs/home_cubit/home_cubit.dart';
 import '../components/constants.dart';
 import '../models/currency.dart';
 import '../database.dart';
-import '../models/user_model.dart';
 import 'account/link.dart';
 import 'currency/converter.dart';
 import 'currency/live.dart';
 import 'money/add_money.dart';
 import 'money/send_money.dart';
 import 'money/withdraw.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

@@ -3,4 +3,3 @@
 ♥ Fix conversion negative when it is just rounded off
 ♥ Fix transaction generation 
 ♥ Fix send/request money not working
-♥ Add chart to live currency

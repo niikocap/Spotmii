@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../components/constants.dart';
-import '../../main.dart';
 import '../../models/localauth.dart';
 import '../../user_type/admin/admin.dart';
 import '../../user_type/merchant/merchant.dart';

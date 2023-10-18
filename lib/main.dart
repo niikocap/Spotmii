@@ -9,19 +9,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotmii/database.dart';
 import 'package:spotmii/screens/auth/fingerprint_login.dart';
 import 'package:spotmii/screens/auth/login.dart';
-import 'package:spotmii/screens/home.dart';
 import 'components/constants.dart';
 import 'models/user_model.dart';
 import 'package:device_preview/device_preview.dart';
 
-late final isLogin;
-late final user;
-late final password;
-late SharedPreferences preferences;
-
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences preferences;
   preferences = await SharedPreferences.getInstance();
+  SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarBrightness: Brightness.dark,
+      )
+  );
   if(Platform.isIOS){
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.manual,
@@ -30,13 +30,7 @@ void main() async{
       ],
     );
   }
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarBrightness: Brightness.dark,
-      )
-  );
-  var login = preferences.getBool("isLogin");
-  isLogin = login == null ? false : true;
+  isLogin = preferences.getBool("isLogin") == null ? false : true;
   user = preferences.getString("user");
   password = preferences.getString("password");
   if(isLogin){
@@ -48,17 +42,10 @@ void main() async{
   }else{
     currentUser = null;
   }
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context){
-    return DevicePreview(
+  runApp(
+    DevicePreview(
       enabled: false,
-      builder: (context)=> MultiBlocProvider(
+      builder: (context) => MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (context) {
@@ -97,6 +84,6 @@ class MyApp extends StatelessWidget {
           home: !isLogin  ? const Login() : FingerprintPage(),
         ),
       ),
-    );
-  }
+    )
+  );
 }

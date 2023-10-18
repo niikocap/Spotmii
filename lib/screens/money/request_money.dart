@@ -382,7 +382,7 @@ class _RequestState extends State<Request> {
                   if(isAuthenticated){
                     //todo validation
                     MyWidgets.showLoading();
-                    var response = await Database(url: url).send({
+                    await Database(url: url).send({
                       "req" : "createRequest",
                       "amount" : amount.text,
                       "currency" : selectedCurrency,
@@ -392,9 +392,6 @@ class _RequestState extends State<Request> {
                       "identity" : recipient.text
                     });
                     Navigator.pop(context);
-                    if(response == ""){
-
-                    }
                     showModalBottomSheet(
                         context: context,
                         builder: (context){

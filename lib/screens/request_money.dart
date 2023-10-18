@@ -214,13 +214,15 @@ class _RequestMoneyState extends State<RequestMoney> {
                               ),
                               Container(
                                 decoration: BoxDecoration(
+                                  color: const Color(0xFFF1F0F0),
                                   border: Border(
-                                    bottom: rSent ? const BorderSide(width: 3,color: Color(0xff04123B)) : const BorderSide(width: 0,color: Color(0xff04123B)),
+                                    right: const BorderSide(width: 1,color: Colors.white),
+                                    bottom: rSent ? const BorderSide(width: 2,color: Color(0xff04123B)) : const BorderSide(width: 0,color: Colors.white),
                                   )
                                 ),
-                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 15),
+                                padding: EdgeInsets.symmetric(horizontal: 10,vertical: rSent ? 19 : 20),
                                 width: MediaQuery.of(context).size.width*0.5,
-                                child: MyWidgets.text("Request Sent", 20, FontWeight.bold, const Color(0xff111111), context, false),
+                                child: MyWidgets.text("Request Sent", 22, rSent ? FontWeight.bold : FontWeight.normal, const Color(0xff111111), context, false),
                               ),
                             ]
                         ),
@@ -248,14 +250,16 @@ class _RequestMoneyState extends State<RequestMoney> {
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 12.5),
+                              padding: EdgeInsets.symmetric(horizontal: 10,vertical:!rSent ? 19 : 20),
                               decoration: BoxDecoration(
+                                  color: const Color(0xFFF1F0F0),
                                   border: Border(
-                                      bottom: !rSent ? const BorderSide(width: 3,color: Color(0xff04123B)) : const BorderSide(width: 0,color: Color(0xff04123B)),
+                                      left: const BorderSide(width: 1,color: Colors.white),
+                                      bottom: !rSent ? const BorderSide(width: 2,color: Color(0xff04123B)) : const BorderSide(width: 0,color: Colors.white),
                                   )
                               ),
                               width: MediaQuery.of(context).size.width*0.5,
-                              child: MyWidgets.text("Request Received", 20, FontWeight.bold, const Color(0xff111111), context, false),
+                              child: MyWidgets.text("Request Received", 22, !rSent ? FontWeight.bold : FontWeight.normal, const Color(0xff111111), context, false),
                             ),
                           ]
                         ),
@@ -268,97 +272,105 @@ class _RequestMoneyState extends State<RequestMoney> {
             ),
             Visibility(
               visible: rSent,
-              child: FutureBuilder(
-                future:Database(url:url).send({
-                  "req" : "getRequestSent",
-                  "user" : currentUser!.userID,
-                }),
-                builder: (context, AsyncSnapshot<String> snapshot){
-                  if(snapshot.hasData){
-                    List data = jsonDecode(snapshot.data!);
-                    rSCount = data.length;
-                    if(data.isEmpty){
-                      return Container(
-                        height: MediaQuery.of(context).size.height * 0.75,
-                        color: Colors.white,
-                        child: Column(
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.75,
+                color: Colors.white,
+                child: FutureBuilder(
+                  future:Database(url:url).send({
+                    "req" : "getRequestSent",
+                    "user" : currentUser!.userID,
+                  }),
+                  builder: (context, AsyncSnapshot<String> snapshot){
+                    if(snapshot.hasData){
+                      List data = jsonDecode(snapshot.data!);
+                      rSCount = data.length;
+                      if(data.isEmpty){
+                        return Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset("assets/notransactions.png",height: 130,),
                             const SizedBox(height: 20,),
                             MyWidgets.text("Sorry! there are no data to show", 22, FontWeight.bold, Colors.black, context, false)
                           ],
-                        ),
-                      );
-                    }else{
-                      return Container(
-                        height: MediaQuery.of(context).size.height * 0.75,
-                        color: Colors.white,
-                        child: ListView.builder(
-                          itemCount: data.length,
-                          itemBuilder: (context,index){
-                            return createRequest(data[index]["req_identity"],data[index]["req_currency"],data[index]["req_amount"],data[index]["req_date"],true,data[index]["req_uid"]);
+                        );
+                      }else{
+                        return RefreshIndicator(
+                          onRefresh: ()async{
+                            setState(() {
+
+                            });
                           },
-                        ),
+                          child: ListView.builder(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            itemCount: data.length,
+                            itemBuilder: (context,index){
+                              return createRequest(data[index]["req_identity"],data[index]["req_currency"],data[index]["req_amount"],data[index]["req_date"],true,data[index]["req_uid"]);
+                            },
+                          ),
+                        );
+                      }
+                    }else{
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
                     }
-                  }else{
-                    return Center(
-                      child: MyWidgets.showLoading(),
-                    );
                   }
-                }
+                ),
               )
             ),
             Visibility(
                 visible: !rSent,
-                child: FutureBuilder(
-                    future:Database(url:url).send({
-                      "req" : "getRequestReceived",
-                      "user" : currentUser!.userID,
-                    }),
-                    builder: (context, AsyncSnapshot<String> snapshot){
-                      if(snapshot.hasData){
-                        List data = jsonDecode(snapshot.data!);
-                        rRCount = data.length;
-                        if(data.isEmpty){
-                          return Container(
-                            height: MediaQuery.of(context).size.height * 0.75,
-                            color: Colors.white,
-                            child: Column(
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.75,
+                  color: Colors.white,
+                  child: FutureBuilder(
+                      future:Database(url:url).send({
+                        "req" : "getRequestReceived",
+                        "user" : currentUser!.userID,
+                      }),
+                      builder: (context, AsyncSnapshot<String> snapshot){
+                        if(snapshot.hasData){
+                          List data = jsonDecode(snapshot.data!);
+                          rRCount = data.length;
+                          if(data.isEmpty){
+                            return Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset("assets/notransactions.png",height: 130,),
                                 const SizedBox(height: 20,),
                                 MyWidgets.text("Sorry! there are no data to show!", 22, FontWeight.bold, Colors.black, context, false)
                               ],
-                            ),
-                          );
-                        }else{
-                          return Container(
-                            height: MediaQuery.of(context).size.height * 0.75,
-                            color: Colors.white,
-                            child: ListView.builder(
-                              itemCount: data.length,
-                              itemBuilder: (context,index){
-                                return createRequest(data[index]["req_identity"],data[index]["req_currency"],data[index]["req_amount"],data[index]["req_date"],true,data[index]["req_uid"]);
+                            );
+                          }else{
+                            return RefreshIndicator(
+                              onRefresh: ()async{
+                                setState(() {
+
+                                });
                               },
-                            ),
+                              child: ListView.builder(
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                itemCount: data.length,
+                                itemBuilder: (context,index){
+                                  return createRequest(data[index]["req_identity"],data[index]["req_currency"],data[index]["req_amount"],data[index]["req_date"],true,data[index]["req_uid"]);
+                                },
+                              ),
+                            );
+                          }
+                        }else{
+                          return const Center(
+                            child: CircularProgressIndicator(),
                           );
                         }
-                      }else{
-                        return Center(
-                          child: MyWidgets.showLoading(),
-                        );
                       }
-                    }
+                  ),
                 )
             ),
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: Container(
-          margin: EdgeInsets.symmetric(horizontal: (MediaQuery.of(context).size.width * 0.075)),
+          margin: EdgeInsets.fromLTRB((MediaQuery.of(context).size.width * 0.1),0,(MediaQuery.of(context).size.width * 0.075),15),
           child: MyWidgets.button("New Request", (){
             MyWidgets.navigateP(const Request(), context);
           }, const Color(0xff04123B), context),
