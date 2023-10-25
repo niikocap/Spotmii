@@ -315,12 +315,14 @@ class _SomethingElseState extends State<SomethingElse> {
               child: MyWidgets.text("Tell us as much as you can about the problem, and we'll be in touch soon.", 16, FontWeight.normal, const Color(0xff3B4652),context,false),
             ),
             const SizedBox(height: 10,),
+            /*
             MyWidgets.transaction(const AssetImage("assets/10.png"), "Soa Palelei", "Bank Transfer", "- \$ 2,000", "25 March 2023", context,{
               "who":"Soa Palelei",
               "howmuch":"-\$ 2000",
               "transaction":"****1214",
               "account":"145***1",
             }),
+             */
             const SizedBox(height: 20,),
             Container(
               decoration: BoxDecoration(

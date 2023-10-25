@@ -3,11 +3,11 @@ import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:spotmii/widgets.dart';
 import 'package:image_picker/image_picker.dart';
-import '../components/constants.dart';
+import '../../components/constants.dart';
 import 'package:file_picker/file_picker.dart';
-import '../database.dart';
-import '../models/localauth.dart';
-import 'home.dart';
+import '../../database.dart';
+import '../../models/localauth.dart';
+import '../home.dart';
 
 class Verification extends StatefulWidget {
   const Verification({Key? key}) : super(key: key);

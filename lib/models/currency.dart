@@ -3,7 +3,7 @@ import '../components/constants.dart';
 class Currency{
   static getSymbol(value){
     if(value.toString().toUpperCase() == "PHP"){
-      return "P";
+      return "PHP";
     }else if(value.toString().toUpperCase() == "USD"){
       return "\$";
     }else if(value.toString().toUpperCase() == "EUR"){

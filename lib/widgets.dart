@@ -445,7 +445,7 @@ class MyWidgets{
         )
     );
   }
-  static Widget transaction(background,who,type,price,date,context,data){
+  static Widget transaction(background,who,type,date,context,amount,currency,sign){
     return GestureDetector(
       onTap: (){
         //MyWidgets.navigateP(PaymentDetails(howMuch: data["howmuch"], who: data["who"], account: data["account"], transaction: data["transaction"]), context);
@@ -492,13 +492,20 @@ class MyWidgets{
                 ),
               ),
               Container(
-                //width: (MediaQuery.of(context).size.width * 0.35),
                 alignment: Alignment.centerRight,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    MyWidgets.text(price, 16.0, FontWeight.normal, const Color(0xff111111),context,false),
+                    Row(
+                      children: [
+                        MyWidgets.text(sign,  16.0, FontWeight.normal,sign == "-" ? Colors.red : Colors.green,context,false),
+                        const SizedBox(width: 2,),
+                        MyWidgets.text(amount,  16.0, FontWeight.normal,sign == "-" ? Colors.red : Colors.green,context,false),
+                        const SizedBox(width: 2,),
+                        MyWidgets.text(currency,  16.0, FontWeight.normal,sign == "-" ? Colors.red : Colors.green,context,false),
+                      ],
+                    ),
                     MyWidgets.text(date,  14.0, FontWeight.normal, const Color(0xff111111),context,false),
                   ],
                 ),

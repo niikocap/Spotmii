@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spotmii/screens/support/help_center.dart';
 import 'package:spotmii/screens/settings/settings.dart';
-import 'package:spotmii/screens/verification.dart';
+import 'package:spotmii/screens/settings/verification.dart';
 import 'package:spotmii/widgets.dart';
 import '../../components/constants.dart';
 import '../../models/localauth.dart';

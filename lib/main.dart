@@ -7,8 +7,8 @@ import 'package:spotmii/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:spotmii/blocs/user_bloc/user_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotmii/database.dart';
-import 'package:spotmii/screens/auth/fingerprint_login.dart';
 import 'package:spotmii/screens/auth/login.dart';
+import 'package:spotmii/screens/pay/payment.dart';
 import 'components/constants.dart';
 import 'models/user_model.dart';
 import 'package:device_preview/device_preview.dart';
@@ -81,7 +81,8 @@ void main() async{
               primarySwatch: Colors.blue,
               fontFamily: "Poppins"
           ),
-          home: !isLogin  ? const Login() : FingerprintPage(),
+          // ignore: prefer_const_constructors
+          home: !isLogin  ? const Login() : Payment(),
         ),
       ),
     )

@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:forex_conversion/forex_conversion.dart';
 import 'package:spotmii/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:spotmii/components/featureIcons.dart';
 import 'package:spotmii/screens/settings/profile.dart';
 import 'package:spotmii/screens/qr/qrscanner.dart';
 import 'package:spotmii/screens/request_money.dart';
 import 'package:spotmii/screens/money/transaction.dart';
-import 'package:spotmii/screens/underconstruction.dart';
+
 import 'package:spotmii/widgets.dart';
 import '../blocs/home_cubit/home_cubit.dart';
 import '../components/constants.dart';
@@ -19,6 +20,7 @@ import 'currency/live.dart';
 import 'money/add_money.dart';
 import 'money/send_money.dart';
 import 'money/withdraw.dart';
+import 'other/underconstruction.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -54,19 +56,22 @@ class _HomeState extends State<Home> {
     });
     return jsonDecode(response);
   }
+  Future<double> getRates(currency)async{
+    Forex forex = Forex();
+    var usd = await forex.getCurrencyConverted(sourceCurrency: "USD",destinationCurrency: currentUser!.currency.toUpperCase(),sourceAmount: currentUser!.usd);
+    var jpy = await forex.getCurrencyConverted(sourceCurrency: "JPY",destinationCurrency: currentUser!.currency.toUpperCase(),sourceAmount: currentUser!.jpy);
+    var php = await forex.getCurrencyConverted(sourceCurrency: "PHP",destinationCurrency: currentUser!.currency.toUpperCase(),sourceAmount: currentUser!.php);
+    var cny = await forex.getCurrencyConverted(sourceCurrency: "CNY",destinationCurrency: currentUser!.currency.toUpperCase(),sourceAmount: currentUser!.cny);
+    var gbp = await forex.getCurrencyConverted(sourceCurrency: "GBP",destinationCurrency: currentUser!.currency.toUpperCase(),sourceAmount: currentUser!.gbp);
+    var eur = await forex.getCurrencyConverted(sourceCurrency: "EUR",destinationCurrency: currentUser!.currency.toUpperCase(),sourceAmount: currentUser!.eur);
+    var aud = await forex.getCurrencyConverted(sourceCurrency: "AUD",destinationCurrency: currentUser!.currency.toUpperCase(),sourceAmount: currentUser!.aud);
+    var chf = await forex.getCurrencyConverted(sourceCurrency: "CHF",destinationCurrency: currentUser!.currency.toUpperCase(),sourceAmount: currentUser!.chf);
+    return usd + jpy + php + cny + gbp + eur + aud + chf;
+  }
   @override
   void initState() {
 
     super.initState();
-  }
-  getRates(currency)async{
-    rates = await Database(url: url).send(
-        {
-          "req" : "getRates",
-        }
-    );
-    rates = jsonDecode(jsonDecode(rates))["rates"];
-    return rates;
   }
   @override
   Widget build(BuildContext context) {
@@ -134,6 +139,7 @@ class _HomeState extends State<Home> {
                 CW(amount: currentUser!.gbp, currencyText: "Pound", directory: "assets/flags/gbp.png"),
                 CW(amount: currentUser!.aud, currencyText: "Australian Dollar", directory: "assets/flags/aud.png"),
               ];
+              context.read<TransactionBloc>().add(InitTransaction(uid: currentUser!.userID));
               setState(() {
 
               });
@@ -210,11 +216,10 @@ class _HomeState extends State<Home> {
                                           width: MediaQuery.of(context).size.width * 0.5,
                                           child: FutureBuilder(
                                               future: getRates(currentUser!.currency),
-                                              builder: (context,snapshot){
+                                              builder: (context,AsyncSnapshot<double> snapshot){
                                                 if(snapshot.hasData){
-                                                  var data = snapshot.data as Map;
-                                                  double estimated = Currency.getEstimated(data, currentUser!.currency);
-                                                  balance = "${Currency.getSymbol(currentUser!.currency)} ${estimated.toStringAsFixed(4)}";
+                                                  var data = snapshot.data!;
+                                                  balance = "${Currency.getSymbol(currentUser!.currency)} ${data.toStringAsFixed(4)}";
                                                   realBalance =  balance;
                                                   return BlocBuilder<HomeCubit,HomeState>(
                                                       builder: (context,state){
@@ -615,7 +620,7 @@ class _HomeState extends State<Home> {
                                                     return ListView.builder(
                                                       itemCount: state.transactions.length,
                                                       itemBuilder: (context,index){
-                                                        return MyWidgets.transaction(const AssetImage('assets/10.png'), state.transactions[index].from, state.transactions[index].type, state.transactions[index].amount, state.transactions[index].date, context, state.transactions[index].receiver);
+                                                        return MyWidgets.transaction(const AssetImage('assets/10.png'), state.transactions[index].note, state.transactions[index].type, state.transactions[index].date, context ,state.transactions[index].amount,state.transactions[index].currency,state.transactions[index].sign);
                                                       },
                                                     );
                                                   }else{

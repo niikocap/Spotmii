@@ -101,28 +101,27 @@ class _SendState extends State<Send> {
                         }
                     ),
                     builder: (context,AsyncSnapshot<String> snapshot){
+                      var data = jsonDecode(snapshot.data!);
                       if(snapshot.hasData){
-                        var data = jsonDecode(snapshot.data!);
-                        return SizedBox(
-                          height: 70,
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount:  data.length,
-                            itemBuilder: (context,index){
-                              if(data.length > 0){
-                                return MyWidgets.sendAgain(
-                                      (){
-                                    recipient.text = data[index]["ts_to"];
-                                  },
-                                  const NetworkImage("https://i.pravatar.cc/301"),
-                                );
-                              }else{
-                                return Container();
-                              }
-                            },
-                          ),
-                        );
+                        if(data.length >0){
+                          return SizedBox(
+                            height: 70,
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount:  data.length,
+                                itemBuilder: (context,index){
+                                  return MyWidgets.sendAgain((){
+                                      recipient.text = data[index]["ts_to"];
+                                    },
+                                    const NetworkImage("https://i.pravatar.cc/301"),
+                                  );
+                                }
+                            ),
+                          );
+                        }else{
+                          return Container();
+                        }
                       }else{
                         return const Center(
                           child: CircularProgressIndicator(),
@@ -395,19 +394,20 @@ class _SendState extends State<Send> {
                       "uid" : currentUser!.userID,
                       "amount" : amount.text,
                       "note" : note.text,
-                      "currency" : Currency.getCode(Currency.getText(selectedCurrency)), //todo change to drop down
+                      "currency" : Currency.getCode(Currency.getText(selectedCurrency)),
                       "target" : recipient.text,
                     });
+
                     if(response.length == 42){
                       context.read<TransactionBloc>().add(const LoadTransaction());
                       MyWidgets.navigateP(PaymentDetails(amount: amount.text, sender: "${currentUser!.fname} ${currentUser!.lname}", transaction: response, currency: currency.text, date: DateTime.now().toString()), context);
                     }else{
-                      Navigator.pop(context);
+                      //Navigator.pop(context);
                       showModalBottomSheet(
                           context: context,
                           builder: (context){
                             return Container(
-                              height: MediaQuery.of(context).size.height * 0.3,
+                              height: MediaQuery.of(context).size.height * 0.5,
                               decoration: const BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.only(

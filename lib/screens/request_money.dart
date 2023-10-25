@@ -38,14 +38,14 @@ class _RequestMoneyState extends State<RequestMoney> {
                   children: [
                     FractionallySizedBox(
                       widthFactor: 0.70,
-                      child: MyWidgets.text("You have Sent Request to $number", 28, FontWeight.bold, Colors.black, context, false),
+                      child: MyWidgets.text("You have sent request to $number", 24, FontWeight.normal, Colors.black, context, false),
                     ),
                     const SizedBox(height: 10,),
-                    MyWidgets.text("${Currency.getSymbol(currency)} $amount", 50, FontWeight.bold, Colors.black, context, false),
+                    MyWidgets.text("$currency $amount", 50, FontWeight.bold, Colors.black, context, false),
                     const SizedBox(height: 10,),
                     FractionallySizedBox(
                       widthFactor: 0.85,
-                      child: MyWidgets.button("Cancel", ()async{
+                      child: MyWidgets.button("Cancel Request", ()async{
                         MyWidgets.showLoading();
                         await Database(url:url).send({
                           "req" : "cancelRequest",
@@ -62,7 +62,7 @@ class _RequestMoneyState extends State<RequestMoney> {
               );
             }else{
               return Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -75,13 +75,13 @@ class _RequestMoneyState extends State<RequestMoney> {
                   children: [
                     FractionallySizedBox(
                       widthFactor: 0.70,
-                      child: MyWidgets.text("You have Sent Request to $number", 28, FontWeight.bold, Colors.black, context, false),
+                      child: MyWidgets.text("$number sent you a request!", 24, FontWeight.normal, Colors.black, context, false),
                     ),
                     const SizedBox(height: 10,),
                     MyWidgets.text("${Currency.getSymbol(currency)} $amount", 50, FontWeight.bold, Colors.black, context, false),
                     const SizedBox(height: 10,),
-                    FractionallySizedBox(
-                      widthFactor: 0.85,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.85,
                       child: MyWidgets.button("Pay Now", ()async{
                         MyWidgets.showLoading();
                         var response = await Database(url:url).send({
@@ -96,10 +96,9 @@ class _RequestMoneyState extends State<RequestMoney> {
                        }
                       }, const Color(0xff04123B), context),
                     ),
-                    const SizedBox(height: 10,),
-                    FractionallySizedBox(
-                      widthFactor: 0.85,
-                      child: MyWidgets.button("Cancel", ()async{
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      child: MyWidgets.button("Delete Request", ()async{
                         MyWidgets.showLoading();
                         await Database(url:url).send({
                           "req" : "cancelRequest",
@@ -143,12 +142,12 @@ class _RequestMoneyState extends State<RequestMoney> {
                       text: TextSpan(
                           children: [
                             TextSpan(
-                              text: "You sent a request to ",
-                              style: MyWidgets.TS(16, context, const Color(0xff111111), FontWeight.normal),
+                              text: !rSent ? "$number " : "You have sent request to ",
+                              style: MyWidgets.TS(15, context, const Color(0xff111111), !rSent ? FontWeight.bold : FontWeight.normal),
                             ),
                             TextSpan(
-                              text: number,
-                              style: MyWidgets.TS(16, context, const Color(0xff111111), FontWeight.bold),
+                              text: !rSent ? "sent you a request!" : number,
+                              style: MyWidgets.TS(15, context, const Color(0xff111111), rSent ? FontWeight.bold : FontWeight.normal),
                             ),
 
                           ]
@@ -176,205 +175,212 @@ class _RequestMoneyState extends State<RequestMoney> {
   }
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: MyWidgets.appbar("Request Money", context),
-        body: Column(
-          children: [
-            Container(
-              color: const Color(0xffE8E8E8),
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap:(){
-                          setState(() {
-                            if(!rSent) {
-                              rSent = true;
-                            }
-                          });
-                        },
-                        child: Stack(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: MyWidgets.appbar("Request Money", context),
+      body: RefreshIndicator(
+        onRefresh: ()async{
+          setState(() {
+
+          });
+        },
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              Container(
+                color: const Color(0xffE8E8E8),
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap:(){
+                            setState(() {
+                              if(!rSent) {
+                                rSent = true;
+                              }
+                            });
+                          },
+                          child: Stack(
+                              children: [
+                                Visibility(
+                                  visible: rSCount > 0,
+                                  child: Positioned(
+                                    top: 2.5,
+                                    right: 2.5,
+                                    child: CircleAvatar(
+                                      radius: 7,
+                                      backgroundColor: Colors.red,
+                                      child: MyWidgets.text(rSCount.toString(), 13, FontWeight.bold, Colors.white, context, false),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFF1F0F0),
+                                    border: Border(
+                                      right: const BorderSide(width: 1,color: Colors.white),
+                                      bottom: rSent ? const BorderSide(width: 2,color: Color(0xff04123B)) : const BorderSide(width: 0,color: Colors.white),
+                                    )
+                                  ),
+                                  padding: EdgeInsets.symmetric(horizontal: 10,vertical: rSent ? 19 : 20),
+                                  width: MediaQuery.of(context).size.width*0.5,
+                                  child: MyWidgets.text("Request Sent", 22, rSent ? FontWeight.bold : FontWeight.normal, const Color(0xff111111), context, false),
+                                ),
+                              ]
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              if(rSent) {
+                                rSent = false;
+                              }
+                            });
+                          },
+                          child: Stack(
                             children: [
                               Visibility(
-                                visible: rSCount > 0,
+                                visible: rRCount > 0,
                                 child: Positioned(
                                   top: 2.5,
                                   right: 2.5,
                                   child: CircleAvatar(
                                     radius: 7,
                                     backgroundColor: Colors.red,
-                                    child: MyWidgets.text(rSCount.toString(), 13, FontWeight.bold, Colors.white, context, false),
+                                    child: MyWidgets.text(rRCount.toString(), 13, FontWeight.bold, Colors.white, context, false),
                                   ),
                                 ),
                               ),
                               Container(
+                                padding: EdgeInsets.symmetric(horizontal: 10,vertical:!rSent ? 19 : 20),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFF1F0F0),
-                                  border: Border(
-                                    right: const BorderSide(width: 1,color: Colors.white),
-                                    bottom: rSent ? const BorderSide(width: 2,color: Color(0xff04123B)) : const BorderSide(width: 0,color: Colors.white),
-                                  )
+                                    color: const Color(0xFFF1F0F0),
+                                    border: Border(
+                                        left: const BorderSide(width: 1,color: Colors.white),
+                                        bottom: !rSent ? const BorderSide(width: 2,color: Color(0xff04123B)) : const BorderSide(width: 0,color: Colors.white),
+                                    )
                                 ),
-                                padding: EdgeInsets.symmetric(horizontal: 10,vertical: rSent ? 19 : 20),
                                 width: MediaQuery.of(context).size.width*0.5,
-                                child: MyWidgets.text("Request Sent", 22, rSent ? FontWeight.bold : FontWeight.normal, const Color(0xff111111), context, false),
+                                child: MyWidgets.text("Request Received", 22, !rSent ? FontWeight.bold : FontWeight.normal, const Color(0xff111111), context, false),
                               ),
                             ]
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          setState(() {
-                            if(rSent) {
-                              rSent = false;
-                            }
-                          });
-                        },
-                        child: Stack(
-                          children: [
-                            Visibility(
-                              visible: rRCount > 0,
-                              child: Positioned(
-                                top: 2.5,
-                                right: 2.5,
-                                child: CircleAvatar(
-                                  radius: 7,
-                                  backgroundColor: Colors.red,
-                                  child: MyWidgets.text(rRCount.toString(), 13, FontWeight.bold, Colors.white, context, false),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10,vertical:!rSent ? 19 : 20),
-                              decoration: BoxDecoration(
-                                  color: const Color(0xFFF1F0F0),
-                                  border: Border(
-                                      left: const BorderSide(width: 1,color: Colors.white),
-                                      bottom: !rSent ? const BorderSide(width: 2,color: Color(0xff04123B)) : const BorderSide(width: 0,color: Colors.white),
-                                  )
-                              ),
-                              width: MediaQuery.of(context).size.width*0.5,
-                              child: MyWidgets.text("Request Received", 22, !rSent ? FontWeight.bold : FontWeight.normal, const Color(0xff111111), context, false),
-                            ),
-                          ]
-                        ),
-                      )
-                    ],
-                  ),
-
-                ],
-              ),
-            ),
-            Visibility(
-              visible: rSent,
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.75,
-                color: Colors.white,
-                child: FutureBuilder(
-                  future:Database(url:url).send({
-                    "req" : "getRequestSent",
-                    "user" : currentUser!.userID,
-                  }),
-                  builder: (context, AsyncSnapshot<String> snapshot){
-                    if(snapshot.hasData){
-                      List data = jsonDecode(snapshot.data!);
-                      rSCount = data.length;
-                      if(data.isEmpty){
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset("assets/notransactions.png",height: 130,),
-                            const SizedBox(height: 20,),
-                            MyWidgets.text("Sorry! there are no data to show", 22, FontWeight.bold, Colors.black, context, false)
-                          ],
-                        );
-                      }else{
-                        return RefreshIndicator(
-                          onRefresh: ()async{
-                            setState(() {
-
-                            });
-                          },
-                          child: ListView.builder(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            itemCount: data.length,
-                            itemBuilder: (context,index){
-                              return createRequest(data[index]["req_identity"],data[index]["req_currency"],data[index]["req_amount"],data[index]["req_date"],true,data[index]["req_uid"]);
-                            },
                           ),
-                        );
-                      }
-                    }else{
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  }
+                        )
+                      ],
+                    ),
+
+                  ],
                 ),
-              )
-            ),
-            Visibility(
-                visible: !rSent,
+              ),
+              Visibility(
+                visible: rSent,
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.75,
                   color: Colors.white,
                   child: FutureBuilder(
-                      future:Database(url:url).send({
-                        "req" : "getRequestReceived",
-                        "user" : currentUser!.userID,
-                      }),
-                      builder: (context, AsyncSnapshot<String> snapshot){
-                        if(snapshot.hasData){
-                          List data = jsonDecode(snapshot.data!);
-                          rRCount = data.length;
-                          if(data.isEmpty){
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset("assets/notransactions.png",height: 130,),
-                                const SizedBox(height: 20,),
-                                MyWidgets.text("Sorry! there are no data to show!", 22, FontWeight.bold, Colors.black, context, false)
-                              ],
-                            );
-                          }else{
-                            return RefreshIndicator(
-                              onRefresh: ()async{
-                                setState(() {
-
-                                });
-                              },
-                              child: ListView.builder(
-                                physics: const AlwaysScrollableScrollPhysics(),
-                                itemCount: data.length,
-                                itemBuilder: (context,index){
-                                  return createRequest(data[index]["req_identity"],data[index]["req_currency"],data[index]["req_amount"],data[index]["req_date"],true,data[index]["req_uid"]);
-                                },
-                              ),
-                            );
-                          }
+                    future:Database(url:url).send({
+                      "req" : "getRequestSent",
+                      "user" : currentUser!.userID,
+                    }),
+                    builder: (context, AsyncSnapshot<String> snapshot){
+                      if(snapshot.hasData){
+                        List data = jsonDecode(snapshot.data!);
+                        rSCount = data.length;
+                        if(data.isEmpty){
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset("assets/notransactions.png",height: 130,),
+                              const SizedBox(height: 20,),
+                              MyWidgets.text("Sorry! there are no data to show", 22, FontWeight.bold, Colors.black, context, false)
+                            ],
+                          );
                         }else{
-                          return const Center(
-                            child: CircularProgressIndicator(),
+                          return RefreshIndicator(
+                            onRefresh: ()async{
+                              setState(() {
+
+                              });
+                            },
+                            child: ListView.builder(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              itemCount: data.length,
+                              itemBuilder: (context,index){
+                                return createRequest(data[index]["req_identity"],data[index]["req_currency"],data[index]["req_amount"],data[index]["req_date"],true,data[index]["req_uid"]);
+                              },
+                            ),
                           );
                         }
+                      }else{
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
                       }
+                    }
                   ),
                 )
-            ),
-          ],
+              ),
+              Visibility(
+                  visible: !rSent,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.75,
+                    color: Colors.white,
+                    child: FutureBuilder(
+                        future:Database(url:url).send({
+                          "req" : "getRequestReceived",
+                          "user" : currentUser!.userID,
+                        }),
+                        builder: (context, AsyncSnapshot<String> snapshot){
+                          if(snapshot.hasData){
+                            List data = jsonDecode(snapshot.data!);
+                            rRCount = data.length;
+                            if(data.isEmpty){
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset("assets/notransactions.png",height: 130,),
+                                  const SizedBox(height: 20,),
+                                  MyWidgets.text("Sorry! there are no data to show!", 22, FontWeight.bold, Colors.black, context, false)
+                                ],
+                              );
+                            }else{
+                              return RefreshIndicator(
+                                onRefresh: ()async{
+                                  setState(() {
+
+                                  });
+                                },
+                                child: ListView.builder(
+                                  physics: const AlwaysScrollableScrollPhysics(),
+                                  itemCount: data.length,
+                                  itemBuilder: (context,index){
+                                    return createRequest(data[index]["req_identity"],data[index]["req_currency"],data[index]["req_amount"],data[index]["req_date"],true,data[index]["req_uid"]);
+                                  },
+                                ),
+                              );
+                            }
+                          }else{
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        }
+                    ),
+                  )
+              ),
+            ],
+          ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: Container(
-          margin: EdgeInsets.fromLTRB((MediaQuery.of(context).size.width * 0.1),0,(MediaQuery.of(context).size.width * 0.075),15),
-          child: MyWidgets.button("New Request", (){
-            MyWidgets.navigateP(const Request(), context);
-          }, const Color(0xff04123B), context),
-        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.fromLTRB((MediaQuery.of(context).size.width * 0.1),0,(MediaQuery.of(context).size.width * 0.075),15),
+        child: MyWidgets.button("New Request", (){
+          MyWidgets.navigateP(const Request(), context);
+        }, const Color(0xff04123B), context),
       ),
     );
   }

@@ -42,7 +42,7 @@ dependencies:
   #format numbers
   pattern_formatter: ^3.0.0
   #connecting to internet
-  http: ^0.13.6
+  http: ^0.13.3
   dio: ^5.2.1+1
   #device database
   shared_preferences: ^2.1.0
@@ -63,7 +63,7 @@ dependencies:
   #ios icons
   cupertino_icons: ^1.0.2
   #currency converter
-  forex_conversion: ^0.2.5+1
+  forex_conversion: <2.2.5+1
   #picking contacts
   flutter_native_contact_picker: ^0.0.4
   # charts
@@ -78,6 +78,8 @@ dependencies:
   device_preview: ^1.1.0
   #splash screen
   flutter_native_splash: ^2.3.2
+  #payment
+  pay: ^1.1.2
 
 flutter_native_splash:
   image: assets/1.png

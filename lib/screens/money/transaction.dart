@@ -43,7 +43,8 @@ class _TransactionState extends State<Transaction> {
                           return ListView.builder(
                             itemCount: data.length,
                             itemBuilder: (context,index){
-                              return MyWidgets.transaction(const AssetImage('assets/10.png'), data[index]["ts_to"], data[index]["ts_type"], data[index]["ts_amount"], data[index]["ts_date"], context, data[index]["ts_account"]);
+                              return null;
+                              //return MyWidgets.transaction(const AssetImage('assets/10.png'), data[index]["ts_to"], data[index]["ts_type"], data[index]["ts_amount"], data[index]["ts_date"], context, data[index]["ts_account"]);
                             },
                           );
                         }else{
